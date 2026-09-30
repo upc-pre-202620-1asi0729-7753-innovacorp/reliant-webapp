@@ -86,7 +86,48 @@
       "pcr-min": "PCR target must be greater than 0"
     }
   },
-  "recuperations": { "list-title": "Recuperations" },
+  "recuperations": {
+    "list-title": "Recuperations",
+    "work-order": "WO",
+    "manufacturing-order": "OF",
+    "component": "Component",
+    "customer": "Customer",
+    "status": "Status",
+    "received-at": "Received",
+    "actions": "Actions",
+    "new": "New Recuperation",
+    "edit": "Edit"
+  },
+  "recuperation": {
+    "new-title": "New Recuperation",
+    "edit-title": "Edit Recuperation",
+    "component": "Component",
+    "customer": "Customer",
+    "work-order": "Work order (WO)",
+    "manufacturing-order": "Manufacturing order (OF)",
+    "segment": "Segment",
+    "operation": "Operation",
+    "weight": "Weight",
+    "weight-unit": "Unit",
+    "hourmeter": "Hourmeter at entry (h)",
+    "powder-supplier": "Powder supplier",
+    "powder-lot": "Powder lot",
+    "powder-composition": "Powder composition",
+    "received-at": "Received at",
+    "create": "Create Recuperation",
+    "update": "Update Recuperation",
+    "cancel": "Cancel",
+    "status-option": {
+      "RECEIVED": "Received",
+      "IN_PROGRESS": "In progress",
+      "COMPLETED": "Completed",
+      "DELIVERED": "Delivered",
+      "REWORK": "Rework"
+    },
+    "error": {
+      "required": "This field is required"
+    }
+  },
   "hvof-systems": { "list-title": "HVOF Systems" },
   "spray-sessions": { "list-title": "Spray Sessions" },
   "page-not-found": {
