@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
-  imports: [],
+  imports: [
+    TranslatePipe
+  ],
   selector: 'app-recuperation-list',
   styleUrl: './recuperation-list.css',
   templateUrl: './recuperation-list.html',
