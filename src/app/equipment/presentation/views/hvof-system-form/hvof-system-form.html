@@ -1,0 +1,38 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ (isEdit ? 'hvof-system.edit-title' : 'hvof-system.new-title') | translate }}</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>{{ 'hvof-system.code' | translate }}</mat-label>
+      <input matInput formControlName="code" placeholder="HVOF-01" required>
+      @if (isInvalidControl(form, 'code')) {
+        <mat-error>{{ 'hvof-system.error.required' | translate }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'hvof-system.serial-number' | translate }}</mat-label>
+      <input matInput formControlName="serialNumber" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'hvof-system.manufacturer' | translate }}</mat-label>
+      <input matInput formControlName="systemManufacturer" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'hvof-system.model' | translate }}</mat-label>
+      <input matInput formControlName="systemModel" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'hvof-system.fuel-type' | translate }}</mat-label>
+      <mat-select formControlName="fuelType" required>
+        @for (fuel of fuelTypes; track fuel) {
+          <mat-option [value]="fuel">{{ ('hvof-system.fuel-option.' + fuel) | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <div class="actions">
+      <button mat-button type="button" (click)="cancel()">{{ 'hvof-system.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ (isEdit ? 'hvof-system.update' : 'hvof-system.create') | translate }}
+      </button>
+    </div>
+  </form>
+</div>
