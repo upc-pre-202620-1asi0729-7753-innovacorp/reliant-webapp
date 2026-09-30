@@ -86,7 +86,48 @@
       "pcr-min": "El PCR objetivo debe ser mayor que 0"
     }
   },
-  "recuperations": { "list-title": "Recuperaciones" },
+  "recuperations": {
+    "list-title": "Recuperaciones",
+    "work-order": "WO",
+    "manufacturing-order": "OF",
+    "component": "Componente",
+    "customer": "Cliente",
+    "status": "Estado",
+    "received-at": "Recibido",
+    "actions": "Acciones",
+    "new": "Nueva recuperación",
+    "edit": "Editar"
+  },
+  "recuperation": {
+    "new-title": "Nueva orden de recuperación",
+    "edit-title": "Editar orden de recuperación",
+    "component": "Componente",
+    "customer": "Cliente",
+    "work-order": "Orden de trabajo (WO)",
+    "manufacturing-order": "Orden de fabricación (OF)",
+    "segment": "Segmento",
+    "operation": "Operación",
+    "weight": "Peso",
+    "weight-unit": "Unidad",
+    "hourmeter": "Horómetro de ingreso (h)",
+    "powder-supplier": "Proveedor de polvo",
+    "powder-lot": "Lote de polvo",
+    "powder-composition": "Composición del polvo",
+    "received-at": "Fecha de recepción",
+    "create": "Crear recuperación",
+    "update": "Actualizar recuperación",
+    "cancel": "Cancelar",
+    "status-option": {
+      "RECEIVED": "Recibida",
+      "IN_PROGRESS": "En proceso",
+      "COMPLETED": "Completada",
+      "DELIVERED": "Entregada",
+      "REWORK": "Retrabajo"
+    },
+    "error": {
+      "required": "Este campo es obligatorio"
+    }
+  },
   "hvof-systems": { "list-title": "Sistemas HVOF" },
   "spray-sessions": { "list-title": "Sesiones de rociado" },
   "page-not-found": {
