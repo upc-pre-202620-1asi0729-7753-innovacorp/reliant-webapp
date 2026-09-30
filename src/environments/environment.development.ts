@@ -1,1 +1,18 @@
-export const environment = {};
+export const environment = {
+  production: false,
+  platformProviderApiBaseUrl: 'http://localhost:3000/api/v1',
+  platformProviderSignInEndpointPath: '/authentication/sign-in',
+  platformProviderSignUpEndpointPath: '/authentication/sign-up',
+  platformProviderUsersEndpointPath: '/users',
+  platformProviderOrganizationsEndpointPath: '/organizations',
+  platformProviderCustomersEndpointPath: '/customers',
+  platformProviderComponentsEndpointPath: '/components',
+  platformProviderRecuperationsEndpointPath: '/recuperations',
+  platformProviderHvofSystemsEndpointPath: '/hvofSystems',
+  platformProviderHvofSubsystemsEndpointPath: '/hvofSubsystems',
+  platformProviderHvofPartsEndpointPath: '/hvofParts',
+  platformProviderControllersEndpointPath: '/controllers',
+  platformProviderRecipesEndpointPath: '/recipes',
+  platformProviderSpraySessionsEndpointPath: '/spraySessions',
+  platformProviderProcessReadingsEndpointPath: '/processReadings'
+};
