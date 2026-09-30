@@ -16,7 +16,31 @@
     "title": "About us",
     "content": "Reliant is a platform by InnovaCorp that traces every HVOF spray session back to the recovered component and its customer."
   },
-  "customers": { "list-title": "Customers" },
+  "customers": {
+    "list-title": "Customers",
+    "id": "ID",
+    "legal-name": "Legal name",
+    "ruc": "RUC",
+    "mine-site": "Mine site",
+    "actions": "Actions",
+    "new": "New Customer",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "customer": {
+    "new-title": "New Customer",
+    "edit-title": "Edit Customer",
+    "legal-name": "Legal name",
+    "ruc": "RUC",
+    "mine-site": "Mine site",
+    "create": "Create Customer",
+    "update": "Update Customer",
+    "cancel": "Cancel",
+    "error": {
+      "legal-name-required": "Legal name is required",
+      "ruc-invalid": "RUC must have 11 digits"
+    }
+  },
   "components": { "list-title": "Components" },
   "recuperations": { "list-title": "Recuperations" },
   "hvof-systems": { "list-title": "HVOF Systems" },

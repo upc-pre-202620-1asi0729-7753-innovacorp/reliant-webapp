@@ -1,0 +1,29 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ (isEdit ? 'customer.edit-title' : 'customer.new-title') | translate }}</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>{{ 'customer.legal-name' | translate }}</mat-label>
+      <input matInput formControlName="legalName" required>
+      @if (isInvalidControl(form, 'legalName')) {
+        <mat-error>{{ 'customer.error.legal-name-required' | translate }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'customer.ruc' | translate }}</mat-label>
+      <input matInput formControlName="ruc" maxlength="11" required>
+      @if (isInvalidControl(form, 'ruc')) {
+        <mat-error>{{ 'customer.error.ruc-invalid' | translate }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'customer.mine-site' | translate }}</mat-label>
+      <input matInput formControlName="mineSite">
+    </mat-form-field>
+    <div class="actions">
+      <button mat-button type="button" (click)="cancel()">{{ 'customer.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ (isEdit ? 'customer.update' : 'customer.create') | translate }}
+      </button>
+    </div>
+  </form>
+</div>
