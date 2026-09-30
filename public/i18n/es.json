@@ -1,0 +1,34 @@
+{
+  "option": {
+    "home": "Inicio",
+    "recuperations": "Recuperaciones",
+    "components": "Componentes",
+    "customers": "Clientes",
+    "hvof-systems": "Sistemas HVOF",
+    "spray-sessions": "Sesiones de rociado",
+    "about": "Acerca de"
+  },
+  "home": {
+    "title": "Bienvenido a Reliant",
+    "content": "Trazabilidad y monitoreo de proceso para la recuperación de componentes por HVOF."
+  },
+  "about": {
+    "title": "Acerca de nosotros",
+    "content": "Reliant es una plataforma de InnovaCorp que vincula cada sesión de rociado HVOF con el componente recuperado y su cliente."
+  },
+  "customers": { "list-title": "Clientes" },
+  "components": { "list-title": "Componentes" },
+  "recuperations": { "list-title": "Recuperaciones" },
+  "hvof-systems": { "list-title": "Sistemas HVOF" },
+  "spray-sessions": { "list-title": "Sesiones de rociado" },
+  "page-not-found": {
+    "title": "Página no encontrada",
+    "content": "La ruta <strong>{{ invalid_path }}</strong> es inválida.",
+    "go-home": "Ir a Inicio"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "powered-by": "Desarrollado con",
+    "and": "y"
+  }
+}
