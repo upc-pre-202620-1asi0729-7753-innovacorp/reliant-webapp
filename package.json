@@ -1,6 +1,9 @@
 {
   "name": "reliant-webapp",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "Reliant Web Application, connecting to a backend API with the Domain-Driven Design approach.",
+  "author": "InnovaCorp Development Team",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
