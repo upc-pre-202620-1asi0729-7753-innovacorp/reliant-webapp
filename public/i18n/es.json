@@ -41,7 +41,51 @@
       "ruc-invalid": "El RUC debe tener 11 dígitos"
     }
   },
-  "components": { "list-title": "Componentes" },
+  "components": {
+    "list-title": "Componentes",
+    "serial-number": "N.º de serie",
+    "part-number": "Part number",
+    "type": "Tipo",
+    "machine": "Máquina",
+    "customer": "Cliente",
+    "pcr-target-hours": "PCR objetivo (h)",
+    "status": "Estado",
+    "actions": "Acciones",
+    "new": "Nuevo componente",
+    "edit": "Editar"
+  },
+  "component": {
+    "new-title": "Nuevo componente",
+    "edit-title": "Editar componente",
+    "serial-number": "Número de serie",
+    "part-number": "Part number",
+    "type": "Tipo de componente",
+    "machine-manufacturer": "Fabricante de la máquina",
+    "machine-model": "Modelo de la máquina",
+    "customer": "Cliente",
+    "pcr-target-hours": "Horas objetivo de PCR",
+    "create": "Crear componente",
+    "update": "Actualizar componente",
+    "cancel": "Cancelar",
+    "type-option": {
+      "HYDRAULIC_ROD": "Vástago hidráulico",
+      "CYLINDER_BLOCK": "Bloque de cilindros",
+      "SHAFT": "Eje",
+      "IMPELLER": "Impulsor",
+      "OTHER": "Otro"
+    },
+    "status-option": {
+      "RECEIVED": "Recibido",
+      "IN_RECUPERATION": "En recuperación",
+      "IN_SERVICE": "En servicio",
+      "RETURNED": "Retornado",
+      "SCRAPPED": "Dado de baja"
+    },
+    "error": {
+      "required": "Este campo es obligatorio",
+      "pcr-min": "El PCR objetivo debe ser mayor que 0"
+    }
+  },
   "recuperations": { "list-title": "Recuperaciones" },
   "hvof-systems": { "list-title": "Sistemas HVOF" },
   "spray-sessions": { "list-title": "Sesiones de rociado" },
