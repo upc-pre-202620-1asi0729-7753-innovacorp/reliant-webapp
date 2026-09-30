@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" color="#1F2937">
+  <title>Reliant</title>
+  <mask id="cut">
+    <rect width="64" height="64" fill="#fff"/>
+    <path d="M6 36h12l5-14 8 24 5-10h22" stroke="#000" stroke-width="12"/>
+  </mask>
+  <circle cx="32" cy="32" r="21" mask="url(#cut)"/>
+  <path d="M39 5.9A27 27 0 0 1 58.1 25" stroke-width="4.5" opacity=".45"/>
+  <path d="M6 36h12l5-14 8 24 5-10h22"/>
+</svg>
