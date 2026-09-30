@@ -1,0 +1,528 @@
+{
+  "organizations": [
+    {
+      "id": 1,
+      "name": "string",
+      "ruc": "string",
+      "organizationType": "string",
+      "status": "string",
+      "timeZone": "string"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "fullName": "string",
+      "email": "string",
+      "organizationId": 1,
+      "status": "string",
+      "roleIds": [
+        {
+          "roleId": 1
+        }
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "id": 1,
+      "name": "string"
+    }
+  ],
+  "userPreferences": [
+    {
+      "id": 1,
+      "userId": 1,
+      "defaultUnitSystem": "string",
+      "language": "string",
+      "unitOverrides": [
+        {
+          "category": "string",
+          "parameter": "string",
+          "unitSymbol": "string",
+          "unitCategory": "string",
+          "unitSystem": "string"
+        }
+      ]
+    }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "name": "string",
+      "planType": "string",
+      "monthlyPriceAmount": 0.0,
+      "monthlyPriceCurrency": "string",
+      "maxMonitoredSystems": 1,
+      "maxTrackedComponents": 1
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "planId": 1,
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-29",
+      "status": "string"
+    }
+  ],
+  "hvofSystems": [
+    {
+      "id": 1,
+      "code": "string",
+      "organizationId": 1,
+      "serialNumber": "string",
+      "status": "string",
+      "systemManufacturer": "string",
+      "systemModel": "string",
+      "fuelType": "string",
+      "tagMappings": [
+        {
+          "tagPath": "string",
+          "controllerId": 1,
+          "subsystemId": 1,
+          "partId": 1,
+          "parameter": "string",
+          "tagKind": "string",
+          "statusRole": "string",
+          "matchedRuleId": 1,
+          "confirmed": true
+        }
+      ]
+    }
+  ],
+  "hvofSubsystems": [
+    {
+      "id": 1,
+      "hvofSystemId": 1,
+      "subsystemType": "string",
+      "name": "string",
+      "alias": "string",
+      "parameters": [
+        {
+          "parameter": "string"
+        }
+      ]
+    }
+  ],
+  "hvofParts": [
+    {
+      "id": 1,
+      "hvofSubsystemId": 1,
+      "partType": "string",
+      "serialNumber": "string",
+      "manufacturer": "string"
+    }
+  ],
+  "controllers": [
+    {
+      "id": 1,
+      "hvofSystemId": 1,
+      "controllerNumber": 1,
+      "deviceType": "string",
+      "serialNumber": "string",
+      "manufacturer": "string",
+      "model": "string",
+      "partNumber": "string",
+      "ipAddress": "string",
+      "port": 1,
+      "rack": 1,
+      "slot": 1,
+      "endpointUrl": "string",
+      "tagCatalogId": 1,
+      "supportedProtocols": [
+        {
+          "protocol": "string"
+        }
+      ]
+    }
+  ],
+  "controllerTagCatalogs": [
+    {
+      "id": 1,
+      "controllerId": 1,
+      "manufacturer": "string",
+      "importedAt": "2026-09-29T12:00:00Z"
+    }
+  ],
+  "tagNodes": [
+    {
+      "id": 1,
+      "tagCatalogId": 1,
+      "parentId": 1,
+      "name": "string",
+      "tagPath": "string",
+      "kind": "string",
+      "vendorDataType": "string",
+      "dataType": "string",
+      "style": "string",
+      "description": "string"
+    }
+  ],
+  "derivedParameterDefinitions": [
+    {
+      "id": 1,
+      "hvofSystemId": 1,
+      "name": "string",
+      "parameter": "string",
+      "expression": "string",
+      "unitSymbol": "string",
+      "unitCategory": "string",
+      "inputTags": [
+        {
+          "tagPath": "string"
+        }
+      ]
+    }
+  ],
+  "recipes": [
+    {
+      "id": 1,
+      "hvofSystemId": 1,
+      "recipeNumber": 1,
+      "name": "string",
+      "powderSpecification": "string",
+      "status": "string",
+      "applicabilities": [
+        {
+          "componentType": "string",
+          "machineModel": "string",
+          "position": "string"
+        }
+      ],
+      "parameters": [
+        {
+          "parameter": "string",
+          "setpoint": 0.0,
+          "lowerShutdown": 0.0,
+          "lowerWarning": 0.0,
+          "nominalMin": 0.0,
+          "nominalMax": 0.0,
+          "upperWarning": 0.0,
+          "upperShutdown": 0.0,
+          "unitSymbol": "string",
+          "unitCategory": "string"
+        }
+      ]
+    }
+  ],
+  "tagMappingRules": [
+    {
+      "id": 1,
+      "pattern": "string",
+      "subsystemType": "string",
+      "partType": "string",
+      "parameter": "string",
+      "tagKind": "string",
+      "statusRole": "string",
+      "priority": 1
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "supplierOrganizationId": 1,
+      "linkedAssetOwnerOrganizationId": 1,
+      "legalName": "string",
+      "ruc": "string",
+      "mineSite": "string"
+    }
+  ],
+  "components": [
+    {
+      "id": 1,
+      "serialNumber": "string",
+      "partNumber": "string",
+      "componentType": "string",
+      "machineManufacturer": "string",
+      "machineModel": "string",
+      "customerId": 1,
+      "pcrTargetHours": 0.0,
+      "status": "string"
+    }
+  ],
+  "serviceLifeRecords": [
+    {
+      "id": 1,
+      "componentId": 1,
+      "recuperationId": 1,
+      "hoursAtDelivery": 0.0,
+      "hoursAtReturn": 0.0,
+      "deliveredAt": "2026-09-29",
+      "returnedAt": "2026-09-29",
+      "returnReason": "string",
+      "metPcr": true
+    }
+  ],
+  "recuperations": [
+    {
+      "id": 1,
+      "workOrderNumber": "string",
+      "manufacturingOrderNumber": "string",
+      "componentId": 1,
+      "customerId": 1,
+      "supplierOrganizationId": 1,
+      "segment": "string",
+      "operation": "string",
+      "weightValue": 0.0,
+      "weightUnitSymbol": "string",
+      "hourmeterAtEntry": 0.0,
+      "powderSupplier": "string",
+      "powderLotNumber": "string",
+      "powderChemicalComposition": "string",
+      "status": "string",
+      "receivedAt": "2026-09-29",
+      "completedAt": "2026-09-29",
+      "linkedSessions": [
+        {
+          "sessionId": 1
+        }
+      ]
+    }
+  ],
+  "spraySessions": [
+    {
+      "id": 1,
+      "hvofSystemId": 1,
+      "recuperationId": 1,
+      "operatorId": 1,
+      "recipeNumber": 1,
+      "startedAt": "2026-09-29T12:00:00Z",
+      "endedAt": "2026-09-29T12:00:00Z",
+      "timeZone": "string",
+      "status": "string"
+    }
+  ],
+  "sprayPasses": [
+    {
+      "id": 1,
+      "spraySessionId": 1,
+      "passNumber": 1,
+      "startedAt": "2026-09-29T12:00:00Z",
+      "endedAt": "2026-09-29T12:00:00Z"
+    }
+  ],
+  "processReadings": [
+    {
+      "id": 1,
+      "spraySessionId": 1,
+      "epochMillis": 1,
+      "plcClockOffsetMillis": 1,
+      "tagPath": "string",
+      "parameter": "string",
+      "subsystemId": 1,
+      "partId": 1,
+      "value": 0.0,
+      "unitSymbol": "string",
+      "unitCategory": "string",
+      "band": "string",
+      "derived": true,
+      "mappingPending": true
+    }
+  ],
+  "faultCases": [
+    {
+      "id": 1,
+      "sessionId": 1,
+      "hvofSystemId": 1,
+      "faultType": "string",
+      "detectedAt": "2026-09-29T12:00:00Z",
+      "sourceTagPath": "string",
+      "suspectSubsystemId": 1,
+      "suspectPartId": 1,
+      "probableCause": "string",
+      "rootCause": "string",
+      "correctiveAction": "string",
+      "confirmedByUserId": 1,
+      "status": "string",
+      "symptoms": [
+        {
+          "parameter": "string",
+          "observedValue": 0.0,
+          "band": "string",
+          "observedAt": "2026-09-29T12:00:00Z"
+        }
+      ]
+    }
+  ],
+  "diagnosticRules": [
+    {
+      "id": 1,
+      "faultType": "string",
+      "triggerParameter": "string",
+      "conditionOperator": "string",
+      "conditionThreshold": 0.0,
+      "conditionRequiredBand": "string",
+      "probableCause": "string",
+      "suspectSubsystemType": "string",
+      "suspectPartType": "string",
+      "priority": 1,
+      "active": true
+    }
+  ],
+  "faultPatterns": [
+    {
+      "id": 1,
+      "hvofSystemId": 1,
+      "suspectPartId": 1,
+      "faultType": "string",
+      "occurrences": 1,
+      "windowStart": "2026-09-29T12:00:00Z",
+      "windowEnd": "2026-09-29T12:00:00Z",
+      "timeZone": "string",
+      "recurrent": true
+    }
+  ],
+  "alerts": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "recipientUserId": 1,
+      "alertType": "string",
+      "severity": "string",
+      "title": "string",
+      "message": "string",
+      "sourceEventId": "string",
+      "status": "string",
+      "acknowledgedAt": "2026-09-29T12:00:00Z"
+    }
+  ],
+  "notificationPreferences": [
+    {
+      "id": 1,
+      "userId": 1,
+      "channel": "string",
+      "alertTypes": [
+        {
+          "alertType": "string"
+        }
+      ]
+    }
+  ],
+  "newsletterSubscriptions": [
+    {
+      "id": 1,
+      "email": "string",
+      "subscribedAt": "2026-09-29T12:00:00Z"
+    }
+  ],
+  "reportingEvents": [
+    {
+      "id": 1,
+      "eventType": "string",
+      "sourceContext": "string",
+      "aggregateId": 1,
+      "organizationId": 1,
+      "occurredAt": "2026-09-29T12:00:00Z",
+      "payload": {}
+    }
+  ],
+  "qualityCertificates": [
+    {
+      "id": 1,
+      "recuperationId": 1,
+      "componentId": 1,
+      "customerId": 1,
+      "supplierOrganizationId": 1,
+      "issuedByUserId": 1,
+      "issuedAt": "2026-09-29T12:00:00Z",
+      "justification": "string",
+      "status": "string",
+      "sessionIds": [
+        {
+          "sessionId": 1
+        }
+      ],
+      "parameterCompliance": [
+        {
+          "parameter": "string",
+          "minObserved": 0.0,
+          "maxObserved": 0.0,
+          "withinNominal": true
+        }
+      ]
+    }
+  ],
+  "pcrComplianceReports": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "periodFrom": "2026-09-29",
+      "periodTo": "2026-09-29",
+      "periodGrouping": "string",
+      "groupedBy": "string",
+      "entries": [
+        {
+          "groupKey": "string",
+          "totalComponents": 1,
+          "metPcrCount": 1,
+          "prematureFailureCount": 1
+        }
+      ]
+    }
+  ],
+  "reportTemplates": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "ownerUserId": 1,
+      "name": "string",
+      "description": "string",
+      "reportKind": "string",
+      "logoAssetKey": "string",
+      "primaryColor": "string",
+      "secondaryColor": "string",
+      "headerText": "string",
+      "footerText": "string",
+      "pageSize": "string",
+      "orientation": "string",
+      "columns": 1,
+      "showSignatureBlock": true,
+      "visibility": "string",
+      "defaultForKind": true,
+      "status": "string",
+      "sharedWithUserIds": [
+        {
+          "userId": 1
+        }
+      ]
+    }
+  ],
+  "reportSections": [
+    {
+      "id": 1,
+      "reportTemplateId": 1,
+      "title": "string",
+      "sectionOrder": 1,
+      "widgets": [
+        {
+          "position": 1,
+          "variableSource": "string",
+          "variableCode": "string",
+          "variableLabel": "string",
+          "viewType": "string",
+          "aggregation": "string",
+          "unitOverrideSymbol": "string",
+          "unitOverrideCategory": "string",
+          "width": "string"
+        }
+      ]
+    }
+  ],
+  "generatedReports": [
+    {
+      "id": 1,
+      "reportTemplateId": 1,
+      "organizationId": 1,
+      "generatedByUserId": 1,
+      "subjectType": "string",
+      "subjectId": 1,
+      "periodFrom": "2026-09-29",
+      "periodTo": "2026-09-29",
+      "format": "string",
+      "storageKey": "string",
+      "generatedAt": "2026-09-29T12:00:00Z"
+    }
+  ]
+}
