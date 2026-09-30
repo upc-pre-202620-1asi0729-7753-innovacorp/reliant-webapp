@@ -1,0 +1,34 @@
+{
+  "option": {
+    "home": "Home",
+    "recuperations": "Recuperations",
+    "components": "Components",
+    "customers": "Customers",
+    "hvof-systems": "HVOF Systems",
+    "spray-sessions": "Spray Sessions",
+    "about": "About Us"
+  },
+  "home": {
+    "title": "Welcome to Reliant",
+    "content": "Traceability and process monitoring for HVOF component recovery."
+  },
+  "about": {
+    "title": "About us",
+    "content": "Reliant is a platform by InnovaCorp that traces every HVOF spray session back to the recovered component and its customer."
+  },
+  "customers": { "list-title": "Customers" },
+  "components": { "list-title": "Components" },
+  "recuperations": { "list-title": "Recuperations" },
+  "hvof-systems": { "list-title": "HVOF Systems" },
+  "spray-sessions": { "list-title": "Spray Sessions" },
+  "page-not-found": {
+    "title": "Page not found",
+    "content": "The path <strong>{{ invalid_path }}</strong> is not valid.",
+    "go-home": "Go Home"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "powered-by": "Powered by",
+    "and": "and"
+  }
+}
