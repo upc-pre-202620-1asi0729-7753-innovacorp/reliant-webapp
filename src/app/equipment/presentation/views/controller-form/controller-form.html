@@ -1,0 +1,68 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ (isEdit ? 'controller.edit-title' : 'controller.new-title') | translate }}</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row">
+      <mat-form-field>
+        <mat-label>{{ 'controller.device-type' | translate }}</mat-label>
+        <mat-select formControlName="deviceType" required>
+          @for (type of deviceTypes; track type) {
+            <mat-option [value]="type">{{ type }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'controller.manufacturer' | translate }}</mat-label>
+        <input matInput formControlName="manufacturer" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'controller.model' | translate }}</mat-label>
+        <input matInput formControlName="model" required>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>{{ 'controller.part-number' | translate }}</mat-label>
+        <input matInput formControlName="partNumber">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'controller.serial-number' | translate }}</mat-label>
+        <input matInput formControlName="serialNumber" required>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>{{ 'controller.ip-address' | translate }}</mat-label>
+        <input matInput formControlName="ipAddress" placeholder="192.168.1.10" required>
+        @if (isInvalidControl(form, 'ipAddress')) {
+          <mat-error>{{ 'controller.error.ip-invalid' | translate }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'controller.port' | translate }}</mat-label>
+        <input matInput type="number" formControlName="port">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'controller.rack' | translate }}</mat-label>
+        <input matInput type="number" formControlName="rack">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'controller.slot' | translate }}</mat-label>
+        <input matInput type="number" formControlName="slot">
+      </mat-form-field>
+    </div>
+    <mat-form-field>
+      <mat-label>{{ 'controller.protocols' | translate }}</mat-label>
+      <mat-select formControlName="supportedProtocols" multiple required>
+        @for (protocol of protocols; track protocol) {
+          <mat-option [value]="protocol">{{ protocol }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <div class="actions">
+      <button mat-button type="button" (click)="back()">{{ 'controller.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ (isEdit ? 'controller.update' : 'controller.create') | translate }}
+      </button>
+    </div>
+  </form>
+</div>
