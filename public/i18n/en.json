@@ -128,7 +128,79 @@
       "required": "This field is required"
     }
   },
-  "hvof-systems": { "list-title": "HVOF Systems" },
+  "hvof-systems": {
+    "list-title": "HVOF Systems",
+    "code": "Code",
+    "manufacturer": "Manufacturer",
+    "model": "Model",
+    "fuel-type": "Fuel",
+    "status": "Status",
+    "actions": "Actions",
+    "new": "New HVOF System",
+    "edit": "Edit",
+    "view": "View"
+  },
+  "hvof-system": {
+    "new-title": "New HVOF System",
+    "edit-title": "Edit HVOF System",
+    "code": "Code",
+    "serial-number": "Serial number",
+    "manufacturer": "System manufacturer",
+    "model": "System model",
+    "fuel-type": "Fuel type",
+    "create": "Create HVOF System",
+    "update": "Update HVOF System",
+    "cancel": "Cancel",
+    "tab-controllers": "Controllers",
+    "tab-subsystems": "Subsystems",
+    "tab-recipes": "Recipes",
+    "back": "Back to list",
+    "fuel-option": {
+      "HYDROGEN": "Hydrogen",
+      "PROPANE": "Propane",
+      "KEROSENE": "Kerosene",
+      "NATURAL_GAS": "Natural gas"
+    },
+    "status-option": {
+      "ACTIVE": "Active",
+      "MAINTENANCE": "Maintenance",
+      "OUT_OF_SERVICE": "Out of service"
+    },
+    "error": { "required": "This field is required" }
+  },
+  "controllers": {
+    "number": "#",
+    "device-type": "Device",
+    "manufacturer": "Manufacturer",
+    "model": "Model",
+    "ip-address": "IP address",
+    "protocols": "Protocols",
+    "actions": "Actions",
+    "new": "New Controller",
+    "edit": "Edit",
+    "empty": "No controllers registered yet."
+  },
+  "controller": {
+    "new-title": "New Controller",
+    "edit-title": "Edit Controller",
+    "device-type": "Device type",
+    "manufacturer": "Manufacturer",
+    "model": "Model",
+    "part-number": "Part number",
+    "serial-number": "Serial number",
+    "ip-address": "IP address",
+    "port": "Port",
+    "rack": "Rack",
+    "slot": "Slot",
+    "protocols": "Supported protocols",
+    "create": "Create Controller",
+    "update": "Update Controller",
+    "cancel": "Cancel",
+    "error": {
+      "required": "This field is required",
+      "ip-invalid": "Enter a valid IPv4 address"
+    }
+  },
   "spray-sessions": { "list-title": "Spray Sessions" },
   "page-not-found": {
     "title": "Page not found",
