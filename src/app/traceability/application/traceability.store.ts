@@ -3,6 +3,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {retry} from 'rxjs';
 import {Customer} from '../domain/model/customer.entity';
 import {TraceabilityApi} from '../infrastructure/traceability-api';
+import {RecoveredComponent} from '../domain/model/component.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class TraceabilityStore {
   readonly customers = this.#customersSignal.asReadonly();
   readonly customerCount = computed(() => this.customers().length);
 
+  readonly #componentsSignal = signal<RecoveredComponent[]>([]);
+  readonly components = this.#componentsSignal.asReadonly();
+  readonly componentCount = computed(() => this.components().length);
+
   readonly #loadingSignal = signal<boolean>(false);
   readonly loading = this.#loadingSignal.asReadonly();
   readonly #errorSignal = signal<string | null>(null);
@@ -21,6 +26,7 @@ export class TraceabilityStore {
 
   constructor() {
     this.#loadCustomers();
+    this.#loadComponents();
   }
 
   getCustomerById(id: number): Signal<Customer | undefined> {
@@ -67,6 +73,59 @@ export class TraceabilityStore {
       },
       error: err => {
         this.#errorSignal.set(this.#formatError(err, 'Failed to delete customer'));
+        this.#loadingSignal.set(false);
+      }
+    });
+  }
+
+  getComponentById(id: number): Signal<RecoveredComponent | undefined> {
+    return computed(() => id ? this.components().find(c => c.id === id) : undefined);
+  }
+
+  customerNameOf(customerId: number): string {
+    return this.customers().find(c => c.id === customerId)?.legalName ?? `#${customerId}`;
+  }
+
+  addComponent(component: RecoveredComponent): void {
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    this.#api.createComponent(component).pipe(retry(2)).subscribe({
+      next: created => {
+        this.#componentsSignal.update(components => [...components, created]);
+        this.#loadingSignal.set(false);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to create component'));
+        this.#loadingSignal.set(false);
+      }
+    });
+  }
+
+  updateComponent(updated: RecoveredComponent): void {
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    this.#api.updateComponent(updated).pipe(retry(2)).subscribe({
+      next: component => {
+        this.#componentsSignal.update(components => components.map(c => c.id === component.id ? component : c));
+        this.#loadingSignal.set(false);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to update component'));
+        this.#loadingSignal.set(false);
+      }
+    });
+  }
+
+  #loadComponents(): void {
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    this.#api.getComponents().pipe(takeUntilDestroyed()).subscribe({
+      next: components => {
+        this.#componentsSignal.set(components);
+        this.#loadingSignal.set(false);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to load components'));
         this.#loadingSignal.set(false);
       }
     });
