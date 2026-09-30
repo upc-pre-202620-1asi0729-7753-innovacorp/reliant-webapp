@@ -41,7 +41,51 @@
       "ruc-invalid": "RUC must have 11 digits"
     }
   },
-  "components": { "list-title": "Components" },
+  "components": {
+    "list-title": "Components",
+    "serial-number": "Serial number",
+    "part-number": "Part number",
+    "type": "Type",
+    "machine": "Machine",
+    "customer": "Customer",
+    "pcr-target-hours": "PCR target (h)",
+    "status": "Status",
+    "actions": "Actions",
+    "new": "New Component",
+    "edit": "Edit"
+  },
+  "component": {
+    "new-title": "New Component",
+    "edit-title": "Edit Component",
+    "serial-number": "Serial number",
+    "part-number": "Part number",
+    "type": "Component type",
+    "machine-manufacturer": "Machine manufacturer",
+    "machine-model": "Machine model",
+    "customer": "Customer",
+    "pcr-target-hours": "PCR target hours",
+    "create": "Create Component",
+    "update": "Update Component",
+    "cancel": "Cancel",
+    "type-option": {
+      "HYDRAULIC_ROD": "Hydraulic rod",
+      "CYLINDER_BLOCK": "Cylinder block",
+      "SHAFT": "Shaft",
+      "IMPELLER": "Impeller",
+      "OTHER": "Other"
+    },
+    "status-option": {
+      "RECEIVED": "Received",
+      "IN_RECUPERATION": "In recuperation",
+      "IN_SERVICE": "In service",
+      "RETURNED": "Returned",
+      "SCRAPPED": "Scrapped"
+    },
+    "error": {
+      "required": "This field is required",
+      "pcr-min": "PCR target must be greater than 0"
+    }
+  },
   "recuperations": { "list-title": "Recuperations" },
   "hvof-systems": { "list-title": "HVOF Systems" },
   "spray-sessions": { "list-title": "Spray Sessions" },
