@@ -4,6 +4,7 @@ import {retry} from 'rxjs';
 import {Customer} from '../domain/model/customer.entity';
 import {TraceabilityApi} from '../infrastructure/traceability-api';
 import {RecoveredComponent} from '../domain/model/component.entity';
+import {Recuperation} from '../domain/model/recuperation.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,14 @@ export class TraceabilityStore {
   readonly #errorSignal = signal<string | null>(null);
   readonly error = this.#errorSignal.asReadonly();
 
+  readonly #recuperationsSignal = signal<Recuperation[]>([]);
+  readonly recuperations = this.#recuperationsSignal.asReadonly();
+  readonly recuperationCount = computed(() => this.recuperations().length);
+
   constructor() {
     this.#loadCustomers();
     this.#loadComponents();
+    this.#loadRecuperations();
   }
 
   getCustomerById(id: number): Signal<Customer | undefined> {
@@ -152,5 +158,58 @@ export class TraceabilityStore {
       return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;
     }
     return fallback;
+  }
+
+  getRecuperationById(id: number): Signal<Recuperation | undefined> {
+    return computed(() => id ? this.recuperations().find(r => r.id === id) : undefined);
+  }
+
+  componentSerialOf(componentId: number): string {
+    return this.components().find(c => c.id === componentId)?.serialNumber ?? `#${componentId}`;
+  }
+
+  addRecuperation(recuperation: Recuperation): void {
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    this.#api.createRecuperation(recuperation).pipe(retry(2)).subscribe({
+      next: created => {
+        this.#recuperationsSignal.update(recuperations => [...recuperations, created]);
+        this.#loadingSignal.set(false);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to create recuperation'));
+        this.#loadingSignal.set(false);
+      }
+    });
+  }
+
+  updateRecuperation(updated: Recuperation): void {
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    this.#api.updateRecuperation(updated).pipe(retry(2)).subscribe({
+      next: recuperation => {
+        this.#recuperationsSignal.update(recuperations => recuperations.map(r => r.id === recuperation.id ? recuperation : r));
+        this.#loadingSignal.set(false);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to update recuperation'));
+        this.#loadingSignal.set(false);
+      }
+    });
+  }
+
+  #loadRecuperations(): void {
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    this.#api.getRecuperations().pipe(takeUntilDestroyed()).subscribe({
+      next: recuperations => {
+        this.#recuperationsSignal.set(recuperations);
+        this.#loadingSignal.set(false);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to load recuperations'));
+        this.#loadingSignal.set(false);
+      }
+    });
   }
 }

@@ -5,6 +5,8 @@ import {Customer} from '../domain/model/customer.entity';
 import {CustomersApiEndpoint} from './customers-api-endpoint';
 import {ComponentsApiEndpoint} from './components-api-endpoint';
 import {RecoveredComponent} from '../domain/model/component.entity';
+import {Recuperation} from '../domain/model/recuperation.entity';
+import {RecuperationsApiEndpoint} from './recuperations-api-endpoint';
 
 @Injectable({providedIn: 'root'})
 export class TraceabilityApi extends BaseApi {
@@ -45,5 +47,23 @@ export class TraceabilityApi extends BaseApi {
 
   updateComponent(component: RecoveredComponent): Observable<RecoveredComponent> {
     return this.#componentsEndpoint.update(component, component.id);
+  }
+
+  readonly #recuperationsEndpoint = new RecuperationsApiEndpoint(this.http);
+
+  getRecuperations(): Observable<Recuperation[]> {
+    return this.#recuperationsEndpoint.getAll();
+  }
+
+  getRecuperation(id: number): Observable<Recuperation> {
+    return this.#recuperationsEndpoint.getById(id);
+  }
+
+  createRecuperation(recuperation: Recuperation): Observable<Recuperation> {
+    return this.#recuperationsEndpoint.create(recuperation);
+  }
+
+  updateRecuperation(recuperation: Recuperation): Observable<Recuperation> {
+    return this.#recuperationsEndpoint.update(recuperation, recuperation.id);
   }
 }

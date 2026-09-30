@@ -1,0 +1,90 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ (isEdit ? 'recuperation.edit-title' : 'recuperation.new-title') | translate }}</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row">
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.component' | translate }}</mat-label>
+        <mat-select formControlName="componentId" required>
+          @for (component of store.components(); track component.id) {
+            <mat-option [value]="component.id">{{ component.serialNumber }} · {{ component.machineModel }}</mat-option>
+          }
+        </mat-select>
+        @if (isInvalidControl(form, 'componentId')) {
+          <mat-error>{{ 'recuperation.error.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.customer' | translate }}</mat-label>
+        <mat-select formControlName="customerId">
+          @for (customer of store.customers(); track customer.id) {
+            <mat-option [value]="customer.id">{{ customer.legalName }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.work-order' | translate }}</mat-label>
+        <input matInput formControlName="workOrderNumber" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.manufacturing-order' | translate }}</mat-label>
+        <input matInput formControlName="manufacturingOrderNumber" required>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.segment' | translate }}</mat-label>
+        <input matInput formControlName="segment">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.operation' | translate }}</mat-label>
+        <input matInput formControlName="operation" required>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.weight' | translate }}</mat-label>
+        <input matInput type="number" formControlName="weightValue" min="0">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.weight-unit' | translate }}</mat-label>
+        <mat-select formControlName="weightUnitSymbol">
+          @for (unit of weightUnits; track unit) {
+            <mat-option [value]="unit">{{ unit }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.hourmeter' | translate }}</mat-label>
+        <input matInput type="number" formControlName="hourmeterAtEntry" min="0">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.powder-supplier' | translate }}</mat-label>
+        <input matInput formControlName="powderSupplier">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.powder-lot' | translate }}</mat-label>
+        <input matInput formControlName="powderLotNumber">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'recuperation.powder-composition' | translate }}</mat-label>
+        <input matInput formControlName="powderChemicalComposition">
+      </mat-form-field>
+    </div>
+    <mat-form-field>
+      <mat-label>{{ 'recuperation.received-at' | translate }}</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="receivedAt" required>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div class="actions">
+      <button mat-button type="button" (click)="cancel()">{{ 'recuperation.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ (isEdit ? 'recuperation.update' : 'recuperation.create') | translate }}
+      </button>
+    </div>
+  </form>
+</div>
