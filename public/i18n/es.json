@@ -16,7 +16,31 @@
     "title": "Acerca de nosotros",
     "content": "Reliant es una plataforma de InnovaCorp que vincula cada sesión de rociado HVOF con el componente recuperado y su cliente."
   },
-  "customers": { "list-title": "Clientes" },
+  "customers": {
+    "list-title": "Clientes",
+    "id": "ID",
+    "legal-name": "Razón social",
+    "ruc": "RUC",
+    "mine-site": "Sede / unidad minera",
+    "actions": "Acciones",
+    "new": "Nuevo cliente",
+    "edit": "Editar",
+    "delete": "Eliminar"
+  },
+  "customer": {
+    "new-title": "Nuevo cliente",
+    "edit-title": "Editar cliente",
+    "legal-name": "Razón social",
+    "ruc": "RUC",
+    "mine-site": "Sede / unidad minera",
+    "create": "Crear cliente",
+    "update": "Actualizar cliente",
+    "cancel": "Cancelar",
+    "error": {
+      "legal-name-required": "La razón social es obligatoria",
+      "ruc-invalid": "El RUC debe tener 11 dígitos"
+    }
+  },
   "components": { "list-title": "Componentes" },
   "recuperations": { "list-title": "Recuperaciones" },
   "hvof-systems": { "list-title": "Sistemas HVOF" },
