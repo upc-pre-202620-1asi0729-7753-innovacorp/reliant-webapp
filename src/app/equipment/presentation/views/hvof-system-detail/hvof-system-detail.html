@@ -55,6 +55,58 @@
           <button mat-raised-button color="primary" (click)="newController()">{{ 'controllers.new' | translate }}</button>
         </div>
       </mat-tab>
+      <mat-tab [label]="'hvof-system.tab-subsystems' | translate">
+        <div class="tab-content">
+          @if (subsystems().length === 0) {
+            <p>{{ 'subsystems.empty' | translate }}</p>
+          }
+          <mat-accordion class="full-width" multi>
+            @for (sub of subsystems(); track sub.id) {
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>{{ sub.alias }} · {{ sub.name }}</mat-panel-title>
+                  <mat-panel-description>{{ ('subsystem.type-option.' + sub.subsystemType) | translate }}</mat-panel-description>
+                </mat-expansion-panel-header>
+                <p><strong>{{ 'subsystems.parameters' | translate }}:</strong>
+                  @for (p of sub.parameters; track p.parameter) { <span class="pill">{{ p.parameter }}</span> }
+                </p>
+                <h3>{{ 'subsystems.parts' | translate }}</h3>
+                @if (partsOf(sub.id).length === 0) {
+                  <p>{{ 'subsystems.no-parts' | translate }}</p>
+                } @else {
+                  <table mat-table [dataSource]="partsOf(sub.id)">
+                    <ng-container matColumnDef="partType">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'part.type' | translate }}</th>
+                      <td mat-cell *matCellDef="let p">{{ ('part.type-option.' + p.partType) | translate }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="serialNumber">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'part.serial-number' | translate }}</th>
+                      <td mat-cell *matCellDef="let p">{{ p.serialNumber }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="manufacturer">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'part.manufacturer' | translate }}</th>
+                      <td mat-cell *matCellDef="let p">{{ p.manufacturer }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef></th>
+                      <td mat-cell *matCellDef="let p">
+                        <button mat-icon-button aria-label="{{ 'subsystems.delete-part' | translate }}" (click)="deletePart(p.id)"><mat-icon>delete</mat-icon></button>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="partColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: partColumns;"></tr>
+                  </table>
+                }
+                <mat-action-row>
+                  <button mat-button (click)="editSubsystem(sub.id)"><mat-icon>edit</mat-icon> {{ 'subsystems.edit' | translate }}</button>
+                  <button mat-button (click)="newPart(sub.id)"><mat-icon>add</mat-icon> {{ 'subsystems.new-part' | translate }}</button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            }
+          </mat-accordion>
+          <button mat-raised-button color="primary" (click)="newSubsystem()">{{ 'subsystems.new' | translate }}</button>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   }
 </div>
