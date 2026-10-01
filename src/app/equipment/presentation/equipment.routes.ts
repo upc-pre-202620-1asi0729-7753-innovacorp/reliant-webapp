@@ -6,6 +6,7 @@ const hvofSystemDetail = () => import('./views/hvof-system-detail/hvof-system-de
 const controllerForm = () => import('./views/controller-form/controller-form').then(m => m.ControllerForm);
 const hvofSubsystemForm = () => import('./views/hvof-subsystem-form/hvof-subsystem-form').then(m => m.HvofSubsystemForm);
 const hvofPartForm = () => import('./views/hvof-part-form/hvof-part-form').then(m => m.HvofPartForm);
+const recipeForm = () => import('./views/recipe-form/recipe-form').then(m => m.RecipeForm);
 const baseTitle = 'Reliant';
 
 export const equipmentRoutes: Routes = [
@@ -18,4 +19,6 @@ export const equipmentRoutes: Routes = [
   { path: 'hvof-systems/:id/subsystems/new',                        loadComponent: hvofSubsystemForm, title: `${baseTitle} - New Subsystem` },
   { path: 'hvof-systems/:id/subsystems/:subsystemId/edit',          loadComponent: hvofSubsystemForm, title: `${baseTitle} - Edit Subsystem` },
   { path: 'hvof-systems/:id/subsystems/:subsystemId/parts/new',     loadComponent: hvofPartForm,      title: `${baseTitle} - New Part` },
+  { path: 'hvof-systems/:id/recipes/new',              loadComponent: recipeForm, title: `${baseTitle} - New Recipe` },
+  { path: 'hvof-systems/:id/recipes/:recipeId/edit',   loadComponent: recipeForm, title: `${baseTitle} - Edit Recipe` }
 ];
