@@ -6,6 +6,7 @@ import {Controller} from '../domain/model/controller.entity';
 import {EquipmentApi} from '../infrastructure/equipment-api';
 import {HvofPart} from '../domain/model/hvof-part.entity';
 import {HvofSubsystem} from '../domain/model/hvof-subsystem.entity';
+import {Recipe} from '../domain/model/recipe.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +31,15 @@ export class EquipmentStore {
   readonly #partsSignal = signal<HvofPart[]>([]);
   readonly parts = this.#partsSignal.asReadonly();
 
+  readonly #recipesSignal = signal<Recipe[]>([]);
+  readonly recipes = this.#recipesSignal.asReadonly();
+
   constructor() {
     this.#loadHvofSystems();
     this.#loadControllers();
     this.#loadSubsystems();
     this.#loadParts();
+    this.#loadRecipes();
   }
 
   getHvofSystemById(id: number): Signal<HvofSystem | undefined> {
@@ -160,5 +165,45 @@ export class EquipmentStore {
       return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;
     }
     return fallback;
+  }
+
+  recipesOf(hvofSystemId: number): Signal<Recipe[]> {
+    return computed(() => this.recipes().filter(r => r.hvofSystemId === hvofSystemId));
+  }
+
+  activeRecipesOf(hvofSystemId: number): Signal<Recipe[]> {
+    return computed(() => this.recipesOf(hvofSystemId)().filter(r => r.status === 'ACTIVE'));
+  }
+
+  getRecipeById(id: number): Signal<Recipe | undefined> {
+    return computed(() => id ? this.recipes().find(r => r.id === id) : undefined);
+  }
+
+  recipeByNumber(hvofSystemId: number, recipeNumber: number): Signal<Recipe | undefined> {
+    return computed(() => this.recipesOf(hvofSystemId)().find(r => r.recipeNumber === recipeNumber));
+  }
+
+  addRecipe(recipe: Recipe): void {
+    this.#run(this.#api.createRecipe(recipe), created =>
+      this.#recipesSignal.update(list => [...list, created]), 'Failed to create recipe');
+  }
+
+  updateRecipe(recipe: Recipe): void {
+    this.#run(this.#api.updateRecipe(recipe), updated =>
+      this.#recipesSignal.update(list => list.map(r => r.id === updated.id ? updated : r)), 'Failed to update recipe');
+  }
+
+  publishRecipe(id: number): void {
+    const recipe = this.getRecipeById(id)();
+    if (!recipe) return;
+    recipe.status = 'ACTIVE';
+    this.updateRecipe(recipe);
+  }
+
+  #loadRecipes(): void {
+    this.#api.getRecipes().pipe(takeUntilDestroyed()).subscribe({
+      next: recipes => this.#recipesSignal.set(recipes),
+      error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load recipes'))
+    });
   }
 }
