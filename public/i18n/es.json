@@ -128,7 +128,79 @@
       "required": "Este campo es obligatorio"
     }
   },
-  "hvof-systems": { "list-title": "Sistemas HVOF" },
+  "hvof-systems": {
+    "list-title": "Sistemas HVOF",
+    "code": "Código",
+    "manufacturer": "Fabricante",
+    "model": "Modelo",
+    "fuel-type": "Combustible",
+    "status": "Estado",
+    "actions": "Acciones",
+    "new": "Nuevo sistema HVOF",
+    "edit": "Editar",
+    "view": "Ver"
+  },
+  "hvof-system": {
+    "new-title": "Nuevo sistema HVOF",
+    "edit-title": "Editar sistema HVOF",
+    "code": "Código",
+    "serial-number": "Número de serie",
+    "manufacturer": "Fabricante del sistema",
+    "model": "Modelo del sistema",
+    "fuel-type": "Tipo de combustible",
+    "create": "Crear sistema HVOF",
+    "update": "Actualizar sistema HVOF",
+    "cancel": "Cancelar",
+    "tab-controllers": "Controladores",
+    "tab-subsystems": "Subsistemas",
+    "tab-recipes": "Recetas",
+    "back": "Volver a la lista",
+    "fuel-option": {
+      "HYDROGEN": "Hidrógeno",
+      "PROPANE": "Propano",
+      "KEROSENE": "Kerosene",
+      "NATURAL_GAS": "Gas natural"
+    },
+    "status-option": {
+      "ACTIVE": "Activo",
+      "MAINTENANCE": "En mantenimiento",
+      "OUT_OF_SERVICE": "Fuera de servicio"
+    },
+    "error": { "required": "Este campo es obligatorio" }
+  },
+  "controllers": {
+    "number": "#",
+    "device-type": "Dispositivo",
+    "manufacturer": "Fabricante",
+    "model": "Modelo",
+    "ip-address": "Dirección IP",
+    "protocols": "Protocolos",
+    "actions": "Acciones",
+    "new": "Nuevo controlador",
+    "edit": "Editar",
+    "empty": "Aún no hay controladores registrados."
+  },
+  "controller": {
+    "new-title": "Nuevo controlador",
+    "edit-title": "Editar controlador",
+    "device-type": "Tipo de dispositivo",
+    "manufacturer": "Fabricante",
+    "model": "Modelo",
+    "part-number": "Part number",
+    "serial-number": "Número de serie",
+    "ip-address": "Dirección IP",
+    "port": "Puerto",
+    "rack": "Rack",
+    "slot": "Slot",
+    "protocols": "Protocolos soportados",
+    "create": "Crear controlador",
+    "update": "Actualizar controlador",
+    "cancel": "Cancelar",
+    "error": {
+      "required": "Este campo es obligatorio",
+      "ip-invalid": "Ingresa una dirección IPv4 válida"
+    }
+  },
   "spray-sessions": { "list-title": "Sesiones de rociado" },
   "page-not-found": {
     "title": "Página no encontrada",
