@@ -1,0 +1,25 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ 'part.new-title' | translate }}</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>{{ 'part.type' | translate }}</mat-label>
+      <mat-select formControlName="partType" required>
+        @for (type of partTypes; track type) {
+          <mat-option [value]="type">{{ ('part.type-option.' + type) | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'part.serial-number' | translate }}</mat-label>
+      <input matInput formControlName="serialNumber" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'part.manufacturer' | translate }}</mat-label>
+      <input matInput formControlName="manufacturer" required>
+    </mat-form-field>
+    <div class="actions">
+      <button mat-button type="button" (click)="back()">{{ 'part.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">{{ 'part.create' | translate }}</button>
+    </div>
+  </form>
+</div>
