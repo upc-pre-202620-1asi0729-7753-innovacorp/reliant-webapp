@@ -4,6 +4,8 @@ import {retry} from 'rxjs';
 import {HvofSystem} from '../domain/model/hvof-system.entity';
 import {Controller} from '../domain/model/controller.entity';
 import {EquipmentApi} from '../infrastructure/equipment-api';
+import {HvofPart} from '../domain/model/hvof-part.entity';
+import {HvofSubsystem} from '../domain/model/hvof-subsystem.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +25,16 @@ export class EquipmentStore {
   readonly #errorSignal = signal<string | null>(null);
   readonly error = this.#errorSignal.asReadonly();
 
+  readonly #subsystemsSignal = signal<HvofSubsystem[]>([]);
+  readonly subsystems = this.#subsystemsSignal.asReadonly();
+  readonly #partsSignal = signal<HvofPart[]>([]);
+  readonly parts = this.#partsSignal.asReadonly();
+
   constructor() {
     this.#loadHvofSystems();
     this.#loadControllers();
+    this.#loadSubsystems();
+    this.#loadParts();
   }
 
   getHvofSystemById(id: number): Signal<HvofSystem | undefined> {
@@ -93,6 +102,56 @@ export class EquipmentStore {
     this.#api.getControllers().pipe(takeUntilDestroyed()).subscribe({
       next: controllers => this.#controllersSignal.set(controllers),
       error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load controllers'))
+    });
+  }
+
+  subsystemsOf(hvofSystemId: number): Signal<HvofSubsystem[]> {
+    return computed(() => this.subsystems().filter(s => s.hvofSystemId === hvofSystemId));
+  }
+
+  getSubsystemById(id: number): Signal<HvofSubsystem | undefined> {
+    return computed(() => id ? this.subsystems().find(s => s.id === id) : undefined);
+  }
+
+  partsOf(subsystemId: number): Signal<HvofPart[]> {
+    return computed(() => this.parts().filter(p => p.hvofSubsystemId === subsystemId));
+  }
+
+  parametersOf(hvofSystemId: number): Signal<string[]> {
+    return computed(() => [...new Set(this.subsystemsOf(hvofSystemId)().flatMap(s => s.parameters.map(p => p.parameter)))]);
+  }
+
+  addSubsystem(subsystem: HvofSubsystem): void {
+    this.#run(this.#api.createSubsystem(subsystem), created =>
+      this.#subsystemsSignal.update(list => [...list, created]), 'Failed to create subsystem');
+  }
+
+  updateSubsystem(subsystem: HvofSubsystem): void {
+    this.#run(this.#api.updateSubsystem(subsystem), updated =>
+      this.#subsystemsSignal.update(list => list.map(s => s.id === updated.id ? updated : s)), 'Failed to update subsystem');
+  }
+
+  addPart(part: HvofPart): void {
+    this.#run(this.#api.createPart(part), created =>
+      this.#partsSignal.update(list => [...list, created]), 'Failed to create part');
+  }
+
+  deletePart(id: number): void {
+    this.#run(this.#api.deletePart(id), () =>
+      this.#partsSignal.update(list => list.filter(p => p.id !== id)), 'Failed to delete part');
+  }
+
+  #loadSubsystems(): void {
+    this.#api.getSubsystems().pipe(takeUntilDestroyed()).subscribe({
+      next: subsystems => this.#subsystemsSignal.set(subsystems),
+      error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load subsystems'))
+    });
+  }
+
+  #loadParts(): void {
+    this.#api.getParts().pipe(takeUntilDestroyed()).subscribe({
+      next: parts => this.#partsSignal.set(parts),
+      error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load parts'))
     });
   }
 
