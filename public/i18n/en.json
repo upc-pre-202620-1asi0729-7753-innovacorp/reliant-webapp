@@ -201,6 +201,53 @@
       "ip-invalid": "Enter a valid IPv4 address"
     }
   },
+  "subsystems": {
+    "new": "New Subsystem",
+    "edit": "Edit",
+    "empty": "No subsystems registered yet.",
+    "parameters": "Parameters",
+    "parts": "Parts",
+    "new-part": "New Part",
+    "delete-part": "Delete part",
+    "no-parts": "No parts registered."
+  },
+  "subsystem": {
+    "new-title": "New Subsystem",
+    "edit-title": "Edit Subsystem",
+    "type": "Subsystem type",
+    "name": "Name",
+    "alias": "Alias (as in the controller)",
+    "parameters": "Parameters (press Enter after each one)",
+    "create": "Create Subsystem",
+    "update": "Update Subsystem",
+    "cancel": "Cancel",
+    "type-option": {
+      "GAS_CONSOLE": "Gas console",
+      "POWDER_FEEDER": "Powder feeder",
+      "COOLING_UNIT": "Cooling unit",
+      "MANIPULATOR": "Manipulator",
+      "DUST_COLLECTOR": "Dust collector",
+      "SPRAY_GUN": "Spray gun"
+    }
+  },
+  "part": {
+    "new-title": "New Part",
+    "type": "Part type",
+    "serial-number": "Serial number",
+    "manufacturer": "Manufacturer",
+    "create": "Create Part",
+    "cancel": "Cancel",
+    "type-option": {
+      "MASS_FLOW_CONTROLLER": "Mass flow controller",
+      "HOPPER": "Hopper",
+      "CARRIER_GAS_MFC": "Carrier gas MFC",
+      "COOLANT_PUMP": "Coolant pump",
+      "TEMPERATURE_SENSOR": "Temperature sensor",
+      "SPINDLE_VFD": "Spindle VFD",
+      "AXIS_DRIVE": "Axis drive",
+      "NOZZLE": "Nozzle"
+    }
+  },
   "spray-sessions": { "list-title": "Spray Sessions" },
   "page-not-found": {
     "title": "Page not found",

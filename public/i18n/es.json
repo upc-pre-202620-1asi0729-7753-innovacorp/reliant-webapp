@@ -201,6 +201,53 @@
       "ip-invalid": "Ingresa una dirección IPv4 válida"
     }
   },
+  "subsystems": {
+    "new": "Nuevo subsistema",
+    "edit": "Editar",
+    "empty": "Aún no hay subsistemas registrados.",
+    "parameters": "Parámetros",
+    "parts": "Partes",
+    "new-part": "Nueva parte",
+    "delete-part": "Eliminar parte",
+    "no-parts": "Sin partes registradas."
+  },
+  "subsystem": {
+    "new-title": "Nuevo subsistema",
+    "edit-title": "Editar subsistema",
+    "type": "Tipo de subsistema",
+    "name": "Nombre",
+    "alias": "Alias (como en el controlador)",
+    "parameters": "Parámetros (Enter después de cada uno)",
+    "create": "Crear subsistema",
+    "update": "Actualizar subsistema",
+    "cancel": "Cancelar",
+    "type-option": {
+      "GAS_CONSOLE": "Consola de gases",
+      "POWDER_FEEDER": "Alimentador de polvo",
+      "COOLING_UNIT": "Unidad de enfriamiento",
+      "MANIPULATOR": "Manipulador",
+      "DUST_COLLECTOR": "Colector de polvo",
+      "SPRAY_GUN": "Pistola de rociado"
+    }
+  },
+  "part": {
+    "new-title": "Nueva parte",
+    "type": "Tipo de parte",
+    "serial-number": "Número de serie",
+    "manufacturer": "Fabricante",
+    "create": "Crear parte",
+    "cancel": "Cancelar",
+    "type-option": {
+      "MASS_FLOW_CONTROLLER": "Controlador de flujo másico",
+      "HOPPER": "Tolva",
+      "CARRIER_GAS_MFC": "MFC de gas portador",
+      "COOLANT_PUMP": "Bomba de refrigerante",
+      "TEMPERATURE_SENSOR": "Sensor de temperatura",
+      "SPINDLE_VFD": "Variador del husillo",
+      "AXIS_DRIVE": "Drive de eje",
+      "NOZZLE": "Boquilla"
+    }
+  },
   "spray-sessions": { "list-title": "Sesiones de rociado" },
   "page-not-found": {
     "title": "Página no encontrada",
