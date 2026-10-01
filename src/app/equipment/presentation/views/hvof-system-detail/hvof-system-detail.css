@@ -27,3 +27,7 @@
   color: var(--mat-sys-on-secondary-container);
   font-size: 12px;
 }
+
+.full-width {
+  width: 100%;
+}
