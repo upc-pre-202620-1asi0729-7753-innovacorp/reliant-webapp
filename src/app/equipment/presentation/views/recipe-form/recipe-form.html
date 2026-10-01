@@ -1,0 +1,99 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ (isEdit ? 'recipe.edit-title' : 'recipe.new-title') | translate }}</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row">
+      <mat-form-field class="narrow">
+        <mat-label>{{ 'recipe.number' | translate }}</mat-label>
+        <input matInput type="number" formControlName="recipeNumber" min="1" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'recipe.name' | translate }}</mat-label>
+        <input matInput formControlName="name" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ 'recipe.powder' | translate }}</mat-label>
+        <input matInput formControlName="powderSpecification" placeholder="Diamalloy 5849 (WC-10Co-4Cr)">
+      </mat-form-field>
+    </div>
+
+    <h2>{{ 'recipe.applicabilities' | translate }}</h2>
+    <div formArrayName="applicabilities" class="stack">
+      @for (group of applicabilities.controls; track group; let i = $index) {
+        <div class="row" [formGroupName]="i">
+          <mat-form-field>
+            <mat-label>{{ 'recipe.component-type' | translate }}</mat-label>
+            <mat-select formControlName="componentType">
+              @for (type of componentTypes; track type) {
+                <mat-option [value]="type">{{ ('component.type-option.' + type) | translate }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'recipe.machine-model' | translate }}</mat-label>
+            <input matInput formControlName="machineModel" placeholder="CAT 797F">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'recipe.position' | translate }}</mat-label>
+            <input matInput formControlName="position">
+          </mat-form-field>
+          <button mat-icon-button type="button" (click)="removeApplicability(i)" [attr.aria-label]="'recipe.remove' | translate"><mat-icon>delete</mat-icon></button>
+        </div>
+      }
+    </div>
+    <button mat-stroked-button type="button" (click)="addApplicability()"><mat-icon>add</mat-icon> {{ 'recipe.add-applicability' | translate }}</button>
+
+    <h2>{{ 'recipe.parameters' | translate }}</h2>
+    @if (parameters.length === 0) {
+      <mat-error>{{ 'recipe.error.no-parameters' | translate }}</mat-error>
+    }
+    <div formArrayName="parameters" class="stack">
+      @for (group of parameters.controls; track group; let i = $index) {
+        <div class="parameter-card" [formGroupName]="i">
+          <div class="row">
+            <mat-form-field>
+              <mat-label>{{ 'recipe.parameter' | translate }}</mat-label>
+              <mat-select formControlName="parameter" required>
+                @for (p of availableParameters(); track p) {
+                  <mat-option [value]="p">{{ p }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="narrow">
+              <mat-label>{{ 'recipe.unit' | translate }}</mat-label>
+              <input matInput formControlName="unitSymbol" placeholder="SCFH" required>
+            </mat-form-field>
+            <mat-form-field class="narrow">
+              <mat-label>{{ 'recipe.unit-category' | translate }}</mat-label>
+              <mat-select formControlName="unitCategory">
+                @for (c of unitCategories; track c) {
+                  <mat-option [value]="c">{{ c }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button mat-icon-button type="button" (click)="removeParameter(i)" [attr.aria-label]="'recipe.remove' | translate"><mat-icon>delete</mat-icon></button>
+          </div>
+          <div class="row thresholds">
+            <mat-form-field class="narrow band-shutdown"><mat-label>{{ 'recipe.lsd' | translate }}</mat-label><input matInput type="number" formControlName="lowerShutdown"></mat-form-field>
+            <mat-form-field class="narrow band-warning"><mat-label>{{ 'recipe.law' | translate }}</mat-label><input matInput type="number" formControlName="lowerWarning"></mat-form-field>
+            <mat-form-field class="narrow band-nominal"><mat-label>{{ 'recipe.nmin' | translate }}</mat-label><input matInput type="number" formControlName="nominalMin"></mat-form-field>
+            <mat-form-field class="narrow band-setpoint"><mat-label>{{ 'recipe.setpoint' | translate }}</mat-label><input matInput type="number" formControlName="setpoint"></mat-form-field>
+            <mat-form-field class="narrow band-nominal"><mat-label>{{ 'recipe.nmax' | translate }}</mat-label><input matInput type="number" formControlName="nominalMax"></mat-form-field>
+            <mat-form-field class="narrow band-warning"><mat-label>{{ 'recipe.haw' | translate }}</mat-label><input matInput type="number" formControlName="upperWarning"></mat-form-field>
+            <mat-form-field class="narrow band-shutdown"><mat-label>{{ 'recipe.hsd' | translate }}</mat-label><input matInput type="number" formControlName="upperShutdown"></mat-form-field>
+          </div>
+          @if (group.errors?.['thresholdOrder'] && group.touched) {
+            <mat-error>{{ 'recipe.error.order' | translate }}</mat-error>
+          }
+        </div>
+      }
+    </div>
+    <button mat-stroked-button type="button" (click)="addParameter()"><mat-icon>add</mat-icon> {{ 'recipe.add-parameter' | translate }}</button>
+
+    <div class="actions">
+      <button mat-button type="button" (click)="back()">{{ 'recipe.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ (isEdit ? 'recipe.update' : 'recipe.create') | translate }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -9,6 +9,8 @@ import {HvofSubsystemsApiEndpoint} from './hvof-subsystems-api-endpoint';
 import {HvofPartsApiEndpoint} from './hvof-parts-api-endpoint';
 import {HvofSubsystem} from '../domain/model/hvof-subsystem.entity';
 import {HvofPart} from '../domain/model/hvof-part.entity';
+import {Recipe} from '../domain/model/recipe.entity';
+import {RecipesApiEndpoint} from './recipes-api-endpoint';
 
 @Injectable({providedIn: 'root'})
 export class EquipmentApi extends BaseApi {
@@ -16,6 +18,12 @@ export class EquipmentApi extends BaseApi {
   readonly #controllersEndpoint = new ControllersApiEndpoint(this.http);
   readonly #subsystemsEndpoint = new HvofSubsystemsApiEndpoint(this.http);
   readonly #partsEndpoint = new HvofPartsApiEndpoint(this.http);
+
+  readonly #recipesEndpoint = new RecipesApiEndpoint(this.http);
+
+  getRecipes(): Observable<Recipe[]> { return this.#recipesEndpoint.getAll(); }
+  createRecipe(r: Recipe): Observable<Recipe> { return this.#recipesEndpoint.create(r); }
+  updateRecipe(r: Recipe): Observable<Recipe> { return this.#recipesEndpoint.update(r, r.id); }
 
   getHvofSystems(): Observable<HvofSystem[]> {
     return this.#hvofSystemsEndpoint.getAll();
