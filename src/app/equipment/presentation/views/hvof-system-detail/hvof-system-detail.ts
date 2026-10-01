@@ -36,6 +36,20 @@ export class HvofSystemDetail {
   controllerColumns = ['controllerNumber', 'deviceType', 'manufacturer', 'model', 'ipAddress', 'protocols', 'actions'];
   partColumns = ['partType', 'serialNumber', 'manufacturer', 'actions'];
 
+  readonly recipes = computed(() => this.store.recipesOf(this.systemId())());
+  recipeColumns = ['recipeNumber', 'name', 'powderSpecification', 'status', 'parameters', 'actions'];
+
+  newRecipe() {
+    this.#router.navigate(['equipment/hvof-systems', this.systemId(), 'recipes', 'new']).then();
+  }
+
+  editRecipe(recipeId: number) {
+    this.#router.navigate(['equipment/hvof-systems', this.systemId(), 'recipes', recipeId, 'edit']).then();
+  }
+
+  publishRecipe(recipeId: number) {
+    this.store.publishRecipe(recipeId);
+  }
 
   back() {
     this.#router.navigate(['equipment/hvof-systems']).then();
