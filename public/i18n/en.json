@@ -356,6 +356,18 @@
       "warning": "Warning",
       "shutdown": "Shutdown"
     },
+    "abort-title": "Abort session",
+    "abort-reason": "Reason",
+    "abort-notes": "Notes (optional)",
+    "abort-confirm": "Abort session",
+    "abort-cancel": "Keep running",
+    "abort-reason-option": {
+      "FLAME_OUT": "Flame out",
+      "POWDER_DEPLETED": "Powder depleted",
+      "MACHINE_FAULT": "Machine fault",
+      "OPERATOR_DECISION": "Operator decision",
+      "OTHER": "Other"
+    },
     "parameter": {
       "fuel_gas_flow": "Fuel gas flow",
       "oxygen_flow": "Oxygen flow",
