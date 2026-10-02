@@ -1,0 +1,45 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ 'spray-session.start-title' | translate }}</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>{{ 'spray-session.hvof-system' | translate }}</mat-label>
+      <mat-select formControlName="hvofSystemId" required>
+        @for (s of equipment.activeHvofSystems(); track s.id) {
+          <mat-option [value]="s.id">{{ s.code }} · {{ s.systemManufacturer }} {{ s.systemModel }}</mat-option>
+        }
+      </mat-select>
+      @if (isInvalidControl(form, 'hvofSystemId')) {
+        <mat-error>{{ 'spray-session.error.required' | translate }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'spray-session.recuperation' | translate }}</mat-label>
+      <mat-select formControlName="recuperationId" required>
+        @for (r of openRecuperations(); track r.id) {
+          <mat-option [value]="r.id">{{ r.workOrderNumber }} · {{ traceability.componentSerialOf(r.componentId) }}</mat-option>
+        }
+      </mat-select>
+      @if (isInvalidControl(form, 'recuperationId')) {
+        <mat-error>{{ 'spray-session.error.required' | translate }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'spray-session.recipe' | translate }}</mat-label>
+      <mat-select formControlName="recipeNumber" required>
+        @for (recipe of activeRecipes(); track recipe.id) {
+          <mat-option [value]="recipe.recipeNumber">#{{ recipe.recipeNumber }} · {{ recipe.name }}</mat-option>
+        }
+      </mat-select>
+      <mat-hint>{{ 'spray-session.recipe-hint' | translate }}</mat-hint>
+      @if (selectedSystemId() && activeRecipes().length === 0) {
+        <mat-error>{{ 'spray-session.error.no-active-recipes' | translate }}</mat-error>
+      }
+    </mat-form-field>
+    <div class="actions">
+      <button mat-button type="button" (click)="cancel()">{{ 'spray-session.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        <mat-icon>play_arrow</mat-icon> {{ 'spray-session.start' | translate }}
+      </button>
+    </div>
+  </form>
+</div>
