@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>{{ 'session-detail.abort-title' | translate }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="form">
+    <mat-form-field>
+      <mat-label>{{ 'session-detail.abort-reason' | translate }}</mat-label>
+      <mat-select formControlName="reason" required>
+        @for (r of reasons; track r) {
+          <mat-option [value]="r">{{ ('session-detail.abort-reason-option.' + r) | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'session-detail.abort-notes' | translate }}</mat-label>
+      <textarea matInput formControlName="notes" rows="3"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">{{ 'session-detail.abort-cancel' | translate }}</button>
+  <button mat-raised-button color="warn" [disabled]="form.invalid" (click)="confirm()">{{ 'session-detail.abort-confirm' | translate }}</button>
+</mat-dialog-actions>

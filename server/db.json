@@ -1138,6 +1138,9 @@
         },
         {
           "sessionId": 4
+        },
+        {
+          "sessionId": 5
         }
       ]
     }
@@ -1196,6 +1199,18 @@
       "operatorId": 4,
       "recipeNumber": 12,
       "startedAt": "2026-10-02T04:40:29.279Z",
+      "endedAt": null,
+      "timeZone": "America/Lima",
+      "status": "active",
+      "abortReason": null
+    },
+    {
+      "id": 5,
+      "hvofSystemId": 1,
+      "recuperationId": 3,
+      "operatorId": 4,
+      "recipeNumber": 12,
+      "startedAt": "2026-10-02T23:49:41.144Z",
       "endedAt": null,
       "timeZone": "America/Lima",
       "status": "active",
@@ -14692,6 +14707,22 @@
       "value": 69.6,
       "unitSymbol": "rpm",
       "unitCategory": "speed",
+      "band": "nominal",
+      "derived": false,
+      "mappingPending": false
+    },
+    {
+      "id": 793,
+      "spraySessionId": 5,
+      "epochMillis": 1790984987724,
+      "plcClockOffsetMillis": 0,
+      "tagPath": "CoolingAir.Flow.Actual",
+      "parameter": "cooling_air_flow",
+      "subsystemId": 1,
+      "partId": 3,
+      "value": 850.9,
+      "unitSymbol": "SCFH",
+      "unitCategory": "flow",
       "band": "nominal",
       "derived": false,
       "mappingPending": false
