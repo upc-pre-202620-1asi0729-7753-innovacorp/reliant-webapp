@@ -1135,6 +1135,9 @@
       "linkedSessions": [
         {
           "sessionId": 3
+        },
+        {
+          "sessionId": 4
         }
       ]
     }
@@ -1185,6 +1188,18 @@
       "endedAt": "2026-09-21T22:20:07Z",
       "timeZone": "America/Lima",
       "status": "interrupted"
+    },
+    {
+      "id": 4,
+      "hvofSystemId": 1,
+      "recuperationId": 3,
+      "operatorId": 4,
+      "recipeNumber": 12,
+      "startedAt": "2026-10-02T04:40:29.279Z",
+      "endedAt": null,
+      "timeZone": "America/Lima",
+      "status": "active",
+      "abortReason": null
     }
   ],
   "sprayPasses": [
