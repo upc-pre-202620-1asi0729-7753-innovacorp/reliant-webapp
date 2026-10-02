@@ -1,0 +1,42 @@
+.card {
+  border-left: 6px solid var(--band-color);
+  min-width: 220px;
+}
+
+.value {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 8px 0 4px;
+}
+
+.unit {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: .7;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.chip {
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--band-color);
+  color: white;
+  font-weight: 500;
+}
+
+.sp {
+  opacity: .7;
+}
+
+.band-nominal        { --band-color: #15803d; }
+.band-out_of_nominal { --band-color: #ca8a04; }
+.band-warning        { --band-color: #ea580c; }
+.band-shutdown       { --band-color: #b91c1c; }

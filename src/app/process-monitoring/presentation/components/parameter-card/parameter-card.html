@@ -1,0 +1,15 @@
+<mat-card class="card band-{{ reading().band }}" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>{{ ('session-detail.parameter.' + reading().parameter) | translate }}</mat-card-title>
+    <mat-card-subtitle>{{ reading().tagPath }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="value">{{ reading().value | number:'1.0-1' }} <span class="unit">{{ reading().unitSymbol }}</span></div>
+    <div class="meta">
+      <span class="chip">{{ ('session-detail.band.' + reading().band) | translate }}</span>
+      @if (recipeParameter(); as p) {
+        <span class="sp">{{ 'session-detail.setpoint' | translate }} {{ p.setpoint }} · {{ p.nominalMin }}–{{ p.nominalMax }}</span>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>
