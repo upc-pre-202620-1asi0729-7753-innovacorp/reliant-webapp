@@ -44,6 +44,8 @@
       <div class="actions">
         @if (isDev) {
           <button mat-stroked-button (click)="simulateReading()"><mat-icon>sensors</mat-icon> {{ 'session-detail.simulate' | translate }}</button>
+          <button mat-raised-button color="primary" (click)="complete()"><mat-icon>check_circle</mat-icon> {{ 'session-detail.complete' | translate }}</button>
+          <button mat-raised-button color="warn" (click)="abort()"><mat-icon>stop_circle</mat-icon> {{ 'session-detail.abort' | translate }}</button>
         }
       </div>
     }

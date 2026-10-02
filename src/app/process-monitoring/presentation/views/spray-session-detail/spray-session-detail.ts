@@ -15,6 +15,8 @@ import {TraceabilityStore} from '../../../../traceability/application/traceabili
 import {ParameterCard} from '../../components/parameter-card/parameter-card';
 import {ProcessReading} from '../../../domain/model/process-reading.entity';
 import {classify} from '../../../domain/model/band';
+import {MatDialog} from '@angular/material/dialog';
+import {AbortSessionDialog} from '../../components/abort-session-dialog/abort-session-dialog';
 
 @Component({
   selector: 'app-spray-session-detail',
@@ -39,6 +41,7 @@ export class SpraySessionDetail implements OnDestroy {
     return s ? this.equipment.recipeByNumber(s.hvofSystemId, s.recipeNumber)() : undefined;
   });
   readonly cards = computed(() => [...this.store.latestByParameter().values()]);
+
 
   constructor() {
     effect(() => {
@@ -84,5 +87,27 @@ export class SpraySessionDetail implements OnDestroy {
 
   ngOnDestroy() {
     this.store.clearReadings();
+  }
+
+  #dialog = inject(MatDialog);
+
+  complete() {
+    const s = this.session();
+    if (!s) return;
+    this.store.completeSession(s.id);
+  }
+
+  abort() {
+    const s = this.session();
+    if (!s) return;
+    this.#dialog.open(AbortSessionDialog).afterClosed().subscribe(reason => {
+      if (!reason) return;
+      this.store.abortSession(s.id, reason);
+      const recuperation = this.recuperation();
+      if (recuperation) {
+        recuperation.status = 'REWORK';
+        this.traceability.updateRecuperation(recuperation);
+      }
+    });
   }
 }
