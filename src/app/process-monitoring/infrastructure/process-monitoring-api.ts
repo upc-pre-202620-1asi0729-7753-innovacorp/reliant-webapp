@@ -6,6 +6,7 @@ import {SpraySessionsApiEndpoint} from './spray-sessions-api-endpoint';
 import {SpraySessionResource} from './spray-sessions-response';
 import {ProcessReading} from '../domain/model/process-reading.entity';
 import {ProcessReadingsApiEndpoint} from './process-readings-api-endpoint';
+import {forkJoin, map} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class ProcessMonitoringApi extends BaseApi {
@@ -34,5 +35,12 @@ export class ProcessMonitoringApi extends BaseApi {
 
   patchSession(id: number, changes: Partial<SpraySessionResource>): Observable<SpraySession> {
     return this.#sessionsEndpoint.patch(id, changes);
+  }
+
+  getDeviationCount(spraySessionId: number): Observable<number> {
+    return forkJoin([
+      this.#readingsEndpoint.getAllBy({spraySessionId, band: 'warning'}),
+      this.#readingsEndpoint.getAllBy({spraySessionId, band: 'shutdown'})
+    ]).pipe(map(([warning, shutdown]) => warning.length + shutdown.length));
   }
 }
