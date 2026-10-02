@@ -333,6 +333,41 @@
       "no-parameters": "Add at least one parameter"
     }
   },
+  "session-detail": {
+    "title": "Session",
+    "back": "Back to sessions",
+    "started": "Started",
+    "ended": "Ended",
+    "recipe": "Recipe",
+    "order": "Order",
+    "system": "System",
+    "operator": "Operator",
+    "readings": "readings",
+    "last-update": "Last update",
+    "live": "LIVE",
+    "no-readings": "No readings received yet.",
+    "setpoint": "SP",
+    "simulate": "Simulate reading",
+    "complete": "Complete",
+    "abort": "Abort",
+    "band": {
+      "nominal": "Nominal",
+      "out_of_nominal": "Out of nominal",
+      "warning": "Warning",
+      "shutdown": "Shutdown"
+    },
+    "parameter": {
+      "fuel_gas_flow": "Fuel gas flow",
+      "oxygen_flow": "Oxygen flow",
+      "cooling_air_flow": "Cooling air flow",
+      "powder_feed_rate": "Powder feed rate",
+      "carrier_gas_flow": "Carrier gas flow",
+      "hopper_pressure": "Hopper pressure",
+      "coolant_flow": "Coolant flow",
+      "coolant_outlet_temp": "Coolant outlet temp",
+      "spindle_speed": "Spindle speed"
+    }
+  },
   "page-not-found": {
     "title": "Page not found",
     "content": "The path <strong>{{ invalid_path }}</strong> is not valid.",

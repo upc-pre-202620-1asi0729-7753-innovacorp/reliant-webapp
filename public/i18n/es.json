@@ -333,6 +333,41 @@
       "no-parameters": "Agrega al menos un parámetro"
     }
   },
+  "session-detail": {
+    "title": "Sesión",
+    "back": "Volver a sesiones",
+    "started": "Inicio",
+    "ended": "Fin",
+    "recipe": "Receta",
+    "order": "Orden",
+    "system": "Sistema",
+    "operator": "Operador",
+    "readings": "lecturas",
+    "last-update": "Última actualización",
+    "live": "EN VIVO",
+    "no-readings": "Aún no se reciben lecturas.",
+    "setpoint": "SP",
+    "simulate": "Simular lectura",
+    "complete": "Completar",
+    "abort": "Abortar",
+    "band": {
+      "nominal": "Nominal",
+      "out_of_nominal": "Fuera de nominal",
+      "warning": "Advertencia",
+      "shutdown": "Parada"
+    },
+    "parameter": {
+      "fuel_gas_flow": "Flujo de combustible",
+      "oxygen_flow": "Flujo de oxígeno",
+      "cooling_air_flow": "Flujo de aire de enfriamiento",
+      "powder_feed_rate": "Alimentación de polvo",
+      "carrier_gas_flow": "Flujo de gas portador",
+      "hopper_pressure": "Presión de tolva",
+      "coolant_flow": "Flujo de refrigerante",
+      "coolant_outlet_temp": "Temp. salida refrigerante",
+      "spindle_speed": "Velocidad del husillo"
+    }
+  },
   "page-not-found": {
     "title": "Página no encontrada",
     "content": "La ruta <strong>{{ invalid_path }}</strong> es inválida.",
