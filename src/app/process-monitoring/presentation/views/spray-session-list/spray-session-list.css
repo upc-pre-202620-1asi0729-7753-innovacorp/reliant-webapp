@@ -1,0 +1,19 @@
+.title {
+  margin-bottom: 16px;
+}
+
+.mat-table {
+  width: 100%;
+}
+
+.status {
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-active      { background: #dbeafe; color: #1d4ed8; }
+.status-completed   { background: #dcfce7; color: #15803d; }
+.status-aborted     { background: #fee2e2; color: #b91c1c; }
+.status-interrupted { background: #ffedd5; color: #c2410c; }
