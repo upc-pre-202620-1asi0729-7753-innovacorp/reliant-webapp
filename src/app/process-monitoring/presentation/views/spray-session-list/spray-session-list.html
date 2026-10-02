@@ -1,3 +1,47 @@
 <div class="container-with-spacing">
-  <h1>{{'spray-sessions.list-title' | translate }} </h1>
+  <h1 class="title">{{ 'spray-sessions.list-title' | translate }}</h1>
+  @if (store.loading()) {
+    <mat-spinner diameter="40"></mat-spinner>
+  }
+  @if (store.error()) {
+    <mat-error>{{ store.error() }}</mat-error>
+  }
+  <table mat-table [dataSource]="dataSource()" class="mat-elevation-z8" matSort matSortActive="startedAt" matSortDirection="desc" matSortDisableClear>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'spray-sessions.id' | translate }}</th>
+      <td mat-cell *matCellDef="let s">{{ s.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="startedAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'spray-sessions.started-at' | translate }}</th>
+      <td mat-cell *matCellDef="let s">{{ s.startedAt | date:'yyyy-MM-dd HH:mm' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="hvofSystem">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.hvof-system' | translate }}</th>
+      <td mat-cell *matCellDef="let s">{{ systemCode(s.hvofSystemId) }}</td>
+    </ng-container>
+    <ng-container matColumnDef="recuperation">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.recuperation' | translate }}</th>
+      <td mat-cell *matCellDef="let s">{{ workOrder(s.recuperationId) }}</td>
+    </ng-container>
+    <ng-container matColumnDef="recipeNumber">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.recipe' | translate }}</th>
+      <td mat-cell *matCellDef="let s">#{{ s.recipeNumber }}</td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.status' | translate }}</th>
+      <td mat-cell *matCellDef="let s">
+        <span class="status status-{{ s.status }}">{{ ('spray-sessions.status-option.' + s.status) | translate }}</span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.actions' | translate }}</th>
+      <td mat-cell *matCellDef="let s">
+        <button mat-icon-button aria-label="{{ 'spray-sessions.open' | translate }}" (click)="openSession(s.id)"><mat-icon>monitoring</mat-icon></button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <button mat-raised-button color="primary" (click)="startSession()"><mat-icon>play_arrow</mat-icon> {{ 'spray-sessions.start' | translate }}</button>
 </div>
