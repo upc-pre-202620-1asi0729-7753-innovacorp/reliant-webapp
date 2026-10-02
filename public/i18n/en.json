@@ -248,7 +248,45 @@
       "NOZZLE": "Nozzle"
     }
   },
-  "spray-sessions": { "list-title": "Spray Sessions" },
+  "spray-sessions": {
+    "list-title": "Spray Sessions",
+    "id": "ID",
+    "started-at": "Started",
+    "ended-at": "Ended",
+    "hvof-system": "HVOF System",
+    "recuperation": "Order (WO)",
+    "recipe": "Recipe",
+    "status": "Status",
+    "deviations": "Deviations",
+    "actions": "Actions",
+    "start": "Start Session",
+    "open": "Open",
+    "filter-system": "HVOF System",
+    "filter-recuperation": "Order",
+    "filter-from": "From",
+    "filter-to": "To",
+    "clear-filters": "Clear",
+    "empty": "No sessions match the selected filters.",
+    "status-option": {
+      "active": "Active",
+      "completed": "Completed",
+      "aborted": "Aborted",
+      "interrupted": "Interrupted"
+    }
+  },
+  "spray-session": {
+    "start-title": "Start Spray Session",
+    "hvof-system": "HVOF System",
+    "recuperation": "Recuperation order",
+    "recipe": "Recipe",
+    "recipe-hint": "Only active recipes of the selected system",
+    "start": "Start Session",
+    "cancel": "Cancel",
+    "error": {
+      "required": "This field is required",
+      "no-active-recipes": "The selected system has no active recipes"
+    }
+  },
   "recipes": {
     "number": "#",
     "name": "Name",
