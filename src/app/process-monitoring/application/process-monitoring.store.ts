@@ -1,7 +1,7 @@
 import {computed, inject, Injectable, Signal, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Observable, retry} from 'rxjs';
-import {SpraySession} from '../domain/model/spray-session.entity';
+import {SpraySession, SpraySessionStatus} from '../domain/model/spray-session.entity';
 import {ProcessMonitoringApi} from '../infrastructure/process-monitoring-api';
 import {interval, Subscription, switchMap} from 'rxjs';
 import {ProcessReading} from '../domain/model/process-reading.entity';
@@ -137,5 +137,20 @@ export class ProcessMonitoringStore {
       next: created => this.#readingsSignal.update(list => [...list, created]),
       error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to send reading'))
     });
+  }
+
+  completeSession(id: number): void {
+    this.#finish(id, {status: 'completed', endedAt: new Date().toISOString()});
+  }
+
+  abortSession(id: number, reason: string): void {
+    this.#finish(id, {status: 'aborted', endedAt: new Date().toISOString(), abortReason: reason});
+  }
+
+  #finish(id: number, changes: {status: SpraySessionStatus; endedAt: string; abortReason?: string}): void {
+    this.#run(this.#api.patchSession(id, changes), updated => {
+      this.#sessionsSignal.update(list => list.map(s => s.id === updated.id ? updated : s));
+      this.stopPolling();
+    }, 'Failed to finish session');
   }
 }
