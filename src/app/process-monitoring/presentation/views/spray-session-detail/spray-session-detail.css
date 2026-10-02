@@ -1,0 +1,57 @@
+.header {
+  margin-bottom: 12px;
+}
+
+.title {
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.live {
+  font-size: .8rem;
+  color: #b91c1c;
+  animation: blink 1.2s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: .3; }
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.summary .dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.muted {
+  opacity: .6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.band-nominal        { background: #15803d; }
+.band-out_of_nominal { background: #ca8a04; }
+.band-warning        { background: #ea580c; }
+.band-shutdown       { background: #b91c1c; }
