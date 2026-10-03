@@ -11,12 +11,13 @@ import {FakeSignUpApiEndpoint} from './iam/infrastructure/fake-sign-up-api-endpo
 import {SIGN_IN_PORT} from './iam/infrastructure/sign-in.port';
 import {SignInApiEndpoint} from './iam/infrastructure/sign-in-api-endpoint';
 import {FakeSignInApiEndpoint} from './iam/infrastructure/fake-sign-in-api-endpoint';
+import { withInterceptors} from '@angular/common/http';
+import {iamInterceptor} from './iam/infrastructure/iam.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withXhr()),
-    provideTranslateService({
+    provideHttpClient(withXhr(), withInterceptors([iamInterceptor])),    provideTranslateService({
       loader: provideTranslateHttpLoader({ prefix: './i18n/', suffix: '.json' }),
       fallbackLang: 'en'
     }),
