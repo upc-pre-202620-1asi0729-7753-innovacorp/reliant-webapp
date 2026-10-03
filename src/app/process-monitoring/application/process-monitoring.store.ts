@@ -50,6 +50,17 @@ export class ProcessMonitoringStore {
     this.#loadSessions();
   }
 
+  readonly #deviationsSignal = signal<Map<number, number>>(new Map());
+  readonly deviations = this.#deviationsSignal.asReadonly();
+
+  loadDeviations(sessionId: number): void {
+    if (this.deviations().has(sessionId)) return;
+    this.#api.getDeviationCount(sessionId).subscribe({
+      next: count => this.#deviationsSignal.update(m => new Map(m).set(sessionId, count)),
+      error: () => this.#deviationsSignal.update(m => new Map(m).set(sessionId, -1))
+    });
+  }
+
   getSessionById(id: number): Signal<SpraySession | undefined> {
     return computed(() => id ? this.sessions().find(s => s.id === id) : undefined);
   }
