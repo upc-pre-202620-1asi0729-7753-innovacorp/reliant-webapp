@@ -8,6 +8,9 @@ import {environment} from '../environments/environment';
 import {SIGN_UP_PORT} from './iam/infrastructure/sign-up.port';
 import {SignUpApiEndpoint} from './iam/infrastructure/sign-up-api-endpoint';
 import {FakeSignUpApiEndpoint} from './iam/infrastructure/fake-sign-up-api-endpoint';
+import {SIGN_IN_PORT} from './iam/infrastructure/sign-in.port';
+import {SignInApiEndpoint} from './iam/infrastructure/sign-in-api-endpoint';
+import {FakeSignInApiEndpoint} from './iam/infrastructure/fake-sign-in-api-endpoint';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,6 +26,7 @@ export const appConfig: ApplicationConfig = {
       return translate.use('es');
     }),
     provideRouter(routes),
-    {provide: SIGN_UP_PORT, useClass: environment.production ? SignUpApiEndpoint : FakeSignUpApiEndpoint}
+    {provide: SIGN_UP_PORT, useClass: environment.production ? SignUpApiEndpoint : FakeSignUpApiEndpoint},
+    {provide: SIGN_IN_PORT, useClass: environment.production ? SignInApiEndpoint : FakeSignInApiEndpoint}
   ]
 };
