@@ -17,3 +17,20 @@
 .status-completed   { background: #dcfce7; color: #15803d; }
 .status-aborted     { background: #fee2e2; color: #b91c1c; }
 .status-interrupted { background: #ffedd5; color: #c2410c; }
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.filters mat-form-field {
+  flex: 0 1 200px;
+}
+
+.empty {
+  opacity: .7;
+  margin: 16px 0;
+}
