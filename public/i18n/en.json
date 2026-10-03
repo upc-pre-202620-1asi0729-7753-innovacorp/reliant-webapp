@@ -389,5 +389,48 @@
     "rights": "All rights reserved.",
     "powered-by": "Powered by",
     "and": "and"
+  },
+  "iam": {
+    "sign-up": {
+      "title": "Register your organization",
+      "organization-step": "Organization",
+      "admin-step": "Administrator",
+      "organization-name": "Organization name",
+      "ruc": "RUC",
+      "organization-type": "Organization type",
+      "supplier": "Recuperation Supplier",
+      "supplier-hint": "We operate HVOF systems and recover components for our customers",
+      "asset-owner": "Asset Owner",
+      "asset-owner-hint": "We own the components and send them to recuperation suppliers",
+      "full-name": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "next": "Next",
+      "back": "Back",
+      "submit": "Create organization",
+      "have-account": "Already registered?",
+      "sign-in-link": "Sign in"
+    },
+    "sign-in": {
+      "title": "Sign in",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "no-account": "New organization?",
+      "sign-up-link": "Register",
+      "failed": "Invalid email or password"
+    },
+    "section": {
+      "welcome": "Hi, {{ name }}",
+      "sign-in": "Sign in",
+      "sign-up": "Register",
+      "sign-out": "Sign out"
+    },
+    "error": {
+      "required": "This field is required",
+      "email": "Enter a valid email",
+      "ruc": "RUC must have 11 digits",
+      "password-min": "At least 8 characters"
+    }
   }
 }
