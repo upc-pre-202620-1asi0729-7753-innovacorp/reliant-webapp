@@ -389,5 +389,48 @@
     "rights": "Todos los derechos reservados.",
     "powered-by": "Desarrollado con",
     "and": "y"
+  },
+  "iam": {
+    "sign-up": {
+      "title": "Registra tu organización",
+      "organization-step": "Organización",
+      "admin-step": "Administrador",
+      "organization-name": "Nombre de la organización",
+      "ruc": "RUC",
+      "organization-type": "Tipo de organización",
+      "supplier": "Recuperation Supplier",
+      "supplier-hint": "Operamos sistemas HVOF y recuperamos componentes para nuestros clientes",
+      "asset-owner": "Asset Owner",
+      "asset-owner-hint": "Somos dueños de los componentes y los enviamos a proveedores de recuperación",
+      "full-name": "Nombre completo",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "next": "Siguiente",
+      "back": "Atrás",
+      "submit": "Crear organización",
+      "have-account": "¿Ya estás registrado?",
+      "sign-in-link": "Inicia sesión"
+    },
+    "sign-in": {
+      "title": "Iniciar sesión",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Ingresar",
+      "no-account": "¿Organización nueva?",
+      "sign-up-link": "Regístrate",
+      "failed": "Correo o contraseña inválidos"
+    },
+    "section": {
+      "welcome": "Hola, {{ name }}",
+      "sign-in": "Ingresar",
+      "sign-up": "Registrarse",
+      "sign-out": "Salir"
+    },
+    "error": {
+      "required": "Este campo es obligatorio",
+      "email": "Ingresa un correo válido",
+      "ruc": "El RUC debe tener 11 dígitos",
+      "password-min": "Mínimo 8 caracteres"
+    }
   }
 }
