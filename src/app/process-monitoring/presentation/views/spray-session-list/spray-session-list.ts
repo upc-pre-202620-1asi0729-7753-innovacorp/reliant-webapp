@@ -21,7 +21,7 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-spray-session-list',
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule,
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule, MatInputModule,
     MatError, MatProgressSpinner, MatPaginator, MatSort, MatSortHeader, TranslatePipe, DatePipe, FormsModule],
   providers: [provideNativeDateAdapter()],
   templateUrl: './spray-session-list.html',
