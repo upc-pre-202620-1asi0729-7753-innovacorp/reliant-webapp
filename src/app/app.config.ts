@@ -4,6 +4,10 @@ import {routes} from './app.routes';
 import {provideTranslateService, TranslateService} from '@ngx-translate/core';
 import {provideTranslateHttpLoader} from '@ngx-translate/http-loader';
 import {provideHttpClient, withXhr} from '@angular/common/http';
+import {environment} from '../environments/environment';
+import {SIGN_UP_PORT} from './iam/infrastructure/sign-up.port';
+import {SignUpApiEndpoint} from './iam/infrastructure/sign-up-api-endpoint';
+import {FakeSignUpApiEndpoint} from './iam/infrastructure/fake-sign-up-api-endpoint';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +22,7 @@ export const appConfig: ApplicationConfig = {
       translate.addLangs(['en', 'es']);
       return translate.use('es');
     }),
-    provideRouter(routes)
+    provideRouter(routes),
+    {provide: SIGN_UP_PORT, useClass: environment.production ? SignUpApiEndpoint : FakeSignUpApiEndpoint}
   ]
 };
