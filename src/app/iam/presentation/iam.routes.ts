@@ -1,8 +1,11 @@
 import {Routes} from '@angular/router';
 
-const signUpForm = () => import('./views/sign-up-form/sign-up-form').then(m => m.SignUpForm);
 const baseTitle = 'Reliant';
 
+const signUpForm = () => import('./views/sign-up-form/sign-up-form').then(m => m.SignUpForm);
+const signInForm = () => import('./views/sign-in-form/sign-in-form').then(m => m.SignInForm);
+
 export const iamRoutes: Routes = [
-  { path: 'sign-up', loadComponent: signUpForm, title: `${baseTitle} - Sign Up` }
+  { path: 'sign-up', loadComponent: signUpForm, title: `${baseTitle} - Sign Up` },
+  {path: 'sign-in', loadComponent: signInForm, title: `${baseTitle} - Sign In` },
 ];

@@ -17,6 +17,16 @@ interface StoredSession {
   roleIds: number[];
 }
 
+function restoreSession(): StoredSession | null {
+  const raw = localStorage.getItem(SESSION_KEY);
+  if (!raw || !localStorage.getItem(TOKEN_KEY)) return null;
+  try {
+    return JSON.parse(raw) as StoredSession;
+  } catch {
+    return null;
+  }
+}
+
 export const ROLE = {
   ORG_ADMIN: 1,
   QUALITY_ENGINEER: 2,
@@ -32,8 +42,7 @@ export class IamStore {
   readonly #iamApi = inject(IamApi);
   readonly #router = inject(Router);
 
-  readonly #sessionSignal = signal<StoredSession | null>(IamStore.#restore());
-  readonly #errorSignal = signal<string | null>(null);
+  readonly #sessionSignal = signal<StoredSession | null>(restoreSession());  readonly #errorSignal = signal<string | null>(null);
   readonly error = this.#errorSignal.asReadonly();
 
   readonly isSignedIn = computed(() => this.#sessionSignal() !== null);
@@ -100,13 +109,5 @@ export class IamStore {
     this.#sessionSignal.set(null);
   }
 
-  static #restore(): StoredSession | null {
-    const raw = localStorage.getItem(SESSION_KEY);
-    if (!raw || !localStorage.getItem(TOKEN_KEY)) return null;
-    try {
-      return JSON.parse(raw) as StoredSession;
-    } catch {
-      return null;
-    }
-  }
+
 }
