@@ -6,6 +6,7 @@ const pageNotFound = () => import('./shared/presentation/views/page-not-found/pa
 const traceabilityRoutes = () => import('./traceability/presentation/traceability.routes').then(m => m.traceabilityRoutes);
 const equipmentRoutes = () => import('./equipment/presentation/equipment.routes').then(m => m.equipmentRoutes);
 const processMonitoringRoutes = () => import('./process-monitoring/presentation/process-monitoring.routes').then(m => m.processMonitoringRoutes);
+const iamRoutes = () => import('./iam/presentation/iam.routes').then(m => m.iamRoutes);
 const baseTitle = 'Reliant';
 
 export const routes: Routes = [
@@ -14,6 +15,7 @@ export const routes: Routes = [
   { path: 'traceability',       loadChildren:  traceabilityRoutes },
   { path: 'equipment',          loadChildren:  equipmentRoutes },
   { path: 'process-monitoring', loadChildren:  processMonitoringRoutes },
+  { path: 'iam',                loadChildren:  iamRoutes },
   { path: '',                   redirectTo:    '/home', pathMatch: 'full' },
-  { path: '**',                 loadComponent: pageNotFound,             title: `${baseTitle} - Page Not Found` },
+  { path: '**',                 loadComponent: pageNotFound,             title: `${baseTitle} - Page Not Found` }
 ];
