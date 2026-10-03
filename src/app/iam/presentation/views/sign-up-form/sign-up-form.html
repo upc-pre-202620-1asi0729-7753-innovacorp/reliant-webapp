@@ -1,0 +1,71 @@
+<div class="container-with-spacing auth">
+  <mat-card appearance="outlined" class="auth-card">
+    <mat-card-header><mat-card-title>{{ 'iam.sign-up.title' | translate }}</mat-card-title></mat-card-header>
+    <mat-card-content>
+      <mat-stepper linear #stepper>
+        <mat-step [stepControl]="organizationForm" [label]="'iam.sign-up.organization-step' | translate">
+          <form [formGroup]="organizationForm" class="form">
+            <mat-form-field>
+              <mat-label>{{ 'iam.sign-up.organization-name' | translate }}</mat-label>
+              <input matInput formControlName="organizationName" required>
+              @if (isInvalidControl(organizationForm, 'organizationName')) {
+                <mat-error>{{ 'iam.error.required' | translate }}</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ 'iam.sign-up.ruc' | translate }}</mat-label>
+              <input matInput formControlName="ruc" maxlength="11" required>
+              @if (isInvalidControl(organizationForm, 'ruc')) {
+                <mat-error>{{ 'iam.error.ruc' | translate }}</mat-error>
+              }
+            </mat-form-field>
+            <p class="label">{{ 'iam.sign-up.organization-type' | translate }}</p>
+            <mat-radio-group formControlName="organizationType" class="type-group">
+              <mat-radio-button value="RECUPERATION_SUPPLIER" class="type-option">
+                <strong>{{ 'iam.sign-up.supplier' | translate }}</strong>
+                <div class="hint">{{ 'iam.sign-up.supplier-hint' | translate }}</div>
+              </mat-radio-button>
+              <mat-radio-button value="ASSET_OWNER" class="type-option">
+                <strong>{{ 'iam.sign-up.asset-owner' | translate }}</strong>
+                <div class="hint">{{ 'iam.sign-up.asset-owner-hint' | translate }}</div>
+              </mat-radio-button>
+            </mat-radio-group>
+            <div class="actions">
+              <button mat-raised-button color="primary" matStepperNext [disabled]="organizationForm.invalid">{{ 'iam.sign-up.next' | translate }}</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="adminForm" [label]="'iam.sign-up.admin-step' | translate">
+          <form [formGroup]="adminForm" class="form" (ngSubmit)="submit()">
+            <mat-form-field>
+              <mat-label>{{ 'iam.sign-up.full-name' | translate }}</mat-label>
+              <input matInput formControlName="fullName" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ 'iam.sign-up.email' | translate }}</mat-label>
+              <input matInput type="email" formControlName="email" required>
+              @if (isInvalidControl(adminForm, 'email')) {
+                <mat-error>{{ 'iam.error.email' | translate }}</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ 'iam.sign-up.password' | translate }}</mat-label>
+              <input matInput type="password" formControlName="password" required>
+              @if (isInvalidControl(adminForm, 'password')) {
+                <mat-error>{{ 'iam.error.password-min' | translate }}</mat-error>
+              }
+            </mat-form-field>
+            @if (store.error()) {
+              <mat-error>{{ store.error() }}</mat-error>
+            }
+            <div class="actions">
+              <button mat-button type="button" matStepperPrevious>{{ 'iam.sign-up.back' | translate }}</button>
+              <button mat-raised-button color="primary" type="submit" [disabled]="adminForm.invalid">{{ 'iam.sign-up.submit' | translate }}</button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-stepper>
+      <p class="switch">{{ 'iam.sign-up.have-account' | translate }} <a routerLink="/iam/sign-in">{{ 'iam.sign-up.sign-in-link' | translate }}</a></p>
+    </mat-card-content>
+  </mat-card>
+</div>
