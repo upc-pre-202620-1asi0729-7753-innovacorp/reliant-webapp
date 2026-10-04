@@ -1,0 +1,31 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ 'billing.plans-title' | translate }}</h1>
+  <p class="hint">{{ 'billing.plans-hint' | translate }}</p>
+  @if (store.error()) { <mat-error>{{ store.error() }}</mat-error> }
+  <div class="plans">
+    @for (plan of store.plans(); track plan.id) {
+      <mat-card appearance="outlined" class="plan" [class.disabled]="plan.planType !== store.allowedPlanType()">
+        <mat-card-header>
+          <mat-card-title>{{ plan.name }}</mat-card-title>
+          <mat-card-subtitle>{{ plan.planType }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="price">{{ plan.monthlyPriceAmount | currency:plan.monthlyPriceCurrency }} <span>{{ 'billing.per-month' | translate }}</span></div>
+          <ul>
+            @if (plan.maxMonitoredSystems > 0) { <li><mat-icon>precision_manufacturing</mat-icon> {{ plan.maxMonitoredSystems }} {{ 'billing.monitored-systems' | translate }}</li> }
+            @if (plan.maxTrackedComponents > 0) { <li><mat-icon>inventory_2</mat-icon> {{ plan.maxTrackedComponents }} {{ 'billing.tracked-components' | translate }}</li> }
+          </ul>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          @if (store.currentPlan()?.id === plan.id) {
+            <button mat-stroked-button disabled><mat-icon>check</mat-icon> {{ 'billing.current' | translate }}</button>
+          } @else if (store.canSelect(plan)) {
+            <button mat-raised-button color="primary" (click)="select(plan)">{{ 'billing.select' | translate }}</button>
+          } @else {
+            <span class="na">{{ 'billing.not-available' | translate }}</span>
+          }
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+</div>

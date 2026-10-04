@@ -1,0 +1,12 @@
+@if (store.isSignedIn()) {
+  <button mat-button [matMenuTriggerFor]="menu">
+    <mat-icon>account_circle</mat-icon> {{ 'iam.section.welcome' | translate: { name: store.fullName() } }}
+  </button>
+  <mat-menu #menu="matMenu">
+    <div class="menu-meta">{{ store.email() }}<br><small>{{ store.organizationType() }}</small></div>
+    <button mat-menu-item (click)="performSignOut()"><mat-icon>logout</mat-icon> {{ 'iam.section.sign-out' | translate }}</button>
+  </mat-menu>
+} @else {
+  <button mat-button (click)="performSignIn()">{{ 'iam.section.sign-in' | translate }}</button>
+  <button mat-stroked-button (click)="performSignUp()">{{ 'iam.section.sign-up' | translate }}</button>
+}

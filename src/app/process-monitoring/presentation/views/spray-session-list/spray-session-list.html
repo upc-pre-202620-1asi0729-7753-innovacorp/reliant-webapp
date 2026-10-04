@@ -1,0 +1,89 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ 'spray-sessions.list-title' | translate }}</h1>
+
+  <div class="filters">
+    <mat-form-field>
+      <mat-label>{{ 'spray-sessions.filter-system' | translate }}</mat-label>
+      <mat-select [ngModel]="filterSystemId()" (ngModelChange)="filterSystemId.set($event)">
+        <mat-option [value]="null">—</mat-option>
+        @for (s of equipment.hvofSystems(); track s.id) {
+          <mat-option [value]="s.id">{{ s.code }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'spray-sessions.filter-recuperation' | translate }}</mat-label>
+      <mat-select [ngModel]="filterRecuperationId()" (ngModelChange)="filterRecuperationId.set($event)">
+        <mat-option [value]="null">—</mat-option>
+        @for (r of traceability.recuperations(); track r.id) {
+          <mat-option [value]="r.id">{{ r.workOrderNumber }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'spray-sessions.filter-from' | translate }}</mat-label>
+      <input matInput [matDatepicker]="fromPicker" [ngModel]="filterFrom()" (ngModelChange)="filterFrom.set($event)">
+      <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fromPicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'spray-sessions.filter-to' | translate }}</mat-label>
+      <input matInput [matDatepicker]="toPicker" [ngModel]="filterTo()" (ngModelChange)="filterTo.set($event)">
+      <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+      <mat-datepicker #toPicker></mat-datepicker>
+    </mat-form-field>
+    <button mat-button (click)="clearFilters()"><mat-icon>filter_alt_off</mat-icon> {{ 'spray-sessions.clear-filters' | translate }}</button>
+  </div>
+  @if (filtered().length === 0 && !store.loading()) {
+    <p class="empty">{{ 'spray-sessions.empty' | translate }}</p>
+  }
+
+  @if (store.loading()) {
+    <mat-spinner diameter="40"></mat-spinner>
+  }
+  @if (store.error()) {
+    <mat-error>{{ store.error() }}</mat-error>
+  }
+  <table mat-table [dataSource]="dataSource()" class="mat-elevation-z8" matSort matSortActive="startedAt" matSortDirection="desc" matSortDisableClear>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'spray-sessions.id' | translate }}</th>
+      <td mat-cell *matCellDef="let s">{{ s.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="startedAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'spray-sessions.started-at' | translate }}</th>
+      <td mat-cell *matCellDef="let s">{{ s.startedAt | date:'yyyy-MM-dd HH:mm' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="hvofSystem">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.hvof-system' | translate }}</th>
+      <td mat-cell *matCellDef="let s">{{ systemCode(s.hvofSystemId) }}</td>
+    </ng-container>
+    <ng-container matColumnDef="recuperation">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.recuperation' | translate }}</th>
+      <td mat-cell *matCellDef="let s">{{ workOrder(s.recuperationId) }}</td>
+    </ng-container>
+    <ng-container matColumnDef="recipeNumber">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.recipe' | translate }}</th>
+      <td mat-cell *matCellDef="let s">#{{ s.recipeNumber }}</td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.status' | translate }}</th>
+      <td mat-cell *matCellDef="let s">
+        <span class="status status-{{ s.status }}">{{ ('spray-sessions.status-option.' + s.status) | translate }}</span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="deviations">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.deviations' | translate }}</th>
+      <td mat-cell *matCellDef="let s">{{ deviationsOf(s.id) }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.actions' | translate }}</th>
+      <td mat-cell *matCellDef="let s">
+        <button mat-icon-button aria-label="{{ 'spray-sessions.open' | translate }}" (click)="openSession(s.id)"><mat-icon>monitoring</mat-icon></button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <button mat-raised-button color="primary" (click)="startSession()"><mat-icon>play_arrow</mat-icon> {{ 'spray-sessions.start' | translate }}</button>
+</div>

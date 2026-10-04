@@ -5,6 +5,12 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+@include mat.core();
+
+:root {
+  @include mat.toolbar-overrides((container-background-color: slategray, container-text-color: white));
+}
+
 html {
   height: 100%;
   @include mat.theme(

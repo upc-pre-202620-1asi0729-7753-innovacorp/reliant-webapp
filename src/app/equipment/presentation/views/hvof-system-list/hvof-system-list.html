@@ -1,0 +1,42 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ 'hvof-systems.list-title' | translate }}</h1>
+  @if (store.loading()) {
+    <mat-spinner diameter="40"></mat-spinner>
+  }
+  @if (store.error()) {
+    <mat-error>{{ store.error() }}</mat-error>
+  }
+  <table mat-table [dataSource]="dataSource()" class="mat-elevation-z8" matSort matSortActive="code" matSortDirection="asc" matSortDisableClear>
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'hvof-systems.code' | translate }}</th>
+      <td mat-cell *matCellDef="let s"> {{ s.code }} </td>
+    </ng-container>
+    <ng-container matColumnDef="systemManufacturer">
+      <th mat-header-cell *matHeaderCellDef>{{ 'hvof-systems.manufacturer' | translate }}</th>
+      <td mat-cell *matCellDef="let s"> {{ s.systemManufacturer }} </td>
+    </ng-container>
+    <ng-container matColumnDef="systemModel">
+      <th mat-header-cell *matHeaderCellDef>{{ 'hvof-systems.model' | translate }}</th>
+      <td mat-cell *matCellDef="let s"> {{ s.systemModel }} </td>
+    </ng-container>
+    <ng-container matColumnDef="fuelType">
+      <th mat-header-cell *matHeaderCellDef>{{ 'hvof-systems.fuel-type' | translate }}</th>
+      <td mat-cell *matCellDef="let s"> {{ ('hvof-system.fuel-option.' + s.fuelType) | translate }} </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>{{ 'hvof-systems.status' | translate }}</th>
+      <td mat-cell *matCellDef="let s"> {{ ('hvof-system.status-option.' + s.status) | translate }} </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>{{ 'hvof-systems.actions' | translate }}</th>
+      <td mat-cell *matCellDef="let s">
+        <button mat-icon-button aria-label="{{ 'hvof-systems.view' | translate }}" (click)="viewSystem(s.id)"><mat-icon>visibility</mat-icon></button>
+        <button mat-icon-button aria-label="{{ 'hvof-systems.edit' | translate }}" (click)="editSystem(s.id)"><mat-icon>edit</mat-icon></button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <button mat-raised-button color="primary" (click)="navigateToNew()">{{ 'hvof-systems.new' | translate }}</button>
+</div>

@@ -1,0 +1,479 @@
+{
+  "option": {
+    "home": "Home",
+    "recuperations": "Recuperations",
+    "components": "Components",
+    "customers": "Customers",
+    "hvof-systems": "HVOF Systems",
+    "spray-sessions": "Spray Sessions",
+    "about": "About Us",
+    "users":"Users",
+    "subscription": "Subscription"
+  },
+  "home": {
+    "title": "Welcome to Reliant",
+    "content": "Traceability and process monitoring for HVOF component recovery."
+  },
+  "about": {
+    "title": "About us",
+    "content": "Reliant is a platform by InnovaCorp that traces every HVOF spray session back to the recovered component and its customer."
+  },
+  "customers": {
+    "list-title": "Customers",
+    "id": "ID",
+    "legal-name": "Legal name",
+    "ruc": "RUC",
+    "mine-site": "Mine site",
+    "actions": "Actions",
+    "new": "New Customer",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "customer": {
+    "new-title": "New Customer",
+    "edit-title": "Edit Customer",
+    "legal-name": "Legal name",
+    "ruc": "RUC",
+    "mine-site": "Mine site",
+    "create": "Create Customer",
+    "update": "Update Customer",
+    "cancel": "Cancel",
+    "error": {
+      "legal-name-required": "Legal name is required",
+      "ruc-invalid": "RUC must have 11 digits"
+    }
+  },
+  "components": {
+    "list-title": "Components",
+    "serial-number": "Serial number",
+    "part-number": "Part number",
+    "type": "Type",
+    "machine": "Machine",
+    "customer": "Customer",
+    "pcr-target-hours": "PCR target (h)",
+    "status": "Status",
+    "actions": "Actions",
+    "new": "New Component",
+    "edit": "Edit"
+  },
+  "component": {
+    "new-title": "New Component",
+    "edit-title": "Edit Component",
+    "serial-number": "Serial number",
+    "part-number": "Part number",
+    "type": "Component type",
+    "machine-manufacturer": "Machine manufacturer",
+    "machine-model": "Machine model",
+    "customer": "Customer",
+    "pcr-target-hours": "PCR target hours",
+    "create": "Create Component",
+    "update": "Update Component",
+    "cancel": "Cancel",
+    "type-option": {
+      "HYDRAULIC_ROD": "Hydraulic rod",
+      "CYLINDER_BLOCK": "Cylinder block",
+      "SHAFT": "Shaft",
+      "IMPELLER": "Impeller",
+      "OTHER": "Other"
+    },
+    "status-option": {
+      "RECEIVED": "Received",
+      "IN_RECUPERATION": "In recuperation",
+      "IN_SERVICE": "In service",
+      "RETURNED": "Returned",
+      "SCRAPPED": "Scrapped"
+    },
+    "error": {
+      "required": "This field is required",
+      "pcr-min": "PCR target must be greater than 0"
+    }
+  },
+  "recuperations": {
+    "list-title": "Recuperations",
+    "work-order": "WO",
+    "manufacturing-order": "OF",
+    "component": "Component",
+    "customer": "Customer",
+    "status": "Status",
+    "received-at": "Received",
+    "actions": "Actions",
+    "new": "New Recuperation",
+    "edit": "Edit"
+  },
+  "recuperation": {
+    "new-title": "New Recuperation",
+    "edit-title": "Edit Recuperation",
+    "component": "Component",
+    "customer": "Customer",
+    "work-order": "Work order (WO)",
+    "manufacturing-order": "Manufacturing order (OF)",
+    "segment": "Segment",
+    "operation": "Operation",
+    "weight": "Weight",
+    "weight-unit": "Unit",
+    "hourmeter": "Hourmeter at entry (h)",
+    "powder-supplier": "Powder supplier",
+    "powder-lot": "Powder lot",
+    "powder-composition": "Powder composition",
+    "received-at": "Received at",
+    "create": "Create Recuperation",
+    "update": "Update Recuperation",
+    "cancel": "Cancel",
+    "status-option": {
+      "RECEIVED": "Received",
+      "IN_PROGRESS": "In progress",
+      "COMPLETED": "Completed",
+      "DELIVERED": "Delivered",
+      "REWORK": "Rework"
+    },
+    "error": {
+      "required": "This field is required"
+    }
+  },
+  "hvof-systems": {
+    "list-title": "HVOF Systems",
+    "code": "Code",
+    "manufacturer": "Manufacturer",
+    "model": "Model",
+    "fuel-type": "Fuel",
+    "status": "Status",
+    "actions": "Actions",
+    "new": "New HVOF System",
+    "edit": "Edit",
+    "view": "View"
+  },
+  "hvof-system": {
+    "new-title": "New HVOF System",
+    "edit-title": "Edit HVOF System",
+    "code": "Code",
+    "serial-number": "Serial number",
+    "manufacturer": "System manufacturer",
+    "model": "System model",
+    "fuel-type": "Fuel type",
+    "create": "Create HVOF System",
+    "update": "Update HVOF System",
+    "cancel": "Cancel",
+    "tab-controllers": "Controllers",
+    "tab-subsystems": "Subsystems",
+    "tab-recipes": "Recipes",
+    "back": "Back to list",
+    "fuel-option": {
+      "HYDROGEN": "Hydrogen",
+      "PROPANE": "Propane",
+      "KEROSENE": "Kerosene",
+      "NATURAL_GAS": "Natural gas"
+    },
+    "status-option": {
+      "ACTIVE": "Active",
+      "MAINTENANCE": "Maintenance",
+      "OUT_OF_SERVICE": "Out of service"
+    },
+    "error": { "required": "This field is required" }
+  },
+  "controllers": {
+    "number": "#",
+    "device-type": "Device",
+    "manufacturer": "Manufacturer",
+    "model": "Model",
+    "ip-address": "IP address",
+    "protocols": "Protocols",
+    "actions": "Actions",
+    "new": "New Controller",
+    "edit": "Edit",
+    "empty": "No controllers registered yet."
+  },
+  "controller": {
+    "new-title": "New Controller",
+    "edit-title": "Edit Controller",
+    "device-type": "Device type",
+    "manufacturer": "Manufacturer",
+    "model": "Model",
+    "part-number": "Part number",
+    "serial-number": "Serial number",
+    "ip-address": "IP address",
+    "port": "Port",
+    "rack": "Rack",
+    "slot": "Slot",
+    "protocols": "Supported protocols",
+    "create": "Create Controller",
+    "update": "Update Controller",
+    "cancel": "Cancel",
+    "error": {
+      "required": "This field is required",
+      "ip-invalid": "Enter a valid IPv4 address"
+    }
+  },
+  "subsystems": {
+    "new": "New Subsystem",
+    "edit": "Edit",
+    "empty": "No subsystems registered yet.",
+    "parameters": "Parameters",
+    "parts": "Parts",
+    "new-part": "New Part",
+    "delete-part": "Delete part",
+    "no-parts": "No parts registered."
+  },
+  "subsystem": {
+    "new-title": "New Subsystem",
+    "edit-title": "Edit Subsystem",
+    "type": "Subsystem type",
+    "name": "Name",
+    "alias": "Alias (as in the controller)",
+    "parameters": "Parameters (press Enter after each one)",
+    "create": "Create Subsystem",
+    "update": "Update Subsystem",
+    "cancel": "Cancel",
+    "type-option": {
+      "GAS_CONSOLE": "Gas console",
+      "POWDER_FEEDER": "Powder feeder",
+      "COOLING_UNIT": "Cooling unit",
+      "MANIPULATOR": "Manipulator",
+      "DUST_COLLECTOR": "Dust collector",
+      "SPRAY_GUN": "Spray gun"
+    }
+  },
+  "part": {
+    "new-title": "New Part",
+    "type": "Part type",
+    "serial-number": "Serial number",
+    "manufacturer": "Manufacturer",
+    "create": "Create Part",
+    "cancel": "Cancel",
+    "type-option": {
+      "MASS_FLOW_CONTROLLER": "Mass flow controller",
+      "HOPPER": "Hopper",
+      "CARRIER_GAS_MFC": "Carrier gas MFC",
+      "COOLANT_PUMP": "Coolant pump",
+      "TEMPERATURE_SENSOR": "Temperature sensor",
+      "SPINDLE_VFD": "Spindle VFD",
+      "AXIS_DRIVE": "Axis drive",
+      "NOZZLE": "Nozzle"
+    }
+  },
+  "spray-sessions": {
+    "list-title": "Spray Sessions",
+    "id": "ID",
+    "started-at": "Started",
+    "ended-at": "Ended",
+    "hvof-system": "HVOF System",
+    "recuperation": "Order (WO)",
+    "recipe": "Recipe",
+    "status": "Status",
+    "deviations": "Deviations",
+    "actions": "Actions",
+    "start": "Start Session",
+    "open": "Open",
+    "filter-system": "HVOF System",
+    "filter-recuperation": "Order",
+    "filter-from": "From",
+    "filter-to": "To",
+    "clear-filters": "Clear",
+    "empty": "No sessions match the selected filters.",
+    "status-option": {
+      "active": "Active",
+      "completed": "Completed",
+      "aborted": "Aborted",
+      "interrupted": "Interrupted"
+    }
+  },
+  "spray-session": {
+    "start-title": "Start Spray Session",
+    "hvof-system": "HVOF System",
+    "recuperation": "Recuperation order",
+    "recipe": "Recipe",
+    "recipe-hint": "Only active recipes of the selected system",
+    "start": "Start Session",
+    "cancel": "Cancel",
+    "error": {
+      "required": "This field is required",
+      "no-active-recipes": "The selected system has no active recipes"
+    }
+  },
+  "recipes": {
+    "number": "#",
+    "name": "Name",
+    "powder": "Powder",
+    "status": "Status",
+    "parameters": "Parameters",
+    "actions": "Actions",
+    "new": "New Recipe",
+    "edit": "Edit",
+    "publish": "Publish",
+    "empty": "No recipes defined yet.",
+    "status-option": { "DRAFT": "Draft", "ACTIVE": "Active", "RETIRED": "Retired" }
+  },
+  "recipe": {
+    "new-title": "New Recipe",
+    "edit-title": "Edit Recipe",
+    "number": "Recipe number",
+    "name": "Name",
+    "powder": "Powder specification",
+    "applicabilities": "Applicable components",
+    "component-type": "Component type",
+    "machine-model": "Machine model",
+    "position": "Position",
+    "add-applicability": "Add component",
+    "parameters": "Parameters and threshold bands",
+    "parameter": "Parameter",
+    "setpoint": "Setpoint",
+    "lsd": "Lower shutdown",
+    "law": "Lower warning",
+    "nmin": "Nominal min",
+    "nmax": "Nominal max",
+    "haw": "Upper warning",
+    "hsd": "Upper shutdown",
+    "unit": "Unit",
+    "unit-category": "Category",
+    "add-parameter": "Add parameter",
+    "remove": "Remove",
+    "create": "Create Recipe",
+    "update": "Update Recipe",
+    "cancel": "Cancel",
+    "error": {
+      "required": "This field is required",
+      "order": "Thresholds must satisfy LSD < LAW < min ≤ setpoint ≤ max < HAW < HSD",
+      "no-parameters": "Add at least one parameter"
+    }
+  },
+  "session-detail": {
+    "title": "Session",
+    "back": "Back to sessions",
+    "started": "Started",
+    "ended": "Ended",
+    "recipe": "Recipe",
+    "order": "Order",
+    "system": "System",
+    "operator": "Operator",
+    "readings": "readings",
+    "last-update": "Last update",
+    "live": "LIVE",
+    "no-readings": "No readings received yet.",
+    "setpoint": "SP",
+    "simulate": "Simulate reading",
+    "complete": "Complete",
+    "abort": "Abort",
+    "band": {
+      "nominal": "Nominal",
+      "out_of_nominal": "Out of nominal",
+      "warning": "Warning",
+      "shutdown": "Shutdown"
+    },
+    "abort-title": "Abort session",
+    "abort-reason": "Reason",
+    "abort-notes": "Notes (optional)",
+    "abort-confirm": "Abort session",
+    "abort-cancel": "Keep running",
+    "abort-reason-option": {
+      "FLAME_OUT": "Flame out",
+      "POWDER_DEPLETED": "Powder depleted",
+      "MACHINE_FAULT": "Machine fault",
+      "OPERATOR_DECISION": "Operator decision",
+      "OTHER": "Other"
+    },
+    "parameter": {
+      "fuel_gas_flow": "Fuel gas flow",
+      "oxygen_flow": "Oxygen flow",
+      "cooling_air_flow": "Cooling air flow",
+      "powder_feed_rate": "Powder feed rate",
+      "carrier_gas_flow": "Carrier gas flow",
+      "hopper_pressure": "Hopper pressure",
+      "coolant_flow": "Coolant flow",
+      "coolant_outlet_temp": "Coolant outlet temp",
+      "spindle_speed": "Spindle speed"
+    }
+  },
+  "page-not-found": {
+    "title": "Page not found",
+    "content": "The path <strong>{{ invalid_path }}</strong> is not valid.",
+    "go-home": "Go Home"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "powered-by": "Powered by",
+    "and": "and"
+  },
+  "iam": {
+    "sign-up": {
+      "title": "Register your organization",
+      "organization-step": "Organization",
+      "admin-step": "Administrator",
+      "organization-name": "Organization name",
+      "ruc": "RUC",
+      "organization-type": "Organization type",
+      "supplier": "Recuperation Supplier",
+      "supplier-hint": "We operate HVOF systems and recover components for our customers",
+      "asset-owner": "Asset Owner",
+      "asset-owner-hint": "We own the components and send them to recuperation suppliers",
+      "full-name": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "next": "Next",
+      "back": "Back",
+      "submit": "Create organization",
+      "have-account": "Already registered?",
+      "sign-in-link": "Sign in"
+    },
+    "sign-in": {
+      "title": "Sign in",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "no-account": "New organization?",
+      "sign-up-link": "Register",
+      "failed": "Invalid email or password"
+    },
+    "section": {
+      "welcome": "Hi, {{ name }}",
+      "sign-in": "Sign in",
+      "sign-up": "Register",
+      "sign-out": "Sign out"
+    },
+    "error": {
+      "required": "This field is required",
+      "email": "Enter a valid email",
+      "ruc": "RUC must have 11 digits",
+      "password-min": "At least 8 characters"
+    },
+    "users": {
+      "list-title": "Users and roles",
+      "name": "Name",
+      "email": "Email",
+      "roles": "Roles",
+      "status": "Status",
+      "actions": "Actions",
+      "edit-roles": "Edit roles",
+      "roles-title": "Roles of {{ name }}",
+      "save": "Save roles",
+      "cancel": "Cancel",
+      "role-option": {
+        "ROLE_ORG_ADMIN": "Organization admin",
+        "ROLE_QUALITY_ENGINEER": "Quality & research engineer",
+        "ROLE_MAINTENANCE_SUPERVISOR": "Machine maintenance supervisor",
+        "ROLE_HVOF_OPERATOR": "HVOF operator",
+        "ROLE_OPERATIONS_SUPERVISOR": "Operations supervisor",
+        "ROLE_RELIABILITY_ENGINEER": "Reliability engineer",
+        "ROLE_PROCUREMENT_ANALYST": "Procurement analyst"
+      }
+    }
+  },
+  "billing": {
+    "plans-title": "Choose your plan",
+    "plans-hint": "Only the plan that matches your organization type can be selected.",
+    "per-month": "/ month",
+    "monitored-systems": "monitored HVOF systems",
+    "tracked-components": "tracked components",
+    "select": "Select plan",
+    "current": "Current plan",
+    "not-available": "Not available for your organization type",
+    "subscription-title": "Subscription",
+    "plan": "Plan",
+    "valid-from": "Valid from",
+    "valid-until": "Valid until",
+    "status": "Status",
+    "days-left": "{{ days }} days left",
+    "expiring-soon": "Expiring soon",
+    "none": "Your organization has no active subscription yet.",
+    "choose": "Choose a plan",
+    "status-option": { "ACTIVE": "Active", "EXPIRED": "Expired", "CANCELLED": "Cancelled" }
+  }
+}

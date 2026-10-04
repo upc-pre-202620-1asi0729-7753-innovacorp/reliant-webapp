@@ -1,0 +1,53 @@
+<div class="container-with-spacing">
+  <button mat-button (click)="back()"><mat-icon>arrow_back</mat-icon> {{ 'session-detail.back' | translate }}</button>
+  @if (session(); as s) {
+    <div class="header">
+      <h1 class="title">
+        {{ 'session-detail.title' | translate }} #{{ s.id }}
+        @if (s.isActive) { <span class="live">● {{ 'session-detail.live' | translate }}</span> }
+      </h1>
+      <mat-chip-set>
+        <mat-chip>{{ 'session-detail.system' | translate }}: {{ system()?.code ?? s.hvofSystemId }}</mat-chip>
+        <mat-chip>{{ 'session-detail.order' | translate }}: {{ recuperation()?.workOrderNumber ?? s.recuperationId }}</mat-chip>
+        <mat-chip>{{ 'session-detail.recipe' | translate }}: #{{ s.recipeNumber }} {{ recipe()?.name ?? '' }}</mat-chip>
+        <mat-chip>{{ 'session-detail.started' | translate }}: {{ s.startedAt | date:'yyyy-MM-dd HH:mm' }}</mat-chip>
+        @if (s.endedAt) { <mat-chip>{{ 'session-detail.ended' | translate }}: {{ s.endedAt | date:'yyyy-MM-dd HH:mm' }}</mat-chip> }
+        <mat-chip>{{ ('spray-sessions.status-option.' + s.status) | translate }}</mat-chip>
+      </mat-chip-set>
+    </div>
+
+    @if (store.error()) {
+      <mat-error>{{ store.error() }}</mat-error>
+    }
+
+    <div class="summary">
+      <span>{{ store.readings().length }} {{ 'session-detail.readings' | translate }}</span>
+      <span class="dot band-nominal"></span> {{ store.bandCounts().nominal }}
+      <span class="dot band-out_of_nominal"></span> {{ store.bandCounts().out_of_nominal }}
+      <span class="dot band-warning"></span> {{ store.bandCounts().warning }}
+      <span class="dot band-shutdown"></span> {{ store.bandCounts().shutdown }}
+      @if (store.lastUpdate(); as t) {
+        <span class="muted">· {{ 'session-detail.last-update' | translate }} {{ t | date:'HH:mm:ss' }}</span>
+      }
+    </div>
+
+    @if (cards().length === 0) {
+      <p>{{ 'session-detail.no-readings' | translate }}</p>
+    }
+    <div class="grid">
+      @for (reading of cards(); track reading.parameter) {
+        <app-parameter-card [reading]="reading" [recipeParameter]="recipeParameterOf(reading.parameter)"/>
+      }
+    </div>
+
+    @if (s.isActive) {
+      <div class="actions">
+        @if (isDev) {
+          <button mat-stroked-button (click)="simulateReading()"><mat-icon>sensors</mat-icon> {{ 'session-detail.simulate' | translate }}</button>
+          <button mat-raised-button color="primary" (click)="complete()"><mat-icon>check_circle</mat-icon> {{ 'session-detail.complete' | translate }}</button>
+          <button mat-raised-button color="warn" (click)="abort()"><mat-icon>stop_circle</mat-icon> {{ 'session-detail.abort' | translate }}</button>
+        }
+      </div>
+    }
+  }
+</div>

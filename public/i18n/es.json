@@ -1,0 +1,479 @@
+{
+  "option": {
+    "home": "Inicio",
+    "recuperations": "Recuperaciones",
+    "components": "Componentes",
+    "customers": "Clientes",
+    "hvof-systems": "Sistemas HVOF",
+    "spray-sessions": "Sesiones de rociado",
+    "about": "Acerca de",
+    "users":"Usuarios",
+    "subscription": "Suscripción"
+  },
+  "home": {
+    "title": "Bienvenido a Reliant",
+    "content": "Trazabilidad y monitoreo de proceso para la recuperación de componentes por HVOF."
+  },
+  "about": {
+    "title": "Acerca de nosotros",
+    "content": "Reliant es una plataforma de InnovaCorp que vincula cada sesión de rociado HVOF con el componente recuperado y su cliente."
+  },
+  "customers": {
+    "list-title": "Clientes",
+    "id": "ID",
+    "legal-name": "Razón social",
+    "ruc": "RUC",
+    "mine-site": "Sede / unidad minera",
+    "actions": "Acciones",
+    "new": "Nuevo cliente",
+    "edit": "Editar",
+    "delete": "Eliminar"
+  },
+  "customer": {
+    "new-title": "Nuevo cliente",
+    "edit-title": "Editar cliente",
+    "legal-name": "Razón social",
+    "ruc": "RUC",
+    "mine-site": "Sede / unidad minera",
+    "create": "Crear cliente",
+    "update": "Actualizar cliente",
+    "cancel": "Cancelar",
+    "error": {
+      "legal-name-required": "La razón social es obligatoria",
+      "ruc-invalid": "El RUC debe tener 11 dígitos"
+    }
+  },
+  "components": {
+    "list-title": "Componentes",
+    "serial-number": "N.º de serie",
+    "part-number": "Part number",
+    "type": "Tipo",
+    "machine": "Máquina",
+    "customer": "Cliente",
+    "pcr-target-hours": "PCR objetivo (h)",
+    "status": "Estado",
+    "actions": "Acciones",
+    "new": "Nuevo componente",
+    "edit": "Editar"
+  },
+  "component": {
+    "new-title": "Nuevo componente",
+    "edit-title": "Editar componente",
+    "serial-number": "Número de serie",
+    "part-number": "Part number",
+    "type": "Tipo de componente",
+    "machine-manufacturer": "Fabricante de la máquina",
+    "machine-model": "Modelo de la máquina",
+    "customer": "Cliente",
+    "pcr-target-hours": "Horas objetivo de PCR",
+    "create": "Crear componente",
+    "update": "Actualizar componente",
+    "cancel": "Cancelar",
+    "type-option": {
+      "HYDRAULIC_ROD": "Vástago hidráulico",
+      "CYLINDER_BLOCK": "Bloque de cilindros",
+      "SHAFT": "Eje",
+      "IMPELLER": "Impulsor",
+      "OTHER": "Otro"
+    },
+    "status-option": {
+      "RECEIVED": "Recibido",
+      "IN_RECUPERATION": "En recuperación",
+      "IN_SERVICE": "En servicio",
+      "RETURNED": "Retornado",
+      "SCRAPPED": "Dado de baja"
+    },
+    "error": {
+      "required": "Este campo es obligatorio",
+      "pcr-min": "El PCR objetivo debe ser mayor que 0"
+    }
+  },
+  "recuperations": {
+    "list-title": "Recuperaciones",
+    "work-order": "WO",
+    "manufacturing-order": "OF",
+    "component": "Componente",
+    "customer": "Cliente",
+    "status": "Estado",
+    "received-at": "Recibido",
+    "actions": "Acciones",
+    "new": "Nueva recuperación",
+    "edit": "Editar"
+  },
+  "recuperation": {
+    "new-title": "Nueva orden de recuperación",
+    "edit-title": "Editar orden de recuperación",
+    "component": "Componente",
+    "customer": "Cliente",
+    "work-order": "Orden de trabajo (WO)",
+    "manufacturing-order": "Orden de fabricación (OF)",
+    "segment": "Segmento",
+    "operation": "Operación",
+    "weight": "Peso",
+    "weight-unit": "Unidad",
+    "hourmeter": "Horómetro de ingreso (h)",
+    "powder-supplier": "Proveedor de polvo",
+    "powder-lot": "Lote de polvo",
+    "powder-composition": "Composición del polvo",
+    "received-at": "Fecha de recepción",
+    "create": "Crear recuperación",
+    "update": "Actualizar recuperación",
+    "cancel": "Cancelar",
+    "status-option": {
+      "RECEIVED": "Recibida",
+      "IN_PROGRESS": "En proceso",
+      "COMPLETED": "Completada",
+      "DELIVERED": "Entregada",
+      "REWORK": "Retrabajo"
+    },
+    "error": {
+      "required": "Este campo es obligatorio"
+    }
+  },
+  "hvof-systems": {
+    "list-title": "Sistemas HVOF",
+    "code": "Código",
+    "manufacturer": "Fabricante",
+    "model": "Modelo",
+    "fuel-type": "Combustible",
+    "status": "Estado",
+    "actions": "Acciones",
+    "new": "Nuevo sistema HVOF",
+    "edit": "Editar",
+    "view": "Ver"
+  },
+  "hvof-system": {
+    "new-title": "Nuevo sistema HVOF",
+    "edit-title": "Editar sistema HVOF",
+    "code": "Código",
+    "serial-number": "Número de serie",
+    "manufacturer": "Fabricante del sistema",
+    "model": "Modelo del sistema",
+    "fuel-type": "Tipo de combustible",
+    "create": "Crear sistema HVOF",
+    "update": "Actualizar sistema HVOF",
+    "cancel": "Cancelar",
+    "tab-controllers": "Controladores",
+    "tab-subsystems": "Subsistemas",
+    "tab-recipes": "Recetas",
+    "back": "Volver a la lista",
+    "fuel-option": {
+      "HYDROGEN": "Hidrógeno",
+      "PROPANE": "Propano",
+      "KEROSENE": "Kerosene",
+      "NATURAL_GAS": "Gas natural"
+    },
+    "status-option": {
+      "ACTIVE": "Activo",
+      "MAINTENANCE": "En mantenimiento",
+      "OUT_OF_SERVICE": "Fuera de servicio"
+    },
+    "error": { "required": "Este campo es obligatorio" }
+  },
+  "controllers": {
+    "number": "#",
+    "device-type": "Dispositivo",
+    "manufacturer": "Fabricante",
+    "model": "Modelo",
+    "ip-address": "Dirección IP",
+    "protocols": "Protocolos",
+    "actions": "Acciones",
+    "new": "Nuevo controlador",
+    "edit": "Editar",
+    "empty": "Aún no hay controladores registrados."
+  },
+  "controller": {
+    "new-title": "Nuevo controlador",
+    "edit-title": "Editar controlador",
+    "device-type": "Tipo de dispositivo",
+    "manufacturer": "Fabricante",
+    "model": "Modelo",
+    "part-number": "Part number",
+    "serial-number": "Número de serie",
+    "ip-address": "Dirección IP",
+    "port": "Puerto",
+    "rack": "Rack",
+    "slot": "Slot",
+    "protocols": "Protocolos soportados",
+    "create": "Crear controlador",
+    "update": "Actualizar controlador",
+    "cancel": "Cancelar",
+    "error": {
+      "required": "Este campo es obligatorio",
+      "ip-invalid": "Ingresa una dirección IPv4 válida"
+    }
+  },
+  "subsystems": {
+    "new": "Nuevo subsistema",
+    "edit": "Editar",
+    "empty": "Aún no hay subsistemas registrados.",
+    "parameters": "Parámetros",
+    "parts": "Partes",
+    "new-part": "Nueva parte",
+    "delete-part": "Eliminar parte",
+    "no-parts": "Sin partes registradas."
+  },
+  "subsystem": {
+    "new-title": "Nuevo subsistema",
+    "edit-title": "Editar subsistema",
+    "type": "Tipo de subsistema",
+    "name": "Nombre",
+    "alias": "Alias (como en el controlador)",
+    "parameters": "Parámetros (Enter después de cada uno)",
+    "create": "Crear subsistema",
+    "update": "Actualizar subsistema",
+    "cancel": "Cancelar",
+    "type-option": {
+      "GAS_CONSOLE": "Consola de gases",
+      "POWDER_FEEDER": "Alimentador de polvo",
+      "COOLING_UNIT": "Unidad de enfriamiento",
+      "MANIPULATOR": "Manipulador",
+      "DUST_COLLECTOR": "Colector de polvo",
+      "SPRAY_GUN": "Pistola de rociado"
+    }
+  },
+  "part": {
+    "new-title": "Nueva parte",
+    "type": "Tipo de parte",
+    "serial-number": "Número de serie",
+    "manufacturer": "Fabricante",
+    "create": "Crear parte",
+    "cancel": "Cancelar",
+    "type-option": {
+      "MASS_FLOW_CONTROLLER": "Controlador de flujo másico",
+      "HOPPER": "Tolva",
+      "CARRIER_GAS_MFC": "MFC de gas portador",
+      "COOLANT_PUMP": "Bomba de refrigerante",
+      "TEMPERATURE_SENSOR": "Sensor de temperatura",
+      "SPINDLE_VFD": "Variador del husillo",
+      "AXIS_DRIVE": "Drive de eje",
+      "NOZZLE": "Boquilla"
+    }
+  },
+  "spray-sessions": {
+    "list-title": "Sesiones de rociado",
+    "id": "ID",
+    "started-at": "Inicio",
+    "ended-at": "Fin",
+    "hvof-system": "Sistema HVOF",
+    "recuperation": "Orden (WO)",
+    "recipe": "Receta",
+    "status": "Estado",
+    "deviations": "Desviaciones",
+    "actions": "Acciones",
+    "start": "Iniciar sesión",
+    "open": "Abrir",
+    "filter-system": "Sistema HVOF",
+    "filter-recuperation": "Orden",
+    "filter-from": "Desde",
+    "filter-to": "Hasta",
+    "clear-filters": "Limpiar",
+    "empty": "Ninguna sesión coincide con los filtros.",
+    "status-option": {
+      "active": "Activa",
+      "completed": "Completada",
+      "aborted": "Abortada",
+      "interrupted": "Interrumpida"
+    }
+  },
+  "spray-session": {
+    "start-title": "Iniciar sesión de rociado",
+    "hvof-system": "Sistema HVOF",
+    "recuperation": "Orden de recuperación",
+    "recipe": "Receta",
+    "recipe-hint": "Solo recetas activas del sistema seleccionado",
+    "start": "Iniciar sesión",
+    "cancel": "Cancelar",
+    "error": {
+      "required": "Este campo es obligatorio",
+      "no-active-recipes": "El sistema seleccionado no tiene recetas activas"
+    }
+  },
+  "recipes": {
+    "number": "N.º",
+    "name": "Nombre",
+    "powder": "Polvo",
+    "status": "Estado",
+    "parameters": "Parámetros",
+    "actions": "Acciones",
+    "new": "Nueva receta",
+    "edit": "Editar",
+    "publish": "Publicar",
+    "empty": "Aún no hay recetas definidas.",
+    "status-option": { "DRAFT": "Borrador", "ACTIVE": "Activa", "RETIRED": "Retirada" }
+  },
+  "recipe": {
+    "new-title": "Nueva receta",
+    "edit-title": "Editar receta",
+    "number": "Número de receta",
+    "name": "Nombre",
+    "powder": "Especificación del polvo",
+    "applicabilities": "Componentes aplicables",
+    "component-type": "Tipo de componente",
+    "machine-model": "Modelo de máquina",
+    "position": "Posición",
+    "add-applicability": "Agregar componente",
+    "parameters": "Parámetros y bandas de umbral",
+    "parameter": "Parámetro",
+    "setpoint": "Setpoint",
+    "lsd": "Parada inferior",
+    "law": "Advertencia inferior",
+    "nmin": "Nominal mín.",
+    "nmax": "Nominal máx.",
+    "haw": "Advertencia superior",
+    "hsd": "Parada superior",
+    "unit": "Unidad",
+    "unit-category": "Categoría",
+    "add-parameter": "Agregar parámetro",
+    "remove": "Quitar",
+    "create": "Crear receta",
+    "update": "Actualizar receta",
+    "cancel": "Cancelar",
+    "error": {
+      "required": "Este campo es obligatorio",
+      "order": "Los umbrales deben cumplir LSD < LAW < mín ≤ setpoint ≤ máx < HAW < HSD",
+      "no-parameters": "Agrega al menos un parámetro"
+    }
+  },
+  "session-detail": {
+    "title": "Sesión",
+    "back": "Volver a sesiones",
+    "started": "Inicio",
+    "ended": "Fin",
+    "recipe": "Receta",
+    "order": "Orden",
+    "system": "Sistema",
+    "operator": "Operador",
+    "readings": "lecturas",
+    "last-update": "Última actualización",
+    "live": "EN VIVO",
+    "no-readings": "Aún no se reciben lecturas.",
+    "setpoint": "SP",
+    "simulate": "Simular lectura",
+    "complete": "Completar",
+    "abort": "Abortar",
+    "band": {
+      "nominal": "Nominal",
+      "out_of_nominal": "Fuera de nominal",
+      "warning": "Advertencia",
+      "shutdown": "Parada"
+    },
+    "abort-title": "Abortar sesión",
+    "abort-reason": "Motivo",
+    "abort-notes": "Notas (opcional)",
+    "abort-confirm": "Abortar sesión",
+    "abort-cancel": "Seguir corriendo",
+    "abort-reason-option": {
+      "FLAME_OUT": "Pérdida de llama",
+      "POWDER_DEPLETED": "Polvo agotado",
+      "MACHINE_FAULT": "Falla de máquina",
+      "OPERATOR_DECISION": "Decisión del operador",
+      "OTHER": "Otro"
+    },
+    "parameter": {
+      "fuel_gas_flow": "Flujo de combustible",
+      "oxygen_flow": "Flujo de oxígeno",
+      "cooling_air_flow": "Flujo de aire de enfriamiento",
+      "powder_feed_rate": "Alimentación de polvo",
+      "carrier_gas_flow": "Flujo de gas portador",
+      "hopper_pressure": "Presión de tolva",
+      "coolant_flow": "Flujo de refrigerante",
+      "coolant_outlet_temp": "Temp. salida refrigerante",
+      "spindle_speed": "Velocidad del husillo"
+    }
+  },
+  "page-not-found": {
+    "title": "Página no encontrada",
+    "content": "La ruta <strong>{{ invalid_path }}</strong> es inválida.",
+    "go-home": "Ir a Inicio"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "powered-by": "Desarrollado con",
+    "and": "y"
+  },
+  "iam": {
+    "sign-up": {
+      "title": "Registra tu organización",
+      "organization-step": "Organización",
+      "admin-step": "Administrador",
+      "organization-name": "Nombre de la organización",
+      "ruc": "RUC",
+      "organization-type": "Tipo de organización",
+      "supplier": "Recuperation Supplier",
+      "supplier-hint": "Operamos sistemas HVOF y recuperamos componentes para nuestros clientes",
+      "asset-owner": "Asset Owner",
+      "asset-owner-hint": "Somos dueños de los componentes y los enviamos a proveedores de recuperación",
+      "full-name": "Nombre completo",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "next": "Siguiente",
+      "back": "Atrás",
+      "submit": "Crear organización",
+      "have-account": "¿Ya estás registrado?",
+      "sign-in-link": "Inicia sesión"
+    },
+    "sign-in": {
+      "title": "Iniciar sesión",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Ingresar",
+      "no-account": "¿Organización nueva?",
+      "sign-up-link": "Regístrate",
+      "failed": "Correo o contraseña inválidos"
+    },
+    "section": {
+      "welcome": "Hola, {{ name }}",
+      "sign-in": "Ingresar",
+      "sign-up": "Registrarse",
+      "sign-out": "Salir"
+    },
+    "error": {
+      "required": "Este campo es obligatorio",
+      "email": "Ingresa un correo válido",
+      "ruc": "El RUC debe tener 11 dígitos",
+      "password-min": "Mínimo 8 caracteres"
+    },
+    "users": {
+      "list-title": "Usuarios y roles",
+      "name": "Nombre",
+      "email": "Correo",
+      "roles": "Roles",
+      "status": "Estado",
+      "actions": "Acciones",
+      "edit-roles": "Editar roles",
+      "roles-title": "Roles de {{ name }}",
+      "save": "Guardar roles",
+      "cancel": "Cancelar",
+      "role-option": {
+        "ROLE_ORG_ADMIN": "Administrador de organización",
+        "ROLE_QUALITY_ENGINEER": "Ingeniero de calidad e investigación",
+        "ROLE_MAINTENANCE_SUPERVISOR": "Supervisor de mantenimiento de máquina",
+        "ROLE_HVOF_OPERATOR": "Operador HVOF",
+        "ROLE_OPERATIONS_SUPERVISOR": "Supervisor de operación",
+        "ROLE_RELIABILITY_ENGINEER": "Ingeniero de confiabilidad",
+        "ROLE_PROCUREMENT_ANALYST": "Analista de compras"
+      }
+    }
+  },
+  "billing": {
+    "plans-title": "Elige tu plan",
+    "plans-hint": "Solo puede seleccionarse el plan que corresponde al tipo de tu organización.",
+    "per-month": "/ mes",
+    "monitored-systems": "sistemas HVOF monitoreados",
+    "tracked-components": "componentes bajo seguimiento",
+    "select": "Seleccionar plan",
+    "current": "Plan actual",
+    "not-available": "No disponible para tu tipo de organización",
+    "subscription-title": "Suscripción",
+    "plan": "Plan",
+    "valid-from": "Vigente desde",
+    "valid-until": "Vigente hasta",
+    "status": "Estado",
+    "days-left": "Quedan {{ days }} días",
+    "expiring-soon": "Próxima a vencer",
+    "none": "Tu organización aún no tiene una suscripción activa.",
+    "choose": "Elegir un plan",
+    "status-option": { "ACTIVE": "Activa", "EXPIRED": "Vencida", "CANCELLED": "Cancelada" }
+  }
+}

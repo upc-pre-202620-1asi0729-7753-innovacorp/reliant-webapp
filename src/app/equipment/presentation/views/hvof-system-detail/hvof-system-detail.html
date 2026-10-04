@@ -1,0 +1,155 @@
+<div class="container-with-spacing">
+  <button mat-button (click)="back()"><mat-icon>arrow_back</mat-icon> {{ 'hvof-system.back' | translate }}</button>
+  @if (system(); as s) {
+    <h1 class="title">{{ s.code }} · {{ s.systemManufacturer }} {{ s.systemModel }}</h1>
+    <p class="subtitle">
+      <mat-chip-set>
+        <mat-chip>{{ ('hvof-system.fuel-option.' + s.fuelType) | translate }}</mat-chip>
+        <mat-chip>{{ ('hvof-system.status-option.' + s.status) | translate }}</mat-chip>
+        <mat-chip>S/N {{ s.serialNumber }}</mat-chip>
+      </mat-chip-set>
+    </p>
+    <mat-tab-group>
+      <mat-tab [label]="'hvof-system.tab-controllers' | translate">
+        <div class="tab-content">
+          @if (controllers().length === 0) {
+            <p>{{ 'controllers.empty' | translate }}</p>
+          } @else {
+            <table mat-table [dataSource]="controllers()" class="mat-elevation-z2">
+              <ng-container matColumnDef="controllerNumber">
+                <th mat-header-cell *matHeaderCellDef>{{ 'controllers.number' | translate }}</th>
+                <td mat-cell *matCellDef="let c">{{ c.controllerNumber }}</td>
+              </ng-container>
+              <ng-container matColumnDef="deviceType">
+                <th mat-header-cell *matHeaderCellDef>{{ 'controllers.device-type' | translate }}</th>
+                <td mat-cell *matCellDef="let c">{{ c.deviceType }}</td>
+              </ng-container>
+              <ng-container matColumnDef="manufacturer">
+                <th mat-header-cell *matHeaderCellDef>{{ 'controllers.manufacturer' | translate }}</th>
+                <td mat-cell *matCellDef="let c">{{ c.manufacturer }}</td>
+              </ng-container>
+              <ng-container matColumnDef="model">
+                <th mat-header-cell *matHeaderCellDef>{{ 'controllers.model' | translate }}</th>
+                <td mat-cell *matCellDef="let c">{{ c.model }}</td>
+              </ng-container>
+              <ng-container matColumnDef="ipAddress">
+                <th mat-header-cell *matHeaderCellDef>{{ 'controllers.ip-address' | translate }}</th>
+                <td mat-cell *matCellDef="let c">{{ c.ipAddress }}:{{ c.port }}</td>
+              </ng-container>
+              <ng-container matColumnDef="protocols">
+                <th mat-header-cell *matHeaderCellDef>{{ 'controllers.protocols' | translate }}</th>
+                <td mat-cell *matCellDef="let c">
+                  @for (p of c.supportedProtocols; track p.protocol) { <span class="pill">{{ p.protocol }}</span> }
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>{{ 'controllers.actions' | translate }}</th>
+                <td mat-cell *matCellDef="let c">
+                  <button mat-icon-button aria-label="{{ 'controllers.edit' | translate }}" (click)="editController(c.id)"><mat-icon>edit</mat-icon></button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="controllerColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: controllerColumns;"></tr>
+            </table>
+          }
+          <button mat-raised-button color="primary" (click)="newController()">{{ 'controllers.new' | translate }}</button>
+        </div>
+      </mat-tab>
+      <mat-tab [label]="'hvof-system.tab-subsystems' | translate">
+        <div class="tab-content">
+          @if (subsystems().length === 0) {
+            <p>{{ 'subsystems.empty' | translate }}</p>
+          }
+          <mat-accordion class="full-width" multi>
+            @for (sub of subsystems(); track sub.id) {
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>{{ sub.alias }} · {{ sub.name }}</mat-panel-title>
+                  <mat-panel-description>{{ ('subsystem.type-option.' + sub.subsystemType) | translate }}</mat-panel-description>
+                </mat-expansion-panel-header>
+                <p><strong>{{ 'subsystems.parameters' | translate }}:</strong>
+                  @for (p of sub.parameters; track p.parameter) { <span class="pill">{{ p.parameter }}</span> }
+                </p>
+                <h3>{{ 'subsystems.parts' | translate }}</h3>
+                @if (partsOf(sub.id).length === 0) {
+                  <p>{{ 'subsystems.no-parts' | translate }}</p>
+                } @else {
+                  <table mat-table [dataSource]="partsOf(sub.id)">
+                    <ng-container matColumnDef="partType">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'part.type' | translate }}</th>
+                      <td mat-cell *matCellDef="let p">{{ ('part.type-option.' + p.partType) | translate }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="serialNumber">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'part.serial-number' | translate }}</th>
+                      <td mat-cell *matCellDef="let p">{{ p.serialNumber }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="manufacturer">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'part.manufacturer' | translate }}</th>
+                      <td mat-cell *matCellDef="let p">{{ p.manufacturer }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef></th>
+                      <td mat-cell *matCellDef="let p">
+                        <button mat-icon-button aria-label="{{ 'subsystems.delete-part' | translate }}" (click)="deletePart(p.id)"><mat-icon>delete</mat-icon></button>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="partColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: partColumns;"></tr>
+                  </table>
+                }
+                <mat-action-row>
+                  <button mat-button (click)="editSubsystem(sub.id)"><mat-icon>edit</mat-icon> {{ 'subsystems.edit' | translate }}</button>
+                  <button mat-button (click)="newPart(sub.id)"><mat-icon>add</mat-icon> {{ 'subsystems.new-part' | translate }}</button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            }
+          </mat-accordion>
+          <button mat-raised-button color="primary" (click)="newSubsystem()">{{ 'subsystems.new' | translate }}</button>
+        </div>
+      </mat-tab>
+
+      <mat-tab [label]="'hvof-system.tab-recipes' | translate">
+        <div class="tab-content">
+          @if (recipes().length === 0) {
+            <p>{{ 'recipes.empty' | translate }}</p>
+          } @else {
+            <table mat-table [dataSource]="recipes()" class="mat-elevation-z2">
+              <ng-container matColumnDef="recipeNumber">
+                <th mat-header-cell *matHeaderCellDef>{{ 'recipes.number' | translate }}</th>
+                <td mat-cell *matCellDef="let r">{{ r.recipeNumber }}</td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>{{ 'recipes.name' | translate }}</th>
+                <td mat-cell *matCellDef="let r">{{ r.name }}</td>
+              </ng-container>
+              <ng-container matColumnDef="powderSpecification">
+                <th mat-header-cell *matHeaderCellDef>{{ 'recipes.powder' | translate }}</th>
+                <td mat-cell *matCellDef="let r">{{ r.powderSpecification }}</td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>{{ 'recipes.status' | translate }}</th>
+                <td mat-cell *matCellDef="let r">{{ ('recipes.status-option.' + r.status) | translate }}</td>
+              </ng-container>
+              <ng-container matColumnDef="parameters">
+                <th mat-header-cell *matHeaderCellDef>{{ 'recipes.parameters' | translate }}</th>
+                <td mat-cell *matCellDef="let r">{{ r.parameters.length }}</td>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>{{ 'recipes.actions' | translate }}</th>
+                <td mat-cell *matCellDef="let r">
+                  <button mat-icon-button aria-label="{{ 'recipes.edit' | translate }}" (click)="editRecipe(r.id)"><mat-icon>edit</mat-icon></button>
+                  @if (r.status === 'DRAFT') {
+                    <button mat-icon-button aria-label="{{ 'recipes.publish' | translate }}" (click)="publishRecipe(r.id)"><mat-icon>publish</mat-icon></button>
+                  }
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="recipeColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: recipeColumns;"></tr>
+            </table>
+          }
+          <button mat-raised-button color="primary" (click)="newRecipe()">{{ 'recipes.new' | translate }}</button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  }
+</div>

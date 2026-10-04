@@ -1,0 +1,59 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ (isEdit ? 'component.edit-title' : 'component.new-title') | translate }}</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>{{ 'component.serial-number' | translate }}</mat-label>
+      <input matInput formControlName="serialNumber" required>
+      @if (isInvalidControl(form, 'serialNumber')) {
+        <mat-error>{{ 'component.error.required' | translate }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'component.part-number' | translate }}</mat-label>
+      <input matInput formControlName="partNumber" required>
+      @if (isInvalidControl(form, 'partNumber')) {
+        <mat-error>{{ 'component.error.required' | translate }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'component.type' | translate }}</mat-label>
+      <mat-select formControlName="componentType" required>
+        @for (type of componentTypes; track type) {
+          <mat-option [value]="type">{{ ('component.type-option.' + type) | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'component.machine-manufacturer' | translate }}</mat-label>
+      <input matInput formControlName="machineManufacturer" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'component.machine-model' | translate }}</mat-label>
+      <input matInput formControlName="machineModel" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'component.customer' | translate }}</mat-label>
+      <mat-select formControlName="customerId" required>
+        @for (customer of store.customers(); track customer.id) {
+          <mat-option [value]="customer.id">{{ customer.legalName }}</mat-option>
+        }
+      </mat-select>
+      @if (isInvalidControl(form, 'customerId')) {
+        <mat-error>{{ 'component.error.required' | translate }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'component.pcr-target-hours' | translate }}</mat-label>
+      <input matInput type="number" formControlName="pcrTargetHours" min="1" required>
+      @if (isInvalidControl(form, 'pcrTargetHours')) {
+        <mat-error>{{ 'component.error.pcr-min' | translate }}</mat-error>
+      }
+    </mat-form-field>
+    <div class="actions">
+      <button mat-button type="button" (click)="cancel()">{{ 'component.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ (isEdit ? 'component.update' : 'component.create') | translate }}
+      </button>
+    </div>
+  </form>
+</div>
