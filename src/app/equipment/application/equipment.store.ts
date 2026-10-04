@@ -38,11 +38,7 @@ export class EquipmentStore {
   readonly #iam = inject(IamStore);
 
   constructor() {
-    this.#loadHvofSystems();
-    this.#loadControllers();
-    this.#loadSubsystems();
-    this.#loadParts();
-    this.#loadRecipes();
+    this.reload();
   }
 
   getHvofSystemById(id: number): Signal<HvofSystem | undefined> {
@@ -94,9 +90,12 @@ export class EquipmentStore {
 
   #loadHvofSystems(): void {
     const organizationId = this.#iam.organizationId();
-    if (!organizationId) return;
+    if (!organizationId) {
+      this.#hvofSystemsSignal.set([]);
+      return;
+    }
     this.#loadingSignal.set(true);
-    this.#api.getHvofSystemsByOrganizationId(organizationId).pipe(takeUntilDestroyed()).subscribe({
+    this.#api.getHvofSystemsByOrganizationId(organizationId).subscribe({
       next: systems => {
         this.#hvofSystemsSignal.set(systems);
         this.#loadingSignal.set(false);
@@ -109,7 +108,7 @@ export class EquipmentStore {
   }
 
   #loadControllers(): void {
-    this.#api.getControllers().pipe(takeUntilDestroyed()).subscribe({
+    this.#api.getControllers().subscribe({
       next: controllers => this.#controllersSignal.set(controllers),
       error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load controllers'))
     });
@@ -152,14 +151,14 @@ export class EquipmentStore {
   }
 
   #loadSubsystems(): void {
-    this.#api.getSubsystems().pipe(takeUntilDestroyed()).subscribe({
+    this.#api.getSubsystems().subscribe({
       next: subsystems => this.#subsystemsSignal.set(subsystems),
       error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load subsystems'))
     });
   }
 
   #loadParts(): void {
-    this.#api.getParts().pipe(takeUntilDestroyed()).subscribe({
+    this.#api.getParts().subscribe({
       next: parts => this.#partsSignal.set(parts),
       error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load parts'))
     });
@@ -206,9 +205,17 @@ export class EquipmentStore {
   }
 
   #loadRecipes(): void {
-    this.#api.getRecipes().pipe(takeUntilDestroyed()).subscribe({
+    this.#api.getRecipes().subscribe({
       next: recipes => this.#recipesSignal.set(recipes),
       error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load recipes'))
     });
+  }
+
+  reload(): void {
+    this.#loadHvofSystems();
+    this.#loadControllers();
+    this.#loadSubsystems();
+    this.#loadParts();
+    this.#loadRecipes();
   }
 }

@@ -4,6 +4,8 @@ import {IamApi} from '../infrastructure/iam-api';
 import {SignUpCommand} from '../domain/model/sign-up.command';
 import {SignInCommand} from '../domain/model/sign-in.command';
 import {OrganizationType} from '../domain/model/organization.entity';
+import {TraceabilityStore} from '../../traceability/application/traceability.store';
+import {EquipmentStore} from '../../equipment/application/equipment.store';
 
 const TOKEN_KEY = 'reliant.token';
 const SESSION_KEY = 'reliant.session';
@@ -41,6 +43,8 @@ export const ROLE = {
 export class IamStore {
   readonly #iamApi = inject(IamApi);
   readonly #router = inject(Router);
+  readonly #traceability = inject(TraceabilityStore);
+  readonly #equipment = inject(EquipmentStore);
 
   readonly #sessionSignal = signal<StoredSession | null>(restoreSession());  readonly #errorSignal = signal<string | null>(null);
   readonly error = this.#errorSignal.asReadonly();
@@ -76,6 +80,8 @@ export class IamStore {
         localStorage.setItem(TOKEN_KEY, resource.token);
         localStorage.setItem(SESSION_KEY, JSON.stringify(session));
         this.#sessionSignal.set(session);
+        this.#traceability.reload();
+        this.#equipment.reload();
         this.#router.navigate(['/home']).then();
       },
       error: (err: Error) => {
@@ -100,6 +106,8 @@ export class IamStore {
 
   signOut() {
     this.#clear();
+    this.#traceability.reload();
+    this.#equipment.reload();
     this.#router.navigate(['/iam/sign-in']).then();
   }
 
