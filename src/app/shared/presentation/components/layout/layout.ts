@@ -35,6 +35,7 @@ export class Layout {
       {link: '/process-monitoring/spray-sessions', label: 'option.spray-sessions', visible: supplier},
       {link: '/about',                             label: 'option.about',          visible: true,},
       {link: '/iam/users', label: 'option.users', visible: this.#iam.isAdmin()},
+      {link: '/billing/subscription', label: 'option.subscription', visible: this.#iam.isAdmin()},
 
     ].filter(o => o.visible);
   });

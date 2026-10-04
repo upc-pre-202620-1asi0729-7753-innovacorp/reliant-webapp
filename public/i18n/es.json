@@ -7,8 +7,8 @@
     "hvof-systems": "Sistemas HVOF",
     "spray-sessions": "Sesiones de rociado",
     "about": "Acerca de",
-    "users":"Usuarios"
-
+    "users":"Usuarios",
+    "subscription": "Suscripción"
   },
   "home": {
     "title": "Bienvenido a Reliant",
@@ -455,5 +455,25 @@
         "ROLE_PROCUREMENT_ANALYST": "Analista de compras"
       }
     }
+  },
+  "billing": {
+    "plans-title": "Elige tu plan",
+    "plans-hint": "Solo puede seleccionarse el plan que corresponde al tipo de tu organización.",
+    "per-month": "/ mes",
+    "monitored-systems": "sistemas HVOF monitoreados",
+    "tracked-components": "componentes bajo seguimiento",
+    "select": "Seleccionar plan",
+    "current": "Plan actual",
+    "not-available": "No disponible para tu tipo de organización",
+    "subscription-title": "Suscripción",
+    "plan": "Plan",
+    "valid-from": "Vigente desde",
+    "valid-until": "Vigente hasta",
+    "status": "Estado",
+    "days-left": "Quedan {{ days }} días",
+    "expiring-soon": "Próxima a vencer",
+    "none": "Tu organización aún no tiene una suscripción activa.",
+    "choose": "Elegir un plan",
+    "status-option": { "ACTIVE": "Activa", "EXPIRED": "Vencida", "CANCELLED": "Cancelada" }
   }
 }
