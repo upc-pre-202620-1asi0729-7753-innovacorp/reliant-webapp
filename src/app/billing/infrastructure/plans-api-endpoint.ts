@@ -5,7 +5,7 @@ import {PlanAssembler} from './plan-assembler';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
-export class ControllersApiEndpoint extends BaseApiEndpoint<Plan, PlanResource, PlansResponse, PlanAssembler> {
+export class PlansApiEndpoint extends BaseApiEndpoint<Plan, PlanResource, PlansResponse, PlanAssembler> {
   constructor(http: HttpClient) {
     super(http, `${environment.platformProviderApiBaseUrl}${environment.platformProviderPlansEndpointPath}`, new PlanAssembler());
   }

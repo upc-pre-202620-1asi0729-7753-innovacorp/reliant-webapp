@@ -7,7 +7,8 @@
     "hvof-systems": "HVOF Systems",
     "spray-sessions": "Spray Sessions",
     "about": "About Us",
-    "users":"Users"
+    "users":"Users",
+    "subscription": "Subscription"
   },
   "home": {
     "title": "Welcome to Reliant",
@@ -454,5 +455,25 @@
         "ROLE_PROCUREMENT_ANALYST": "Procurement analyst"
       }
     }
+  },
+  "billing": {
+    "plans-title": "Choose your plan",
+    "plans-hint": "Only the plan that matches your organization type can be selected.",
+    "per-month": "/ month",
+    "monitored-systems": "monitored HVOF systems",
+    "tracked-components": "tracked components",
+    "select": "Select plan",
+    "current": "Current plan",
+    "not-available": "Not available for your organization type",
+    "subscription-title": "Subscription",
+    "plan": "Plan",
+    "valid-from": "Valid from",
+    "valid-until": "Valid until",
+    "status": "Status",
+    "days-left": "{{ days }} days left",
+    "expiring-soon": "Expiring soon",
+    "none": "Your organization has no active subscription yet.",
+    "choose": "Choose a plan",
+    "status-option": { "ACTIVE": "Active", "EXPIRED": "Expired", "CANCELLED": "Cancelled" }
   }
 }

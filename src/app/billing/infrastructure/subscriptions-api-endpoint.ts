@@ -5,7 +5,7 @@ import {SubscriptionAssembler} from './subscription-assembler';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
-export class ControllersApiEndpoint extends BaseApiEndpoint<Subscription, SubscriptionResource, SubscriptionsResponse, SubscriptionAssembler> {
+export class SubscriptionsApiEndpoint extends BaseApiEndpoint<Subscription, SubscriptionResource, SubscriptionsResponse, SubscriptionAssembler> {
   constructor(http: HttpClient) {
     super(http, `${environment.platformProviderApiBaseUrl}${environment.platformProviderSubscriptionsEndpointPath}`, new SubscriptionAssembler());
   }
