@@ -6,7 +6,9 @@
     "customers": "Clientes",
     "hvof-systems": "Sistemas HVOF",
     "spray-sessions": "Sesiones de rociado",
-    "about": "Acerca de"
+    "about": "Acerca de",
+    "users":"Usuarios"
+
   },
   "home": {
     "title": "Bienvenido a Reliant",
@@ -431,6 +433,27 @@
       "email": "Ingresa un correo válido",
       "ruc": "El RUC debe tener 11 dígitos",
       "password-min": "Mínimo 8 caracteres"
+    },
+    "users": {
+      "list-title": "Usuarios y roles",
+      "name": "Nombre",
+      "email": "Correo",
+      "roles": "Roles",
+      "status": "Estado",
+      "actions": "Acciones",
+      "edit-roles": "Editar roles",
+      "roles-title": "Roles de {{ name }}",
+      "save": "Guardar roles",
+      "cancel": "Cancelar",
+      "role-option": {
+        "ROLE_ORG_ADMIN": "Administrador de organización",
+        "ROLE_QUALITY_ENGINEER": "Ingeniero de calidad e investigación",
+        "ROLE_MAINTENANCE_SUPERVISOR": "Supervisor de mantenimiento de máquina",
+        "ROLE_HVOF_OPERATOR": "Operador HVOF",
+        "ROLE_OPERATIONS_SUPERVISOR": "Supervisor de operación",
+        "ROLE_RELIABILITY_ENGINEER": "Ingeniero de confiabilidad",
+        "ROLE_PROCUREMENT_ANALYST": "Analista de compras"
+      }
     }
   }
 }

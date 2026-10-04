@@ -1,0 +1,16 @@
+<div class="container-with-spacing">
+  @if (user(); as u) {
+    <h1 class="title">{{ 'iam.users.roles-title' | translate: { name: u.fullName } }}</h1>
+    <mat-selection-list>
+      @for (role of store.assignableRoles(); track role.id) {
+        <mat-list-option [selected]="isSelected(role.id)" (selectedChange)="toggle(role.id, $event)">
+          {{ ('iam.users.role-option.' + role.name) | translate }}
+        </mat-list-option>
+      }
+    </mat-selection-list>
+    <div class="actions">
+      <button mat-button (click)="back()">{{ 'iam.users.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" (click)="save()">{{ 'iam.users.save' | translate }}</button>
+    </div>
+  }
+</div>

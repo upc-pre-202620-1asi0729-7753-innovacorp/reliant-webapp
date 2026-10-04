@@ -14,5 +14,6 @@ export const environment = {
   platformProviderControllersEndpointPath: '/controllers',
   platformProviderRecipesEndpointPath: '/recipes',
   platformProviderSpraySessionsEndpointPath: '/spraySessions',
-  platformProviderProcessReadingsEndpointPath: '/processReadings'
+  platformProviderProcessReadingsEndpointPath: '/processReadings',
+  platformProviderRolesEndpointPath: '/roles'
 };

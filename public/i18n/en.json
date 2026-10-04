@@ -6,7 +6,8 @@
     "customers": "Customers",
     "hvof-systems": "HVOF Systems",
     "spray-sessions": "Spray Sessions",
-    "about": "About Us"
+    "about": "About Us",
+    "users":"Users"
   },
   "home": {
     "title": "Welcome to Reliant",
@@ -431,6 +432,27 @@
       "email": "Enter a valid email",
       "ruc": "RUC must have 11 digits",
       "password-min": "At least 8 characters"
+    },
+    "users": {
+      "list-title": "Users and roles",
+      "name": "Name",
+      "email": "Email",
+      "roles": "Roles",
+      "status": "Status",
+      "actions": "Actions",
+      "edit-roles": "Edit roles",
+      "roles-title": "Roles of {{ name }}",
+      "save": "Save roles",
+      "cancel": "Cancel",
+      "role-option": {
+        "ROLE_ORG_ADMIN": "Organization admin",
+        "ROLE_QUALITY_ENGINEER": "Quality & research engineer",
+        "ROLE_MAINTENANCE_SUPERVISOR": "Machine maintenance supervisor",
+        "ROLE_HVOF_OPERATOR": "HVOF operator",
+        "ROLE_OPERATIONS_SUPERVISOR": "Operations supervisor",
+        "ROLE_RELIABILITY_ENGINEER": "Reliability engineer",
+        "ROLE_PROCUREMENT_ANALYST": "Procurement analyst"
+      }
     }
   }
 }

@@ -33,7 +33,9 @@ export class Layout {
       {link: '/traceability/customers',            label: 'option.customers',      visible: supplier},
       {link: '/equipment/hvof-systems',            label: 'option.hvof-systems',   visible: supplier},
       {link: '/process-monitoring/spray-sessions', label: 'option.spray-sessions', visible: supplier},
-      {link: '/about',                             label: 'option.about',          visible: true}
+      {link: '/about',                             label: 'option.about',          visible: true,},
+      {link: '/iam/users', label: 'option.users', visible: this.#iam.isAdmin()},
+
     ].filter(o => o.visible);
   });
 }

@@ -37,6 +37,13 @@
     {
       "id": 5,
       "name": "ROLE_RELIABILITY_ENGINEER"
+    },
+    {
+      "id": 6,
+      "name": "ROLE_OPERATIONS_SUPERVISOR"
+    },
+    { "id": 7,
+      "name": "ROLE_PROCUREMENT_ANALYST"
     }
   ],
   "users": [
