@@ -1,0 +1,41 @@
+.hint { opacity: .7; }
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.plan.disabled { opacity: .55; }
+
+.price {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.price span {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: .7;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.na {
+  font-size: 12px;
+  opacity: .7;
+  padding: 8px;
+}

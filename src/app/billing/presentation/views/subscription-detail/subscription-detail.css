@@ -1,0 +1,16 @@
+.card { max-width: 560px; }
+
+dl {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  row-gap: 10px;
+  margin: 0;
+}
+
+dt { opacity: .7; }
+dd { margin: 0; }
+
+.warn {
+  --mdc-chip-elevated-container-color: #fee2e2;
+  --mdc-chip-label-text-color: #b91c1c;
+}

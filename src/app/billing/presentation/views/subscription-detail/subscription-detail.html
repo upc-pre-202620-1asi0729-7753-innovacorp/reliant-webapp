@@ -1,0 +1,25 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ 'billing.subscription-title' | translate }}</h1>
+  @if (store.subscription(); as sub) {
+    <mat-card appearance="outlined" class="card">
+      <mat-card-content>
+        <dl>
+          <dt>{{ 'billing.plan' | translate }}</dt><dd>{{ store.currentPlan()?.name }}</dd>
+          <dt>{{ 'billing.valid-from' | translate }}</dt><dd>{{ sub.startDate | date:'longDate' }}</dd>
+          <dt>{{ 'billing.valid-until' | translate }}</dt><dd>{{ sub.endDate | date:'longDate' }}</dd>
+          <dt>{{ 'billing.status' | translate }}</dt>
+          <dd>
+            <mat-chip-set>
+              <mat-chip>{{ ('billing.status-option.' + sub.status) | translate }}</mat-chip>
+              <mat-chip [class.warn]="sub.daysToExpiry < 30">{{ 'billing.days-left' | translate: { days: sub.daysToExpiry } }}</mat-chip>
+              @if (sub.daysToExpiry < 30) { <mat-chip class="warn">{{ 'billing.expiring-soon' | translate }}</mat-chip> }
+            </mat-chip-set>
+          </dd>
+        </dl>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <p>{{ 'billing.none' | translate }}</p>
+    <button mat-raised-button color="primary" (click)="choosePlan()">{{ 'billing.choose' | translate }}</button>
+  }
+</div>
