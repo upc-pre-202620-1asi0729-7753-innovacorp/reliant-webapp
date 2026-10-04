@@ -1,16 +1,17 @@
 import {computed, inject, Injectable, Signal, signal} from '@angular/core';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {retry} from 'rxjs';
 import {Customer} from '../domain/model/customer.entity';
-import {TraceabilityApi} from '../infrastructure/traceability-api';
 import {RecoveredComponent} from '../domain/model/component.entity';
 import {Recuperation} from '../domain/model/recuperation.entity';
+import {TraceabilityApi} from '../infrastructure/traceability-api';
+import {IamStore} from '../../iam/application/iam.store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TraceabilityStore {
   readonly #api = inject(TraceabilityApi);
+  readonly #iam = inject(IamStore);
 
   readonly #customersSignal = signal<Customer[]>([]);
   readonly customers = this.#customersSignal.asReadonly();
@@ -20,16 +21,20 @@ export class TraceabilityStore {
   readonly components = this.#componentsSignal.asReadonly();
   readonly componentCount = computed(() => this.components().length);
 
+  readonly #recuperationsSignal = signal<Recuperation[]>([]);
+  readonly recuperations = this.#recuperationsSignal.asReadonly();
+  readonly recuperationCount = computed(() => this.recuperations().length);
+
   readonly #loadingSignal = signal<boolean>(false);
   readonly loading = this.#loadingSignal.asReadonly();
   readonly #errorSignal = signal<string | null>(null);
   readonly error = this.#errorSignal.asReadonly();
 
-  readonly #recuperationsSignal = signal<Recuperation[]>([]);
-  readonly recuperations = this.#recuperationsSignal.asReadonly();
-  readonly recuperationCount = computed(() => this.recuperations().length);
-
   constructor() {
+    this.reload();
+  }
+
+  reload(): void {
     this.#loadCustomers();
     this.#loadComponents();
     this.#loadRecuperations();
@@ -37,6 +42,10 @@ export class TraceabilityStore {
 
   getCustomerById(id: number): Signal<Customer | undefined> {
     return computed(() => id ? this.customers().find(c => c.id === id) : undefined);
+  }
+
+  customerNameOf(customerId: number): string {
+    return this.customers().find(c => c.id === customerId)?.legalName ?? `#${customerId}`;
   }
 
   addCustomer(customer: Customer): void {
@@ -88,8 +97,8 @@ export class TraceabilityStore {
     return computed(() => id ? this.components().find(c => c.id === id) : undefined);
   }
 
-  customerNameOf(customerId: number): string {
-    return this.customers().find(c => c.id === customerId)?.legalName ?? `#${customerId}`;
+  componentSerialOf(componentId: number): string {
+    return this.components().find(c => c.id === componentId)?.serialNumber ?? `#${componentId}`;
   }
 
   addComponent(component: RecoveredComponent): void {
@@ -122,50 +131,8 @@ export class TraceabilityStore {
     });
   }
 
-  #loadComponents(): void {
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.getComponents().pipe(takeUntilDestroyed()).subscribe({
-      next: components => {
-        this.#componentsSignal.set(components);
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to load components'));
-        this.#loadingSignal.set(false);
-      }
-    });
-  }
-
-  #loadCustomers(): void {
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.getCustomers().pipe(takeUntilDestroyed()).subscribe({
-      next: customers => {
-        this.#customersSignal.set(customers);
-        this.#loadingSignal.set(false);
-        this.#errorSignal.set(null);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to load customers'));
-        this.#loadingSignal.set(false);
-      }
-    });
-  }
-
-  #formatError(error: unknown, fallback: string): string {
-    if (error instanceof Error) {
-      return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;
-    }
-    return fallback;
-  }
-
   getRecuperationById(id: number): Signal<Recuperation | undefined> {
     return computed(() => id ? this.recuperations().find(r => r.id === id) : undefined);
-  }
-
-  componentSerialOf(componentId: number): string {
-    return this.components().find(c => c.id === componentId)?.serialNumber ?? `#${componentId}`;
   }
 
   addRecuperation(recuperation: Recuperation): void {
@@ -198,10 +165,54 @@ export class TraceabilityStore {
     });
   }
 
-  #loadRecuperations(): void {
+  #loadCustomers(): void {
+    const organizationId = this.#iam.organizationId();
+    if (!organizationId) {
+      this.#customersSignal.set([]);
+      return;
+    }
     this.#loadingSignal.set(true);
     this.#errorSignal.set(null);
-    this.#api.getRecuperations().pipe(takeUntilDestroyed()).subscribe({
+    this.#api.getCustomersByOrganizationId(organizationId).subscribe({
+      next: customers => {
+        this.#customersSignal.set(customers);
+        this.#loadingSignal.set(false);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to load customers'));
+        this.#loadingSignal.set(false);
+      }
+    });
+  }
+
+  #loadComponents(): void {
+    if (!this.#iam.organizationId()) {
+      this.#componentsSignal.set([]);
+      return;
+    }
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    this.#api.getComponents().subscribe({
+      next: components => {
+        this.#componentsSignal.set(components);
+        this.#loadingSignal.set(false);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to load components'));
+        this.#loadingSignal.set(false);
+      }
+    });
+  }
+
+  #loadRecuperations(): void {
+    const organizationId = this.#iam.organizationId();
+    if (!organizationId) {
+      this.#recuperationsSignal.set([]);
+      return;
+    }
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    this.#api.getRecuperationsByOrganizationId(organizationId).subscribe({
       next: recuperations => {
         this.#recuperationsSignal.set(recuperations);
         this.#loadingSignal.set(false);
@@ -211,5 +222,12 @@ export class TraceabilityStore {
         this.#loadingSignal.set(false);
       }
     });
+  }
+
+  #formatError(error: unknown, fallback: string): string {
+    if (error instanceof Error) {
+      return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;
+    }
+    return fallback;
   }
 }

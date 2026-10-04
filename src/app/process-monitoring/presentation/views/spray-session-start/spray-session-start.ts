@@ -12,6 +12,7 @@ import {SpraySession} from '../../../domain/model/spray-session.entity';
 import {ProcessMonitoringStore} from '../../../application/process-monitoring.store';
 import {EquipmentStore} from '../../../../equipment/application/equipment.store';
 import {TraceabilityStore} from '../../../../traceability/application/traceability.store';
+import {IamStore} from '../../../../iam/application/iam.store';
 
 @Component({
   selector: 'app-spray-session-start',
@@ -25,6 +26,7 @@ export class SpraySessionStart extends BaseForm {
   readonly store = inject(ProcessMonitoringStore);
   readonly equipment = inject(EquipmentStore);
   readonly traceability = inject(TraceabilityStore);
+  readonly iam = inject(IamStore);
 
   form = this.#fb.group({
     hvofSystemId: new FormControl<number | null>(null, { validators: [Validators.required] }),
@@ -58,7 +60,7 @@ export class SpraySessionStart extends BaseForm {
       id: 0,
       hvofSystemId: v.hvofSystemId!,
       recuperationId: v.recuperationId!,
-      operatorId: 4,
+      operatorId: this.iam.userId()!,
       recipeNumber: v.recipeNumber!,
       startedAt: new Date().toISOString(),
       endedAt: null,

@@ -9,6 +9,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {BaseForm} from '../../../../shared/presentation/components/base-form/base-form';
 import {FuelType, HvofSystem} from '../../../domain/model/hvof-system.entity';
 import {EquipmentStore} from '../../../application/equipment.store';
+import {IamStore} from '../../../../iam/application/iam.store';
 
 @Component({
   selector: 'app-hvof-system-form',
@@ -23,6 +24,8 @@ export class HvofSystemForm extends BaseForm {
   readonly store = inject(EquipmentStore);
 
   readonly fuelTypes: FuelType[] = ['HYDROGEN', 'PROPANE', 'KEROSENE', 'NATURAL_GAS'];
+
+  readonly iam = inject(IamStore);
 
   form = this.#fb.group({
     code: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
@@ -56,7 +59,7 @@ export class HvofSystemForm extends BaseForm {
     const system = new HvofSystem({
       id: this.systemId ?? 0,
       code: v.code,
-      organizationId: existing?.organizationId ?? 1,
+      organizationId: existing?.organizationId ?? this.iam.organizationId()!,
       serialNumber: v.serialNumber,
       status: existing?.status ?? 'ACTIVE',
       systemManufacturer: v.systemManufacturer,

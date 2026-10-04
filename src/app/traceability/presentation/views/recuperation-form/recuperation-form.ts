@@ -11,6 +11,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {BaseForm} from '../../../../shared/presentation/components/base-form/base-form';
 import {Recuperation} from '../../../domain/model/recuperation.entity';
 import {TraceabilityStore} from '../../../application/traceability.store';
+import {IamStore} from '../../../../iam/application/iam.store';
 
 @Component({
   selector: 'app-recuperation-form',
@@ -26,6 +27,8 @@ export class RecuperationForm extends BaseForm {
   readonly store = inject(TraceabilityStore);
 
   readonly weightUnits = ['kg', 'lb'];
+
+  readonly iam = inject(IamStore);
 
   form = this.#fb.group({
     componentId: new FormControl<number | null>(null, { validators: [Validators.required] }),
@@ -87,7 +90,7 @@ export class RecuperationForm extends BaseForm {
       manufacturingOrderNumber: v.manufacturingOrderNumber,
       componentId: v.componentId!,
       customerId: v.customerId!,
-      supplierOrganizationId: existing?.supplierOrganizationId ?? 1,
+      supplierOrganizationId: existing?.supplierOrganizationId ?? this.iam.organizationId()!,
       segment: v.segment,
       operation: v.operation,
       weightValue: v.weightValue,

@@ -6,6 +6,7 @@
     @for (option of options(); track option.label) {
       <a mat-button [routerLink]="option.link" routerLinkActive="active">{{ option.label | translate }}</a>
     }
+    <app-authentication-section/>
     <app-language-switcher/>
   </mat-toolbar-row>
 </mat-toolbar>

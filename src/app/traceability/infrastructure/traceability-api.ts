@@ -66,4 +66,12 @@ export class TraceabilityApi extends BaseApi {
   updateRecuperation(recuperation: Recuperation): Observable<Recuperation> {
     return this.#recuperationsEndpoint.update(recuperation, recuperation.id);
   }
+
+  getCustomersByOrganizationId(organizationId: number): Observable<Customer[]> {
+    return this.#customersEndpoint.getAllBy({supplierOrganizationId: organizationId});
+  }
+
+  getRecuperationsByOrganizationId(organizationId: number): Observable<Recuperation[]> {
+    return this.#recuperationsEndpoint.getAllBy({supplierOrganizationId: organizationId});
+  }
 }
