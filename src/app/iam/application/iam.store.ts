@@ -1,4 +1,4 @@
-import {computed, inject, Injectable, signal} from '@angular/core';
+import {computed, inject, Injectable, Injector, signal} from '@angular/core';
 import {Router} from '@angular/router';
 import {IamApi} from '../infrastructure/iam-api';
 import {SignUpCommand} from '../domain/model/sign-up.command';
@@ -19,16 +19,6 @@ interface StoredSession {
   roleIds: number[];
 }
 
-function restoreSession(): StoredSession | null {
-  const raw = localStorage.getItem(SESSION_KEY);
-  if (!raw || !localStorage.getItem(TOKEN_KEY)) return null;
-  try {
-    return JSON.parse(raw) as StoredSession;
-  } catch {
-    return null;
-  }
-}
-
 export const ROLE = {
   ORG_ADMIN: 1,
   QUALITY_ENGINEER: 2,
@@ -39,14 +29,24 @@ export const ROLE = {
   PROCUREMENT_ANALYST: 7
 } as const;
 
+function restoreSession(): StoredSession | null {
+  const raw = localStorage.getItem(SESSION_KEY);
+  if (!raw || !localStorage.getItem(TOKEN_KEY)) return null;
+  try {
+    return JSON.parse(raw) as StoredSession;
+  } catch {
+    return null;
+  }
+}
+
 @Injectable({providedIn: 'root'})
 export class IamStore {
   readonly #iamApi = inject(IamApi);
   readonly #router = inject(Router);
-  readonly #traceability = inject(TraceabilityStore);
-  readonly #equipment = inject(EquipmentStore);
+  readonly #injector = inject(Injector);
 
-  readonly #sessionSignal = signal<StoredSession | null>(restoreSession());  readonly #errorSignal = signal<string | null>(null);
+  readonly #sessionSignal = signal<StoredSession | null>(restoreSession());
+  readonly #errorSignal = signal<string | null>(null);
   readonly error = this.#errorSignal.asReadonly();
 
   readonly isSignedIn = computed(() => this.#sessionSignal() !== null);
@@ -80,8 +80,7 @@ export class IamStore {
         localStorage.setItem(TOKEN_KEY, resource.token);
         localStorage.setItem(SESSION_KEY, JSON.stringify(session));
         this.#sessionSignal.set(session);
-        this.#traceability.reload();
-        this.#equipment.reload();
+        this.#reloadStores();
         this.#router.navigate(['/home']).then();
       },
       error: (err: Error) => {
@@ -106,8 +105,7 @@ export class IamStore {
 
   signOut() {
     this.#clear();
-    this.#traceability.reload();
-    this.#equipment.reload();
+    this.#reloadStores();
     this.#router.navigate(['/iam/sign-in']).then();
   }
 
@@ -117,5 +115,8 @@ export class IamStore {
     this.#sessionSignal.set(null);
   }
 
-
+  #reloadStores() {
+    this.#injector.get(TraceabilityStore).reload();
+    this.#injector.get(EquipmentStore).reload();
+  }
 }
