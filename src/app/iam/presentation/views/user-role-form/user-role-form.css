@@ -1,0 +1,11 @@
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  max-width: 480px;
+  margin-top: 12px;
+}
+
+mat-selection-list {
+  max-width: 480px;
+}

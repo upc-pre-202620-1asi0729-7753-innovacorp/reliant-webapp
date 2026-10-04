@@ -1,0 +1,35 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ 'iam.users.list-title' | translate }}</h1>
+  <table mat-table [dataSource]="store.users()" class="mat-elevation-z8">
+    <ng-container matColumnDef="fullName">
+      <th mat-header-cell *matHeaderCellDef>{{ 'iam.users.name' | translate }}</th>
+      <td mat-cell *matCellDef="let u">{{ u.fullName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>{{ 'iam.users.email' | translate }}</th>
+      <td mat-cell *matCellDef="let u">{{ u.email }}</td>
+    </ng-container>
+    <ng-container matColumnDef="roles">
+      <th mat-header-cell *matHeaderCellDef>{{ 'iam.users.roles' | translate }}</th>
+      <td mat-cell *matCellDef="let u">
+        <mat-chip-set>
+          @for (r of u.roleIds; track r.roleId) {
+            <mat-chip>{{ ('iam.users.role-option.' + store.roleName(r.roleId)) | translate }}</mat-chip>
+          }
+        </mat-chip-set>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>{{ 'iam.users.status' | translate }}</th>
+      <td mat-cell *matCellDef="let u">{{ u.status }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>{{ 'iam.users.actions' | translate }}</th>
+      <td mat-cell *matCellDef="let u">
+        <button mat-icon-button aria-label="{{ 'iam.users.edit-roles' | translate }}" (click)="editRoles(u.id)"><mat-icon>manage_accounts</mat-icon></button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
