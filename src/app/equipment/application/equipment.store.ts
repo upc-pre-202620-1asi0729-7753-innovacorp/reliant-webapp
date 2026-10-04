@@ -7,6 +7,7 @@ import {EquipmentApi} from '../infrastructure/equipment-api';
 import {HvofPart} from '../domain/model/hvof-part.entity';
 import {HvofSubsystem} from '../domain/model/hvof-subsystem.entity';
 import {Recipe} from '../domain/model/recipe.entity';
+import {IamStore} from '../../iam/application/iam.store';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,8 @@ export class EquipmentStore {
 
   readonly #recipesSignal = signal<Recipe[]>([]);
   readonly recipes = this.#recipesSignal.asReadonly();
+
+  readonly #iam = inject(IamStore);
 
   constructor() {
     this.#loadHvofSystems();
@@ -90,8 +93,10 @@ export class EquipmentStore {
   }
 
   #loadHvofSystems(): void {
+    const organizationId = this.#iam.organizationId();
+    if (!organizationId) return;
     this.#loadingSignal.set(true);
-    this.#api.getHvofSystems().pipe(takeUntilDestroyed()).subscribe({
+    this.#api.getHvofSystemsByOrganizationId(organizationId).pipe(takeUntilDestroyed()).subscribe({
       next: systems => {
         this.#hvofSystemsSignal.set(systems);
         this.#loadingSignal.set(false);

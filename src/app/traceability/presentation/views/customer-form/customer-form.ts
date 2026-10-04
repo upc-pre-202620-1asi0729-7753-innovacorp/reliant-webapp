@@ -8,6 +8,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {BaseForm} from '../../../../shared/presentation/components/base-form/base-form';
 import {Customer} from '../../../domain/model/customer.entity';
 import {TraceabilityStore} from '../../../application/traceability.store';
+import {IamStore} from '../../../../iam/application/iam.store';
 
 @Component({
   selector: 'app-customer-form',
@@ -30,6 +31,8 @@ export class CustomerForm extends BaseForm {
   isEdit = false;
   customerId: number | null = null;
 
+  readonly iam = inject(IamStore);
+
   constructor() {
     super();
     this.#route.params.subscribe(params => {
@@ -49,7 +52,7 @@ export class CustomerForm extends BaseForm {
     const existing = this.customerId ? this.#store.getCustomerById(this.customerId)() : undefined;
     const customer = new Customer({
       id: this.customerId ?? 0,
-      supplierOrganizationId: existing?.supplierOrganizationId ?? 1,
+      supplierOrganizationId: existing?.supplierOrganizationId ?? this.iam.organizationId()!,
       linkedAssetOwnerOrganizationId: existing?.linkedAssetOwnerOrganizationId ?? null,
       legalName: this.form.value.legalName!,
       ruc: this.form.value.ruc!,

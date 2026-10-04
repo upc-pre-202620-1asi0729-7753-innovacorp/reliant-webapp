@@ -29,6 +29,10 @@ export class EquipmentApi extends BaseApi {
     return this.#hvofSystemsEndpoint.getAll();
   }
 
+  getHvofSystemsByOrganizationId(organizationId: number): Observable<HvofSystem[]> {
+    return this.#hvofSystemsEndpoint.getAllBy({organizationId});
+  }
+
   createHvofSystem(system: HvofSystem): Observable<HvofSystem> {
     return this.#hvofSystemsEndpoint.create(system);
   }

@@ -5,6 +5,7 @@ import {Customer} from '../domain/model/customer.entity';
 import {TraceabilityApi} from '../infrastructure/traceability-api';
 import {RecoveredComponent} from '../domain/model/component.entity';
 import {Recuperation} from '../domain/model/recuperation.entity';
+import {IamStore} from '../../iam/application/iam.store';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,8 @@ export class TraceabilityStore {
   readonly #recuperationsSignal = signal<Recuperation[]>([]);
   readonly recuperations = this.#recuperationsSignal.asReadonly();
   readonly recuperationCount = computed(() => this.recuperations().length);
+
+  readonly #iam = inject(IamStore);
 
   constructor() {
     this.#loadCustomers();
@@ -138,13 +141,14 @@ export class TraceabilityStore {
   }
 
   #loadCustomers(): void {
+    const organizationId = this.#iam.organizationId();
+    if (!organizationId) return;
     this.#loadingSignal.set(true);
     this.#errorSignal.set(null);
-    this.#api.getCustomers().pipe(takeUntilDestroyed()).subscribe({
+    this.#api.getCustomersByOrganizationId(organizationId).pipe(takeUntilDestroyed()).subscribe({
       next: customers => {
         this.#customersSignal.set(customers);
         this.#loadingSignal.set(false);
-        this.#errorSignal.set(null);
       },
       error: err => {
         this.#errorSignal.set(this.#formatError(err, 'Failed to load customers'));
@@ -199,9 +203,11 @@ export class TraceabilityStore {
   }
 
   #loadRecuperations(): void {
+    const organizationId = this.#iam.organizationId();
+    if (!organizationId) return;
     this.#loadingSignal.set(true);
     this.#errorSignal.set(null);
-    this.#api.getRecuperations().pipe(takeUntilDestroyed()).subscribe({
+    this.#api.getRecuperationsByOrganizationId(organizationId).pipe(takeUntilDestroyed()).subscribe({
       next: recuperations => {
         this.#recuperationsSignal.set(recuperations);
         this.#loadingSignal.set(false);
