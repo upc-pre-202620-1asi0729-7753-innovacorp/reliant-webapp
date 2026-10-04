@@ -6,6 +6,8 @@ import {SignInCommand} from '../domain/model/sign-in.command';
 import {OrganizationType} from '../domain/model/organization.entity';
 import {TraceabilityStore} from '../../traceability/application/traceability.store';
 import {EquipmentStore} from '../../equipment/application/equipment.store';
+import {User} from '../domain/model/user.entity';
+import {Role} from '../domain/model/role.entity';
 
 const TOKEN_KEY = 'reliant.token';
 const SESSION_KEY = 'reliant.session';
@@ -60,6 +62,35 @@ export class IamStore {
   readonly isAssetOwner = computed(() => this.organizationType() === 'ASSET_OWNER');
   readonly isAdmin = computed(() => this.hasRole(ROLE.ORG_ADMIN));
   readonly currentToken = computed(() => this.isSignedIn() ? localStorage.getItem(TOKEN_KEY) : null);
+  readonly #usersSignal = signal<User[]>([]);
+  readonly users = this.#usersSignal.asReadonly();
+  readonly #rolesSignal = signal<Role[]>([]);
+  readonly roles = this.#rolesSignal.asReadonly();
+
+  readonly assignableRoles = computed(() => {
+    const supplier = ['ROLE_ORG_ADMIN', 'ROLE_QUALITY_ENGINEER', 'ROLE_MAINTENANCE_SUPERVISOR', 'ROLE_HVOF_OPERATOR', 'ROLE_OPERATIONS_SUPERVISOR'];
+    const assetOwner = ['ROLE_ORG_ADMIN', 'ROLE_RELIABILITY_ENGINEER', 'ROLE_PROCUREMENT_ANALYST'];
+    const allowed = this.isSupplier() ? supplier : assetOwner;
+    return this.roles().filter(r => allowed.includes(r.name));
+  });
+
+  loadUsersAndRoles() {
+    const organizationId = this.organizationId();
+    if (!organizationId) return;
+    this.#iamApi.getRoles().subscribe({next: roles => this.#rolesSignal.set(roles)});
+    this.#iamApi.getUsersByOrganizationId(organizationId).subscribe({next: users => this.#usersSignal.set(users)});
+  }
+
+  roleName(roleId: number): string {
+    return this.roles().find(r => r.id === roleId)?.name ?? `#${roleId}`;
+  }
+
+  updateUserRoles(userId: number, roleIds: number[]) {
+    this.#iamApi.updateUserRoles(userId, roleIds.map(roleId => ({roleId}))).subscribe({
+      next: updated => this.#usersSignal.update(list => list.map(u => u.id === updated.id ? updated : u)),
+      error: (err: Error) => this.#errorSignal.set(err.message)
+    });
+  }
 
   hasRole(...roleIds: number[]): boolean {
     return roleIds.some(id => this.roleIds().includes(id));
@@ -119,4 +150,7 @@ export class IamStore {
     this.#injector.get(TraceabilityStore).reload();
     this.#injector.get(EquipmentStore).reload();
   }
+
+
+
 }
