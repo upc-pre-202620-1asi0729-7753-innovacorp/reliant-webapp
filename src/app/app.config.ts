@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       return translate.use('es');
     }),
     provideRouter(routes),
-    {provide: SIGN_UP_PORT, useClass: environment.production ? SignUpApiEndpoint : FakeSignUpApiEndpoint},
-    {provide: SIGN_IN_PORT, useClass: environment.production ? SignInApiEndpoint : FakeSignInApiEndpoint}
+    {provide: SIGN_IN_PORT, useClass: environment.useFakeIam ? FakeSignInApiEndpoint : SignInApiEndpoint},
+    {provide: SIGN_UP_PORT, useClass: environment.useFakeIam ? FakeSignUpApiEndpoint : SignUpApiEndpoint}
   ]
 };
