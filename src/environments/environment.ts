@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  platformProviderApiBaseUrl: 'http://localhost:8000/api/v1',
+  useFakeIam: true,
+  platformProviderApiBaseUrl: 'https://reliant-mockapi-ajh4eqgkf7hxg2fx.eastus-01.azurewebsites.net/api/v1',
   platformProviderSignInEndpointPath: '/authentication/sign-in',
   platformProviderSignUpEndpointPath: '/authentication/sign-up',
   platformProviderUsersEndpointPath: '/users',
