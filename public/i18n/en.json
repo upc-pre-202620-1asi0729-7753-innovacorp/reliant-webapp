@@ -7,7 +7,7 @@
     "hvof-systems": "HVOF Systems",
     "spray-sessions": "Spray Sessions",
     "about": "About Us",
-    "users":"Users",
+    "users": "Users",
     "subscription": "Subscription"
   },
   "home": {
@@ -488,5 +488,26 @@
       "ASSET_OWNER": "Asset Owner",
       "null": ""
     }
+  },
+  "trend": {
+    "title": "Live trend vs. recipe bands",
+    "empty": "Waiting for readings…",
+    "legend": {
+      "nominal": "Nominal band",
+      "warning": "Warning",
+      "fault": "Fault",
+      "setpoint": "Setpoint"
+    }
+  },
+  "parameter": {
+    "fuel_gas_flow": "Fuel gas flow",
+    "oxygen_flow": "Oxygen flow",
+    "powder_feed_rate": "Powder feed rate",
+    "carrier_gas_flow": "Carrier gas flow",
+    "fuel_gas_pressure": "Fuel gas pressure",
+    "oxygen_pressure": "Oxygen pressure",
+    "coolant_outlet_temp": "Coolant outlet temp.",
+    "coolant_flow": "Coolant flow",
+    "spray_distance": "Spray distance"
   }
 }

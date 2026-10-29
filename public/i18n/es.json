@@ -7,7 +7,7 @@
     "hvof-systems": "Sistemas HVOF",
     "spray-sessions": "Sesiones de rociado",
     "about": "Acerca de",
-    "users":"Usuarios",
+    "users": "Usuarios",
     "subscription": "Suscripción"
   },
   "home": {
@@ -488,5 +488,26 @@
       "ASSET_OWNER": "Dueño del activo",
       "null": ""
     }
+  },
+  "trend": {
+    "title": "Tendencia en vivo vs. bandas de la receta",
+    "empty": "Esperando lecturas…",
+    "legend": {
+      "nominal": "Banda nominal",
+      "warning": "Warning",
+      "fault": "Fault",
+      "setpoint": "Setpoint"
+    }
+  },
+  "parameter": {
+    "fuel_gas_flow": "Flujo de combustible",
+    "oxygen_flow": "Flujo de oxígeno",
+    "powder_feed_rate": "Alimentación de polvo",
+    "carrier_gas_flow": "Gas portador",
+    "fuel_gas_pressure": "Presión de combustible",
+    "oxygen_pressure": "Presión de oxígeno",
+    "coolant_outlet_temp": "Temp. salida refrigerante",
+    "coolant_flow": "Flujo de refrigerante",
+    "spray_distance": "Distancia de proyección"
   }
 }
