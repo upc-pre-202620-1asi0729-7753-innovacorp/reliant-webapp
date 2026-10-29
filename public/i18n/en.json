@@ -475,5 +475,18 @@
     "none": "Your organization has no active subscription yet.",
     "choose": "Choose a plan",
     "status-option": { "ACTIVE": "Active", "EXPIRED": "Expired", "CANCELLED": "Cancelled" }
+  },
+  "nav": {
+    "group": {
+      "overview": "Overview",
+      "traceability": "Traceability",
+      "equipment": "Equipment",
+      "account": "Account"
+    },
+    "segment": {
+      "RECUPERATION_SUPPLIER": "Recuperation Supplier",
+      "ASSET_OWNER": "Asset Owner",
+      "null": ""
+    }
   }
 }
