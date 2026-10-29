@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       const translate = inject(TranslateService);
       translate.addLangs(['en', 'es']);
-      return translate.use('es');
+      return translate.use(localStorage.getItem('reliant.lang') ?? 'en');
     }),
     provideRouter(routes),
     {provide: SIGN_IN_PORT, useClass: environment.useFakeIam ? FakeSignInApiEndpoint : SignInApiEndpoint},
