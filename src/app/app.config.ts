@@ -13,13 +13,16 @@ import {SignInApiEndpoint} from './iam/infrastructure/sign-in-api-endpoint';
 import {FakeSignInApiEndpoint} from './iam/infrastructure/fake-sign-in-api-endpoint';
 import { withInterceptors} from '@angular/common/http';
 import {iamInterceptor} from './iam/infrastructure/iam.interceptor';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withXhr(), withInterceptors([iamInterceptor])),    provideTranslateService({
+    provideHttpClient(withXhr(), withInterceptors([iamInterceptor])),
+    provideTranslateService({
       loader: provideTranslateHttpLoader({ prefix: './i18n/', suffix: '.json' }),
-      fallbackLang: 'en'
+      fallbackLang: 'en',
     }),
     provideAppInitializer(() => {
       const translate = inject(TranslateService);
@@ -27,7 +30,14 @@ export const appConfig: ApplicationConfig = {
       return translate.use(localStorage.getItem('reliant.lang') ?? 'en');
     }),
     provideRouter(routes),
-    {provide: SIGN_IN_PORT, useClass: environment.useFakeIam ? FakeSignInApiEndpoint : SignInApiEndpoint},
-    {provide: SIGN_UP_PORT, useClass: environment.useFakeIam ? FakeSignUpApiEndpoint : SignUpApiEndpoint}
-  ]
+    provideCharts(withDefaultRegisterables()),
+    {
+      provide: SIGN_IN_PORT,
+      useClass: environment.useFakeIam ? FakeSignInApiEndpoint : SignInApiEndpoint,
+    },
+    {
+      provide: SIGN_UP_PORT,
+      useClass: environment.useFakeIam ? FakeSignUpApiEndpoint : SignUpApiEndpoint,
+    },
+  ],
 };
