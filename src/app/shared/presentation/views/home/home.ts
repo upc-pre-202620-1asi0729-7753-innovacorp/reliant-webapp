@@ -1,8 +1,9 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe, LowerCasePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+
 import { IamStore } from '../../../../iam/application/iam.store';
 import { ProcessMonitoringStore } from '../../../../process-monitoring/application/process-monitoring.store';
 import { TraceabilityStore } from '../../../../traceability/application/traceability.store';
@@ -13,7 +14,15 @@ import { ChartType } from '../../../domain/model/dashboard-widget';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, DatePipe, DecimalPipe, MatButtonModule, TranslatePipe, ChartWidget],
+  imports: [
+    RouterLink,
+    DatePipe,
+    DecimalPipe,
+    LowerCasePipe,
+    MatButtonModule,
+    TranslatePipe,
+    ChartWidget,
+  ],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -37,24 +46,29 @@ export class Home implements OnInit {
     () =>
       this.traceability
         .recuperations()
-        .filter((r) => r.status !== 'DELIVERED' && r.status !== 'CLOSED').length,
+        .filter(
+          (r) => r.status === 'RECEIVED' || r.status === 'IN_PROGRESS' || r.status === 'REWORK',
+        ).length,
   );
 
   readonly totalDeviations = computed(() =>
-    [...this.monitoring.deviationsByParameter().values()].reduce((a, b) => a + b, 0),
+    [...this.monitoring.deviationsByParameter().values()].reduce(
+      (total, count) => total + count,
+      0,
+    ),
   );
 
   readonly deviationLabels = computed(() =>
-    [...this.monitoring.deviationsByParameter().keys()].map((p) =>
-      this.#translate.instant('parameter.' + p),
+    [...this.monitoring.deviationsByParameter().keys()].map((parameter) =>
+      this.#translate.instant('parameter.' + parameter),
     ),
   );
 
   readonly deviationValues = computed(() => [...this.monitoring.deviationsByParameter().values()]);
 
   readonly statusLabels = computed(() =>
-    Object.keys(this.monitoring.sessionsByStatus()).map((s) =>
-      this.#translate.instant('spray-session.status.' + s),
+    Object.keys(this.monitoring.sessionsByStatus()).map((status) =>
+      this.#translate.instant('spray-session.status.' + status),
     ),
   );
 
