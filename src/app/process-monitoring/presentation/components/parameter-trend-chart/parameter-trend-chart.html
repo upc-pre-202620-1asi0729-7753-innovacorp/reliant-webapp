@@ -1,0 +1,20 @@
+﻿
+<div class="chart-box">
+  @if (series().length > 1) {
+    <canvas
+      baseChart
+      type="line"
+      [data]="data()"
+      [options]="options()">
+    </canvas>
+  } @else {
+    <p class="empty">{{ 'trend.empty' | translate }}</p>
+  }
+</div>
+
+<div class="legend">
+  <span><i class="sw ok"></i>{{ 'trend.legend.nominal' | translate }}</span>
+  <span><i class="sw warn"></i>{{ 'trend.legend.warning' | translate }}</span>
+  <span><i class="sw fault"></i>{{ 'trend.legend.fault' | translate }}</span>
+  <span><i class="sw setpoint"></i>{{ 'trend.legend.setpoint' | translate }}</span>
+</div>
