@@ -164,4 +164,46 @@ export class ProcessMonitoringStore {
       this.stopPolling();
     }, 'Failed to finish session');
   }
+
+  readonly #deviationsByParameterSignal = signal<Map<string, number>>(new Map());
+
+  readonly deviationsByParameter =
+    this.#deviationsByParameterSignal.asReadonly();
+
+  readonly sessionsByStatus = computed(() => {
+    const counts: Record<SpraySessionStatus, number> = {
+      active: 0,
+      completed: 0,
+      aborted: 0,
+      interrupted: 0
+    };
+
+    for (const session of this.sessions()) {
+      counts[session.status]++;
+    }
+
+    return counts;
+  });
+
+  loadDeviationsByParameter(): void {
+    this.#api.getOutOfBandReadings().subscribe({
+      next: readings => {
+        const map = new Map<string, number>();
+
+        for (const reading of readings) {
+          map.set(
+            reading.parameter,
+            (map.get(reading.parameter) ?? 0) + 1
+          );
+        }
+
+        this.#deviationsByParameterSignal.set(map);
+      },
+      error: err =>
+        this.#errorSignal.set(
+          this.#formatError(err, 'Failed to load deviations')
+        )
+    });
+  }
+
 }
