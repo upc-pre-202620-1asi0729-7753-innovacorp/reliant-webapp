@@ -1,6 +1,6 @@
 {
   "option": {
-    "home": "Inicio",
+    "Dashboard": "Inicio",
     "recuperations": "Recuperaciones",
     "components": "Componentes",
     "customers": "Clientes",
@@ -475,5 +475,18 @@
     "none": "Tu organización aún no tiene una suscripción activa.",
     "choose": "Elegir un plan",
     "status-option": { "ACTIVE": "Activa", "EXPIRED": "Vencida", "CANCELLED": "Cancelada" }
+  },
+  "nav": {
+    "group": {
+      "overview": "Resumen",
+      "traceability": "Trazabilidad",
+      "equipment": "Equipos",
+      "account": "Cuenta"
+    },
+    "segment": {
+      "RECUPERATION_SUPPLIER": "Proveedor de recuperación",
+      "ASSET_OWNER": "Dueño del activo",
+      "null": ""
+    }
   }
 }
