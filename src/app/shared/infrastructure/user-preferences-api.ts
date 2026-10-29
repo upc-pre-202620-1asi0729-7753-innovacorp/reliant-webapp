@@ -17,3 +17,4 @@ export class UserPreferencesApi extends BaseApi {
     return this.#endpoint.patch(id, { dashboardWidgets: widgets });
   }
 }
+
