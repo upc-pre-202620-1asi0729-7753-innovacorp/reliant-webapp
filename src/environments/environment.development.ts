@@ -18,5 +18,6 @@ export const environment = {
   platformProviderProcessReadingsEndpointPath: '/processReadings',
   platformProviderRolesEndpointPath: '/roles',
   platformProviderPlansEndpointPath: '/plans',
-  platformProviderSubscriptionsEndpointPath: '/subscriptions'
+  platformProviderUserPreferencesEndpointPath: '/userPreferences',
+  platformProviderSubscriptionsEndpointPath: '/subscriptions',
 };
