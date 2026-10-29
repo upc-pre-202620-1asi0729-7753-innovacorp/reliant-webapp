@@ -509,5 +509,24 @@
     "coolant_outlet_temp": "Temp. salida refrigerante",
     "coolant_flow": "Flujo de refrigerante",
     "spray_distance": "Distancia de proyección"
+  },
+  "dashboard": {
+    "title": "Panel de operaciones",
+    "subtitle": "Te damos la bienvenida, {{name}}",
+    "start-session": "Iniciar sesión de proyección",
+    "recent": "Últimas sesiones de proyección",
+    "kpi": {
+      "active-session": "Sesión activa",
+      "since": "desde",
+      "no-active": "No hay ninguna sesión activa",
+      "sessions": "Sesiones de proyección",
+      "deviations": "Lecturas fuera de rango",
+      "deviations-hint": "Advertencias y fallos en todas las sesiones",
+      "in-progress": "Recuperaciones en curso"
+    },
+    "widget": {
+      "deviations": "Desviaciones por parámetro",
+      "sessions-by-status": "Sesiones por estado"
+    }
   }
 }
