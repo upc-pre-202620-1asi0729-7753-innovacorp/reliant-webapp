@@ -1,11 +1,10 @@
 import {computed, inject, Injectable, Signal, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {Observable, retry} from 'rxjs';
 import {SpraySession, SpraySessionStatus} from '../domain/model/spray-session.entity';
 import {ProcessMonitoringApi} from '../infrastructure/process-monitoring-api';
-import {interval, Subscription, switchMap} from 'rxjs';
 import {ProcessReading} from '../domain/model/process-reading.entity';
 import {Band} from '../domain/model/process-reading.entity';
+import { EMPTY, Observable, Subscription, catchError, exhaustMap, retry, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -139,18 +138,27 @@ export class ProcessMonitoringStore {
 
   startPolling(sessionId: number, everyMs = 5000): void {
     this.stopPolling();
-    this.loadReadings(sessionId);
-    this.#polling = interval(everyMs)
-      .pipe(switchMap(() => this.#api.getReadingsBySessionId(sessionId)))
+
+    this.#polling = timer(0, everyMs)
+      .pipe(
+        exhaustMap(() =>
+          this.#api.getReadingsBySessionId(sessionId).pipe(
+            catchError((error: unknown) => {
+              this.#errorSignal.set(this.#formatError(error, 'Failed to refresh readings'));
+
+              return EMPTY;
+            }),
+          ),
+        ),
+      )
       .subscribe({
         next: (readings) => {
           this.#readingsSignal.set(readings);
           this.#lastUpdateSignal.set(new Date());
+          this.#errorSignal.set(null);
         },
-        error: (err) => this.#errorSignal.set(this.#formatError(err, 'Failed to refresh readings')),
       });
   }
-
   stopPolling(): void {
     this.#polling?.unsubscribe();
     this.#polling = null;
