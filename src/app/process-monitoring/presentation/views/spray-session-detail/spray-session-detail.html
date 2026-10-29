@@ -37,6 +37,31 @@
     <div class="grid">
       @for (reading of cards(); track reading.parameter) {
         <app-parameter-card [reading]="reading" [recipeParameter]="recipeParameterOf(reading.parameter)"/>
+        @if (trendParameter(); as parameter) {
+          <section class="card trend-card">
+            <div class="trend-header">
+              <h2>{{ 'trend.title' | translate }}</h2>
+
+              <mat-button-toggle-group
+                [value]="parameter"
+                (change)="selectedParameter.set($event.value)"
+                aria-label="Parameter">
+
+                @for (p of store.parameters(); track p) {
+                  <mat-button-toggle [value]="p">
+                    {{ 'parameter.' + p | translate }}
+                  </mat-button-toggle>
+                }
+              </mat-button-toggle-group>
+            </div>
+
+            <app-parameter-trend-chart
+              [readings]="store.readings()"
+              [parameter]="parameter"
+              [recipeParameter]="trendRecipeParameter()">
+            </app-parameter-trend-chart>
+          </section>
+        }
       }
     </div>
 
