@@ -1,13 +1,13 @@
 {
   "option": {
-    "home": "Inicio",
+    "Dashboard": "Inicio",
     "recuperations": "Recuperaciones",
     "components": "Componentes",
     "customers": "Clientes",
     "hvof-systems": "Sistemas HVOF",
     "spray-sessions": "Sesiones de rociado",
     "about": "Acerca de",
-    "users":"Usuarios",
+    "users": "Usuarios",
     "subscription": "Suscripción"
   },
   "home": {
@@ -475,5 +475,58 @@
     "none": "Tu organización aún no tiene una suscripción activa.",
     "choose": "Elegir un plan",
     "status-option": { "ACTIVE": "Activa", "EXPIRED": "Vencida", "CANCELLED": "Cancelada" }
+  },
+  "nav": {
+    "group": {
+      "overview": "Resumen",
+      "traceability": "Trazabilidad",
+      "equipment": "Equipos",
+      "account": "Cuenta"
+    },
+    "segment": {
+      "RECUPERATION_SUPPLIER": "Proveedor de recuperación",
+      "ASSET_OWNER": "Dueño del activo",
+      "null": ""
+    }
+  },
+  "trend": {
+    "title": "Tendencia en vivo vs. bandas de la receta",
+    "empty": "Esperando lecturas…",
+    "legend": {
+      "nominal": "Banda nominal",
+      "warning": "Warning",
+      "fault": "Fault",
+      "setpoint": "Setpoint"
+    }
+  },
+  "parameter": {
+    "fuel_gas_flow": "Flujo de combustible",
+    "oxygen_flow": "Flujo de oxígeno",
+    "powder_feed_rate": "Alimentación de polvo",
+    "carrier_gas_flow": "Gas portador",
+    "fuel_gas_pressure": "Presión de combustible",
+    "oxygen_pressure": "Presión de oxígeno",
+    "coolant_outlet_temp": "Temp. salida refrigerante",
+    "coolant_flow": "Flujo de refrigerante",
+    "spray_distance": "Distancia de proyección"
+  },
+  "dashboard": {
+    "title": "Panel de operaciones",
+    "subtitle": "Te damos la bienvenida, {{name}}",
+    "start-session": "Iniciar sesión de proyección",
+    "recent": "Últimas sesiones de proyección",
+    "kpi": {
+      "active-session": "Sesión activa",
+      "since": "desde",
+      "no-active": "No hay ninguna sesión activa",
+      "sessions": "Sesiones de proyección",
+      "deviations": "Lecturas fuera de rango",
+      "deviations-hint": "Advertencias y fallos en todas las sesiones",
+      "in-progress": "Recuperaciones en curso"
+    },
+    "widget": {
+      "deviations": "Desviaciones por parámetro",
+      "sessions-by-status": "Sesiones por estado"
+    }
   }
 }

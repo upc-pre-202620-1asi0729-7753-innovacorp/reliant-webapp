@@ -1,28 +1,31 @@
-import {Component, inject} from '@angular/core';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, inject } from '@angular/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { TranslateService } from '@ngx-translate/core';
+
+const LANG_KEY = 'reliant.lang';
 
 @Component({
   selector: 'app-language-switcher',
-  imports: [
-    MatButtonToggleModule
-  ],
+  imports: [MatButtonToggleModule],
   templateUrl: './language-switcher.html',
-  styleUrl: './language-switcher.css'
+  styleUrl: './language-switcher.css',
 })
 export class LanguageSwitcher {
-  protected currentLang = 'es';
+  protected currentLang: string;
   protected languages: string[];
-  #translate: TranslateService;
+
+  readonly #translate = inject(TranslateService);
 
   constructor() {
-    this.#translate = inject(TranslateService);
-    this.currentLang = this.#translate.getCurrentLang() ?? 'es';
+    this.currentLang = localStorage.getItem(LANG_KEY) ?? this.#translate.getCurrentLang() ?? 'en';
+
     this.languages = [...this.#translate.getLangs()];
+    this.#translate.use(this.currentLang);
   }
 
   useLanguage(language: string) {
     this.#translate.use(language);
     this.currentLang = language;
+    localStorage.setItem(LANG_KEY, language);
   }
 }

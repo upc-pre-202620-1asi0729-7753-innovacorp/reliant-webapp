@@ -1,14 +1,55 @@
-<mat-toolbar>
-  <mat-toolbar-row>
-    <img src="/reliant-logo.svg" alt="Reliant logo" class="logo"/>
-    <h1>Reliant</h1>
-    <div class="mat-spacer"></div>
-    @for (option of options(); track option.label) {
-      <a mat-button [routerLink]="option.link" routerLinkActive="active">{{ option.label | translate }}</a>
+
+<div class="shell" [class.menu-open]="menuOpen()">
+  <aside class="sidebar">
+    <a routerLink="/home" class="brand" (click)="closeMenu()">
+      <img src="/reliant-logo.svg" alt="" class="logo"/>
+      <span>Reli<em>ant</em></span>
+    </a>
+
+    @for (group of groups(); track group.label) {
+      <p class="group-label">{{ group.label | translate }}</p>
+
+      @for (option of group.options; track option.link) {
+        <a
+          class="nav-item"
+          [routerLink]="option.link"
+          routerLinkActive="active"
+          (click)="closeMenu()">
+          <mat-icon>{{ option.icon }}</mat-icon>
+          <span>{{ option.label | translate }}</span>
+        </a>
+      }
     }
-    <app-authentication-section/>
-    <app-language-switcher/>
-  </mat-toolbar-row>
-</mat-toolbar>
-<router-outlet/>
-<app-footer-content/>
+
+    @if (iam.isSignedIn()) {
+      <div class="session-box">
+        <span class="session-type">
+          {{ 'nav.segment.' + iam.organizationType() | translate }}
+        </span>
+        <strong>{{ iam.email() }}</strong>
+      </div>
+    }
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <button
+        mat-icon-button
+        class="menu-button"
+        (click)="toggleMenu()"
+        aria-label="Menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div class="grow"></div>
+      <app-language-switcher/>
+      <app-authentication-section/>
+    </header>
+
+    <main>
+      <router-outlet/>
+    </main>
+
+    <app-footer-content/>
+  </div>
+</div>

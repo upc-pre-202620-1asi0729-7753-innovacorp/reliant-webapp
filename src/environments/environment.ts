@@ -1,7 +1,8 @@
 export const environment = {
   production: true,
   useFakeIam: true,
-  platformProviderApiBaseUrl: 'https://reliant-mockapi-ajh4eqgkf7hxg2fx.eastus-01.azurewebsites.net/api/v1',
+  platformProviderApiBaseUrl:
+    'https://reliant-mockapi-ajh4eqgkf7hxg2fx.eastus-01.azurewebsites.net/api/v1',
   platformProviderSignInEndpointPath: '/authentication/sign-in',
   platformProviderSignUpEndpointPath: '/authentication/sign-up',
   platformProviderUsersEndpointPath: '/users',
@@ -18,5 +19,6 @@ export const environment = {
   platformProviderProcessReadingsEndpointPath: '/processReadings',
   platformProviderRolesEndpointPath: '/roles',
   platformProviderPlansEndpointPath: '/plans',
-  platformProviderSubscriptionsEndpointPath: '/subscriptions'
+  platformProviderUserPreferencesEndpointPath: '/userPreferences',
+  platformProviderSubscriptionsEndpointPath: '/subscriptions',
 };

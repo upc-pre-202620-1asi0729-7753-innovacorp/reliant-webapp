@@ -1,9 +1,132 @@
-.mat-spacer {
-  flex: 1 1 auto;
+
+.shell {
+  min-height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  background: var(--reliant-navy);
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 24px 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px 22px;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.brand em {
+  font-style: normal;
+  color: var(--reliant-orange);
 }
 
 .logo {
-  height: 32px;
-  margin-right: 12px;
-  color: white;
+  height: 28px;
+}
+
+.group-label {
+  margin: 14px 14px 4px;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #7D8A9C;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  color: #C9D1DC;
+  text-decoration: none;
+  font-size: 14px;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.nav-item:hover {
+  background: var(--reliant-navy-soft);
+  color: #FFFFFF;
+}
+
+.nav-item.active {
+  background: var(--reliant-orange);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.session-box {
+  margin-top: auto;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--reliant-navy-soft);
+  font-size: 12px;
+  color: #C9D1DC;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.session-box strong {
+  color: #FFFFFF;
+  word-break: break-all;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 24px;
+  background: var(--reliant-card);
+  border-bottom: 1px solid var(--reliant-border);
+}
+
+.topbar .grow {
+  flex-grow: 1;
+}
+
+.menu-button {
+  display: none;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 20;
+    transform: translateX(-100%);
+    transition: transform .2s ease;
+  }
+
+  .menu-open .sidebar {
+    transform: none;
+  }
+
+  .menu-button {
+    display: inline-flex;
+  }
 }

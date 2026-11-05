@@ -7,7 +7,7 @@
     "hvof-systems": "HVOF Systems",
     "spray-sessions": "Spray Sessions",
     "about": "About Us",
-    "users":"Users",
+    "users": "Users",
     "subscription": "Subscription"
   },
   "home": {
@@ -168,7 +168,9 @@
       "MAINTENANCE": "Maintenance",
       "OUT_OF_SERVICE": "Out of service"
     },
-    "error": { "required": "This field is required" }
+    "error": {
+      "required": "This field is required"
+    }
   },
   "controllers": {
     "number": "#",
@@ -300,7 +302,11 @@
     "edit": "Edit",
     "publish": "Publish",
     "empty": "No recipes defined yet.",
-    "status-option": { "DRAFT": "Draft", "ACTIVE": "Active", "RETIRED": "Retired" }
+    "status-option": {
+      "DRAFT": "Draft",
+      "ACTIVE": "Active",
+      "RETIRED": "Retired"
+    }
   },
   "recipe": {
     "new-title": "New Recipe",
@@ -474,6 +480,62 @@
     "expiring-soon": "Expiring soon",
     "none": "Your organization has no active subscription yet.",
     "choose": "Choose a plan",
-    "status-option": { "ACTIVE": "Active", "EXPIRED": "Expired", "CANCELLED": "Cancelled" }
+    "status-option": {
+      "ACTIVE": "Active",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled"
+    }
+  },
+  "nav": {
+    "group": {
+      "overview": "Overview",
+      "traceability": "Traceability",
+      "equipment": "Equipment",
+      "account": "Account"
+    },
+    "segment": {
+      "RECUPERATION_SUPPLIER": "Recuperation Supplier",
+      "ASSET_OWNER": "Asset Owner",
+      "null": ""
+    }
+  },
+  "trend": {
+    "title": "Live trend vs. recipe bands",
+    "empty": "Waiting for readings…",
+    "legend": {
+      "nominal": "Nominal band",
+      "warning": "Warning",
+      "fault": "Fault",
+      "setpoint": "Setpoint"
+    }
+  },
+  "parameter": {
+    "fuel_gas_flow": "Fuel gas flow",
+    "oxygen_flow": "Oxygen flow",
+    "powder_feed_rate": "Powder feed rate",
+    "fuel_gas_pressure": "Fuel gas pressure",
+    "oxygen_pressure": "Oxygen pressure",
+    "coolant_outlet_temp": "Coolant outlet temp.",
+    "coolant_flow": "Coolant flow",
+    "spray_distance": "Spray distance"
+  },
+  "dashboard": {
+    "title": "Operations dashboard",
+    "subtitle": "Welcome back, {{name}}",
+    "start-session": "Start spray session",
+    "recent": "Latest spray sessions",
+    "kpi": {
+      "active-session": "Active session",
+      "since": "since",
+      "no-active": "No session running",
+      "sessions": "Spray sessions",
+      "deviations": "Out-of-band readings",
+      "deviations-hint": "warning + fault, all sessions",
+      "in-progress": "Recuperations in progress"
+    },
+    "widget": {
+      "deviations": "Deviations by parameter",
+      "sessions-by-status": "Sessions by status"
+    }
   }
 }
