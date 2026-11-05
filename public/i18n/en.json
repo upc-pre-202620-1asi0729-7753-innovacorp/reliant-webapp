@@ -540,6 +540,7 @@
   },
   "session-report": {
     "open": "View report",
+    "download": "Download CSV",
     "title": "Session report",
     "back": "Back to sessions",
     "loading": "Loading report…",

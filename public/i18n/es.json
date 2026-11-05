@@ -531,6 +531,7 @@
   },
   "session-report": {
     "open": "Ver reporte",
+    "download": "Descargar CSV",
     "title": "Reporte de sesión",
     "back": "Volver a sesiones",
     "loading": "Cargando reporte…",
