@@ -21,11 +21,27 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-spray-session-list',
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule, MatInputModule,
-    MatError, MatProgressSpinner, MatPaginator, MatSort, MatSortHeader, TranslatePipe, DatePipe, FormsModule],
+  imports: [
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatError,
+    MatProgressSpinner,
+    MatPaginator,
+    MatSort,
+    MatSortHeader,
+    TranslatePipe,
+    DatePipe,
+    FormsModule,
+  ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './spray-session-list.html',
-  styleUrl: './spray-session-list.css'
+  styleUrl: './spray-session-list.css',
 })
 export class SpraySessionList {
   readonly store = inject(ProcessMonitoringStore);
@@ -33,7 +49,16 @@ export class SpraySessionList {
   readonly traceability = inject(TraceabilityStore);
   protected router = inject(Router);
 
-  displayedColumns: string[] = ['id', 'startedAt', 'hvofSystem', 'recuperation', 'recipeNumber', 'status', 'deviations', 'actions'];
+  displayedColumns: string[] = [
+    'id',
+    'startedAt',
+    'hvofSystem',
+    'recuperation',
+    'recipeNumber',
+    'status',
+    'deviations',
+    'actions',
+  ];
   readonly sort = viewChild(MatSort);
   readonly paginator = viewChild(MatPaginator);
 
@@ -45,9 +70,10 @@ export class SpraySessionList {
   readonly filtered = computed(() => {
     const from = this.filterFrom();
     const to = this.filterTo();
-    return this.store.sessions().filter(s => {
+    return this.store.sessions().filter((s) => {
       if (this.filterSystemId() && s.hvofSystemId !== this.filterSystemId()) return false;
-      if (this.filterRecuperationId() && s.recuperationId !== this.filterRecuperationId()) return false;
+      if (this.filterRecuperationId() && s.recuperationId !== this.filterRecuperationId())
+        return false;
       const started = new Date(s.startedAt);
       if (from && started < from) return false;
       if (to) {
@@ -73,7 +99,7 @@ export class SpraySessionList {
   });
 
   constructor() {
-    effect(() => this.filtered().forEach(s => this.store.loadDeviations(s.id)));
+    effect(() => this.filtered().forEach((s) => this.store.loadDeviations(s.id)));
   }
 
   deviationsOf(sessionId: number): string {
@@ -102,5 +128,8 @@ export class SpraySessionList {
 
   openSession(id: number) {
     this.router.navigate(['process-monitoring/spray-sessions', id]).then();
+  }
+  openReport(id: number): void {
+    void this.router.navigate(['/process-monitoring/spray-sessions', id, 'report']);
   }
 }
