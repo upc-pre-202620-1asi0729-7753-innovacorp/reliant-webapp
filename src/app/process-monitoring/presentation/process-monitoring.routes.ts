@@ -8,7 +8,26 @@ const spraySessionDetail = () => import('./views/spray-session-detail/spray-sess
 const baseTitle = 'Reliant';
 
 export const processMonitoringRoutes: Routes = [
-  { path: 'spray-sessions',      loadComponent: spraySessionList,  title: `${baseTitle} - Spray Sessions` },
-  { path: 'spray-sessions/new',  loadComponent: spraySessionStart, title: `${baseTitle} - Start Session`, canActivate: [roleGuard(ROLE.ORG_ADMIN, ROLE.HVOF_OPERATOR, ROLE.OPERATIONS_SUPERVISOR)] },
-  { path: 'spray-sessions/:id',  loadComponent: spraySessionDetail, title: `${baseTitle} - Session` }
+  {
+    path: 'spray-sessions',
+    loadComponent: spraySessionList,
+    title: `${baseTitle} - Spray Sessions`,
+  },
+  {
+    path: 'spray-sessions/new',
+    loadComponent: spraySessionStart,
+    title: `${baseTitle} - Start Session`,
+    canActivate: [roleGuard(ROLE.ORG_ADMIN, ROLE.HVOF_OPERATOR, ROLE.OPERATIONS_SUPERVISOR)],
+  },
+  {
+    path: 'spray-sessions/:id/report',
+    loadComponent: () =>
+      import('./views/spray-session-report/spray-session-report').then((m) => m.SpraySessionReport),
+    title: `${baseTitle} - Session Report`,
+  },
+  {
+    path: 'spray-sessions/:id',
+    loadComponent: spraySessionDetail,
+    title: `${baseTitle} - Session`,
+  },
 ];

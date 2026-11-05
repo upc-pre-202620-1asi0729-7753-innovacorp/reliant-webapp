@@ -528,5 +528,19 @@
       "deviations": "Desviaciones por parámetro",
       "sessions-by-status": "Sesiones por estado"
     }
+  },
+  "session-report": {
+    "open": "Ver reporte",
+    "download": "Descargar CSV",
+    "title": "Reporte de sesión",
+    "back": "Volver a sesiones",
+    "loading": "Cargando reporte…",
+    "error": "No se pudo cargar el reporte de esta sesión.",
+    "empty": "Esta sesión no tiene lecturas.",
+    "timestamp": "Fecha y hora",
+    "parameter": "Parámetro",
+    "value": "Valor",
+    "unit": "Unidad",
+    "band": "Banda"
   }
 }

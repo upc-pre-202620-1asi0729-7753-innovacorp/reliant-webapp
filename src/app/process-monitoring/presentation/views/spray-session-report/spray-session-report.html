@@ -1,0 +1,60 @@
+﻿<main class="container-with-spacing">
+  <a mat-button routerLink="/process-monitoring/spray-sessions">
+    {{ 'session-report.back' | translate }}
+  </a>
+
+  @let state = report();
+
+  @if (state.status === 'ready') {
+    <button
+      mat-raised-button
+      type="button"
+      [disabled]="state.readings.length === 0"
+      (click)="exportCsv()"
+    >
+      {{ 'session-report.download' | translate }}
+    </button>
+  }
+
+  <h1 class="title">
+    {{ 'session-report.title' | translate }}
+    @if (state.status === 'ready') {
+      #{{ state.sessionId }}
+    }
+  </h1>
+
+  @if (state.status === 'loading') {
+    <p role="status">{{ 'session-report.loading' | translate }}</p>
+  } @else if (state.status === 'error') {
+    <p role="alert">{{ 'session-report.error' | translate }}</p>
+  } @else if (state.status === 'ready') {
+    @if (state.readings.length === 0) {
+      <p role="status">{{ 'session-report.empty' | translate }}</p>
+    } @else {
+      <div class="table-wrapper">
+        <table [attr.aria-label]="'session-report.title' | translate">
+          <thead>
+          <tr>
+            <th scope="col">{{ 'session-report.timestamp' | translate }}</th>
+            <th scope="col">{{ 'session-report.parameter' | translate }}</th>
+            <th scope="col">{{ 'session-report.value' | translate }}</th>
+            <th scope="col">{{ 'session-report.unit' | translate }}</th>
+            <th scope="col">{{ 'session-report.band' | translate }}</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (reading of state.readings; track reading.id) {
+              <tr>
+                <td>{{ reading.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                <td>{{ reading.parameter }}</td>
+                <td>{{ reading.value }}</td>
+                <td>{{ reading.unitSymbol }}</td>
+                <td>{{ reading.band }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+</main>
