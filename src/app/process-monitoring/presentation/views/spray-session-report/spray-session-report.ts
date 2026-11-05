@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, forkJoin, map, of, startWith, switchMap } from 'rxjs';
+import { downloadSessionReadingsCsv } from './session-readings-csv';
 
 import type { ProcessReading } from '../../../domain/model/process-reading.entity';
 import { ProcessMonitoringApi } from '../../../infrastructure/process-monitoring-api';
@@ -71,4 +72,11 @@ export class SpraySessionReport {
     ),
     { initialValue: loading },
   );
+  exportCsv(): void {
+    const state = this.report();
+
+    if (state.status === 'ready') {
+      downloadSessionReadingsCsv(state.sessionId, state.readings);
+    }
+  }
 }
