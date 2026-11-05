@@ -5,6 +5,17 @@
 
   @let state = report();
 
+  @if (state.status === 'ready') {
+    <button
+      mat-raised-button
+      type="button"
+      [disabled]="state.readings.length === 0"
+      (click)="exportCsv()"
+    >
+      {{ 'session-report.download' | translate }}
+    </button>
+  }
+
   <h1 class="title">
     {{ 'session-report.title' | translate }}
     @if (state.status === 'ready') {
