@@ -537,5 +537,18 @@
       "deviations": "Deviations by parameter",
       "sessions-by-status": "Sessions by status"
     }
+  },
+  "session-report": {
+    "open": "View report",
+    "title": "Session report",
+    "back": "Back to sessions",
+    "loading": "Loading report…",
+    "error": "Could not load the report for this session.",
+    "empty": "This session has no readings.",
+    "timestamp": "Date and time",
+    "parameter": "Parameter",
+    "value": "Value",
+    "unit": "Unit",
+    "band": "Band"
   }
 }
