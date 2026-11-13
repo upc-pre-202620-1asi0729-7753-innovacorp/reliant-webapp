@@ -55,3 +55,14 @@
 .band-out_of_nominal { background: #ca8a04; }
 .band-warning        { background: #ea580c; }
 .band-shutdown       { background: #b91c1c; }
+
+.actions .grow { flex: 1; }
+.actions { flex-wrap: wrap; align-items: center; }
+.tabs { margin-top: 16px; }
+.tab-content { padding: 16px 0; }
+.empty { opacity: .7; }
+.trend-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
+.trend-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.trend-header h2 { margin: 0; font-size: 1rem; }
+.status-chip.status-active { --mdc-chip-elevated-container-color: rgba(31,138,76,.15); }
+.status-chip.status-aborted { --mdc-chip-elevated-container-color: rgba(192,57,43,.15); }

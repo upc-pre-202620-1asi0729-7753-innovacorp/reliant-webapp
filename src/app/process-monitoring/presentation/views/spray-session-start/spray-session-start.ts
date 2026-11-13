@@ -68,12 +68,7 @@ export class SpraySessionStart extends BaseForm {
       status: 'active'
     });
     this.store.startSession(session, created => {
-      const recuperation = this.traceability.getRecuperationById(created.recuperationId)();
-      if (recuperation) {
-        recuperation.status = 'IN_PROGRESS';
-        recuperation.linkedSessions = [...recuperation.linkedSessions, {sessionId: created.id}];
-        this.traceability.updateRecuperation(recuperation);
-      }
+      this.traceability.refreshRecuperations();
       this.#router.navigate(['process-monitoring/spray-sessions', created.id]).then();
     });
   }

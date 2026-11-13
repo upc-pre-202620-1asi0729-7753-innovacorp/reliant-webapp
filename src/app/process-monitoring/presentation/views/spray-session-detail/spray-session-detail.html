@@ -12,7 +12,7 @@
         <mat-chip>{{ 'session-detail.recipe' | translate }}: #{{ s.recipeNumber }} {{ recipe()?.name ?? '' }}</mat-chip>
         <mat-chip>{{ 'session-detail.started' | translate }}: {{ s.startedAt | date:'yyyy-MM-dd HH:mm' }}</mat-chip>
         @if (s.endedAt) { <mat-chip>{{ 'session-detail.ended' | translate }}: {{ s.endedAt | date:'yyyy-MM-dd HH:mm' }}</mat-chip> }
-        <mat-chip>{{ ('spray-sessions.status-option.' + s.status) | translate }}</mat-chip>
+        <mat-chip class="status-chip status-{{ s.status }}">{{ ('spray-sessions.status-option.' + s.status) | translate }}</mat-chip>
       </mat-chip-set>
     </div>
 
@@ -31,73 +31,60 @@
       }
     </div>
 
-    @if (cards().length === 0) {
-      <p>{{ 'session-detail.no-readings' | translate }}</p>
-    }
-    <div class="grid">
-      @for (reading of cards(); track reading.parameter) {
-        <app-parameter-card [reading]="reading" [recipeParameter]="recipeParameterOf(reading.parameter)"/>
-        @if (trendParameter(); as parameter) {
-          <section class="card trend-card">
-            <div class="trend-header">
-              <h2>{{ 'trend.title' | translate }}</h2>
-
-              <mat-button-toggle-group
-                [value]="parameter"
-                (change)="selectedParameter.set($event.value)"
-                aria-label="Parameter">
-
-                @for (p of store.parameters(); track p) {
-                  <mat-button-toggle [value]="p">
-                    {{ 'parameter.' + p | translate }}
-                  </mat-button-toggle>
-                }
-              </mat-button-toggle-group>
-            </div>
-
-            <app-parameter-trend-chart
-              [readings]="store.readings()"
-              [parameter]="parameter"
-              [recipeParameter]="trendRecipeParameter()">
-            </app-parameter-trend-chart>
-          </section>
-        }
+    <div class="actions">
+      @if (s.isActive) {
+        <button mat-stroked-button [disabled]="simulating() || !recipe()" (click)="simulateReading()">
+          <mat-icon>sensors</mat-icon> {{ 'session-detail.simulate' | translate }}
+        </button>
+        <button mat-stroked-button [disabled]="simulating() || !recipe()" (click)="simulateBurst()">
+          <mat-icon>bolt</mat-icon> {{ 'session-detail.simulate-burst' | translate }}
+        </button>
+        <span class="grow"></span>
+        <button mat-raised-button color="primary" [disabled]="store.loading()" (click)="complete()">
+          <mat-icon>check_circle</mat-icon> {{ 'session-detail.complete' | translate }}
+        </button>
+        <button mat-raised-button color="warn" [disabled]="store.loading()" (click)="abort()">
+          <mat-icon>stop_circle</mat-icon> {{ 'session-detail.abort' | translate }}
+        </button>
+      } @else {
+        <span class="grow"></span>
       }
+      <button mat-stroked-button (click)="faultCases()"><mat-icon>report</mat-icon> {{ 'session-detail.fault-cases' | translate }}</button>
+      <button mat-stroked-button (click)="analysis()"><mat-icon>analytics</mat-icon> {{ 'session-detail.analysis' | translate }}</button>
     </div>
 
-    @if (s.isActive) {
-      <div class="actions">
-        @if (isDev) {
-          <button
-            mat-stroked-button
-            [disabled]="store.loading()"
-            (click)="simulateReading()"
-          >
-            <mat-icon>sensors</mat-icon>
-            {{ 'session-detail.simulate' | translate }}
-          </button>
-        }
-
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="store.loading()"
-          (click)="complete()"
-        >
-          <mat-icon>check_circle</mat-icon>
-          {{ 'session-detail.complete' | translate }}
-        </button>
-
-        <button
-          mat-raised-button
-          color="warn"
-          [disabled]="store.loading()"
-          (click)="abort()"
-        >
-          <mat-icon>stop_circle</mat-icon>
-          {{ 'session-detail.abort' | translate }}
-        </button>
-      </div>
-    }
+    <mat-tab-group class="tabs">
+      <mat-tab [label]="'session-detail.tab-live' | translate">
+        <div class="tab-content">
+          @if (cards().length === 0) {
+            <p class="empty">{{ 'session-detail.no-readings' | translate }}</p>
+          }
+          <div class="grid">
+            @for (reading of cards(); track reading.parameter) {
+              <app-parameter-card [reading]="reading" [recipeParameter]="recipeParameterOf(reading.parameter)"/>
+            }
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab [label]="'session-detail.tab-trends' | translate">
+        <div class="tab-content">
+          @if (trendParameter(); as parameter) {
+            <section class="card trend-card">
+              <div class="trend-header">
+                <h2>{{ 'trend.title' | translate }}</h2>
+                <mat-button-toggle-group [value]="parameter" (change)="selectedParameter.set($event.value)" aria-label="Parameter">
+                  @for (p of store.parameters(); track p) {
+                    <mat-button-toggle [value]="p">{{ 'parameter.' + p | translate }}</mat-button-toggle>
+                  }
+                </mat-button-toggle-group>
+              </div>
+              <app-parameter-trend-chart [readings]="store.readings()" [parameter]="parameter" [recipeParameter]="trendRecipeParameter()"/>
+            </section>
+          } @else {
+            <p class="empty">{{ 'session-detail.no-readings' | translate }}</p>
+          }
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   }
 </div>

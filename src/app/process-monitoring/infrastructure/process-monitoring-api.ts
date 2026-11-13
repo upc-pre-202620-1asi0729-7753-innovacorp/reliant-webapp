@@ -1,25 +1,14 @@
-import { Injectable } from '@angular/core';
-import { forkJoin, map, Observable } from 'rxjs';
-import { BaseApi } from '../../shared/infrastructure/base-api';
-import { SpraySession } from '../domain/model/spray-session.entity';
-import { ProcessReading } from '../domain/model/process-reading.entity';
-import { SpraySessionResource } from './spray-sessions-response';
-import { SpraySessionsApiEndpoint } from './spray-sessions-api-endpoint';
-import { ProcessReadingsApiEndpoint } from './process-readings-api-endpoint';
+import {Injectable} from '@angular/core';
+import {map, Observable} from 'rxjs';
+import {BaseApi} from '../../shared/infrastructure/base-api';
+import {SpraySession} from '../domain/model/spray-session.entity';
+import {ProcessReading} from '../domain/model/process-reading.entity';
+import {DeviationCounts, SpraySessionsApiEndpoint} from './spray-sessions-api-endpoint';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ProcessMonitoringApi extends BaseApi {
   readonly #sessionsEndpoint = new SpraySessionsApiEndpoint(this.http);
 
-  readonly #readingsEndpoint = new ProcessReadingsApiEndpoint(this.http);
-
-  getReadingsBySessionId(spraySessionId: number): Observable<ProcessReading[]> {
-    return this.#readingsEndpoint.getAllBy({ spraySessionId, _sort: 'epochMillis', _order: 'asc' });
-  }
-
-  createReading(reading: ProcessReading): Observable<ProcessReading> {
-    return this.#readingsEndpoint.create(reading);
-  }
   getSessions(): Observable<SpraySession[]> {
     return this.#sessionsEndpoint.getAll();
   }
@@ -28,25 +17,29 @@ export class ProcessMonitoringApi extends BaseApi {
     return this.#sessionsEndpoint.getById(id);
   }
 
-  createSession(session: SpraySession): Observable<SpraySession> {
+  startSession(session: SpraySession): Observable<SpraySession> {
     return this.#sessionsEndpoint.create(session);
   }
 
-  patchSession(id: number, changes: Partial<SpraySessionResource>): Observable<SpraySession> {
-    return this.#sessionsEndpoint.patch(id, changes);
+  completeSession(id: number): Observable<SpraySession> {
+    return this.#sessionsEndpoint.complete(id);
   }
 
-  getDeviationCount(spraySessionId: number): Observable<number> {
-    return forkJoin([
-      this.#readingsEndpoint.getAllBy({ spraySessionId, band: 'warning' }),
-      this.#readingsEndpoint.getAllBy({ spraySessionId, band: 'shutdown' }),
-    ]).pipe(map(([warning, shutdown]) => warning.length + shutdown.length));
+  abortSession(id: number, reason: string): Observable<SpraySession> {
+    return this.#sessionsEndpoint.abort(id, reason);
   }
 
-  getOutOfBandReadings(): Observable<ProcessReading[]> {
-    return forkJoin([
-      this.#readingsEndpoint.getAllBy({ band: 'warning' }),
-      this.#readingsEndpoint.getAllBy({ band: 'shutdown' }),
-    ]).pipe(map(([warning, shutdown]) => [...warning, ...shutdown]));
+  getReadingsBySessionId(spraySessionId: number): Observable<ProcessReading[]> {
+    return this.#sessionsEndpoint.getReadings(spraySessionId).pipe(
+      map(readings => [...readings].sort((a, b) => a.epochMillis - b.epochMillis || a.id - b.id))
+    );
+  }
+
+  ingestReadings(spraySessionId: number, readings: ProcessReading[]): Observable<ProcessReading[]> {
+    return this.#sessionsEndpoint.ingestReadings(spraySessionId, readings);
+  }
+
+  getDeviations(spraySessionId: number): Observable<DeviationCounts> {
+    return this.#sessionsEndpoint.getDeviations(spraySessionId);
   }
 }
