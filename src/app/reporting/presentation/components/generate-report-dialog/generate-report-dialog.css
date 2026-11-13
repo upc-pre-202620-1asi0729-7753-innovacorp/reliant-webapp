@@ -1,0 +1,6 @@
+.full { width: 100%; min-width: 360px; }
+.hint { margin: 0 0 12px; color: var(--reliant-text-muted); font-size: 14px; }
+.meta { margin: 0; font-size: 13px; color: var(--reliant-text-muted); line-height: 1.5; }
+.warn { color: var(--reliant-orange-dark); }
+.error { color: var(--reliant-fault); }
+button mat-spinner { display: inline-block; margin-right: 6px; }

@@ -1,0 +1,27 @@
+<div class="preview-page" [class.landscape]="landscape()" [style.--primary]="template().primaryColor" [style.--secondary]="template().secondaryColor">
+  <div class="band"><span>{{ template().headerText || template().name || ('reports.preview-header' | translate) }}</span></div>
+  <div class="body">
+    <div class="title">{{ template().name || ('reports.preview-title' | translate) }}</div>
+    @for (section of sections(); track $index) {
+      <div class="section">
+        <div class="section-title">{{ section.title || ('reports.preview-section' | translate) }}</div>
+        <div class="grid-widgets">
+          @for (widget of section.widgets; track $index) {
+            <div class="widget" [class.full]="isFull(widget)" [class.chart]="widget.viewType === 'trend'" [class.table]="widget.viewType === 'table'">
+              <small>{{ widget.variableLabel || widget.variableCode || ('reports.preview-widget' | translate) }}</small>
+              @if (widget.viewType === 'trend') {
+                <svg viewBox="0 0 100 24" preserveAspectRatio="none"><polyline points="0,16 15,12 30,14 45,6 60,10 75,4 90,9 100,7" fill="none" stroke="var(--secondary)" stroke-width="2"/></svg>
+              } @else if (widget.viewType === 'table') {
+                <div class="rows"><i></i><i></i><i></i></div>
+              } @else {
+                <b>{{ widget.viewType === 'min_max' ? '152 – 168' : '160' }}</b>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+    @if (template().showSignatureBlock) { <div class="signature"><span></span><span></span></div> }
+  </div>
+  <div class="footer">{{ template().footerText || 'Reliant' }}<em>1 / 1</em></div>
+</div>

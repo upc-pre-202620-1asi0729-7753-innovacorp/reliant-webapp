@@ -20,6 +20,7 @@ import {ProcessReading} from '../../../domain/model/process-reading.entity';
 import {RecipeParameter} from '../../../../equipment/domain/model/recipe.entity';
 import {classify} from '../../../domain/model/band';
 import {AbortSessionDialog} from '../../components/abort-session-dialog/abort-session-dialog';
+import {GenerateReportDialog} from '../../../../reporting/presentation/components/generate-report-dialog/generate-report-dialog';
 
 /**
  * Live view of a spray session: latest value per parameter, trend charts against the recipe bands,
@@ -129,6 +130,10 @@ export class SpraySessionDetail implements OnDestroy {
 
   analysis() {
     this.#router.navigate(['process-monitoring/spray-sessions', this.sessionId(), 'report']).then();
+  }
+
+  generatePdf() {
+    this.#dialog.open(GenerateReportDialog, {data: {sessionId: this.sessionId()}, width: '480px'});
   }
 
   faultCases() {
