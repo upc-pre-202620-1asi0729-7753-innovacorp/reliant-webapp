@@ -10,7 +10,8 @@
     "users": "Users",
     "subscription": "Subscription",
     "fault-cases": "Fault Cases",
-    "fault-rules": "Fault Rules"
+    "fault-rules": "Fault Rules",
+    "quick-start": "Quick start"
   },
   "home": {
     "title": "Welcome to Reliant",
@@ -526,7 +527,11 @@
     "oxygen_pressure": "Oxygen pressure",
     "coolant_outlet_temp": "Coolant outlet temp.",
     "coolant_flow": "Coolant flow",
-    "spray_distance": "Spray distance"
+    "spray_distance": "Spray distance",
+    "cooling_air_flow": "Cooling air flow",
+    "carrier_gas_flow": "Carrier gas flow",
+    "hopper_pressure": "Hopper pressure",
+    "spindle_speed": "Spindle speed"
   },
   "dashboard": {
     "title": "Operations dashboard",
@@ -540,12 +545,25 @@
       "sessions": "Spray sessions",
       "deviations": "Out-of-band readings",
       "deviations-hint": "warning + fault, all sessions",
-      "in-progress": "Recuperations in progress"
+      "in-progress": "Recuperations in progress",
+      "open-cases": "Open fault cases",
+      "shutdown": "in shutdown band",
+      "completed": "completed",
+      "components": "components",
+      "customers": "customers"
     },
     "widget": {
       "deviations": "Deviations by parameter",
-      "sessions-by-status": "Sessions by status"
-    }
+      "sessions-by-status": "Sessions by status",
+      "fault-cases": "Fault cases by parameter"
+    },
+    "quick-start": "Quick start",
+    "owner-title": "Asset owner view",
+    "owner-text": "Your recuperation supplier shares the traceability of your components here. Components and reports appear as they are registered.",
+    "empty-title": "Your plant is empty",
+    "empty-text": "Register your HVOF system, recipe, customer and first order in one click with the demo plant, or follow the checklist.",
+    "no-sessions": "No spray sessions yet.",
+    "open-cases": "Open cases"
   },
   "session-report": {
     "open": "View report",
@@ -638,6 +656,59 @@
     "update": "Update",
     "error": {
       "required": "This field is required"
+    }
+  },
+  "quick-start": {
+    "title": "Quick start",
+    "subtitle": "Everything a plant needs before the first spray session",
+    "checklist": "Plant checklist",
+    "go": "Go",
+    "demo-title": "Load the demo plant",
+    "demo-text": "Creates the FESA demo plant in your organization and starts a spray session. Records that already exist are reused.",
+    "plant": {
+      "subsystems": "subsystems",
+      "parameters": "parameters",
+      "recipe": "Recipe"
+    },
+    "run": "Load demo plant and start session",
+    "no-permission": "Ask an administrator, quality engineer or supervisor to load the demo plant.",
+    "reused": "already existed",
+    "open-session": "Open session",
+    "check": {
+      "system": {
+        "title": "HVOF system",
+        "hint": "The spray system with its code, model and fuel"
+      },
+      "subsystems": {
+        "title": "Subsystems",
+        "hint": "Gas console, powder feeder, cooling unit and their parameters"
+      },
+      "recipe": {
+        "title": "Active recipe",
+        "hint": "Setpoints and nominal, warning and shutdown bands"
+      },
+      "customer": {
+        "title": "Customer",
+        "hint": "Mining company that owns the components"
+      },
+      "component": {
+        "title": "Component",
+        "hint": "Hydraulic rod or other part to recover"
+      },
+      "recuperation": {
+        "title": "Open recuperation order",
+        "hint": "Work order linked to the component and customer"
+      }
+    },
+    "step": {
+      "hvof-system": "HVOF system",
+      "subsystems": "Subsystems",
+      "controller": "PLC controller",
+      "recipe": "Recipe published",
+      "customer": "Customer",
+      "component": "Component",
+      "recuperation": "Recuperation order",
+      "session": "Spray session started"
     }
   }
 }
