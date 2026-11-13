@@ -104,11 +104,7 @@ export class RecuperationForm extends BaseForm {
       completedAt: existing?.completedAt ?? null,
       linkedSessions: existing?.linkedSessions ?? []
     });
-    if (this.isEdit) {
-      this.store.updateRecuperation(recuperation);
-    } else {
-      this.store.addRecuperation(recuperation);
-    }
+    this.store.addRecuperation(recuperation);
     this.#router.navigate(['traceability/recuperations']).then();
   }
 

@@ -34,7 +34,10 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>{{ 'recuperations.actions' | translate }}</th>
       <td mat-cell *matCellDef="let r">
-        <button mat-icon-button aria-label="{{ 'recuperations.edit' | translate }}" (click)="editRecuperation(r.id)"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button aria-label="{{ 'recuperations.sessions' | translate }}" [routerLink]="['/process-monitoring/spray-sessions']" [queryParams]="{recuperationId: r.id}"><mat-icon>monitoring</mat-icon></button>
+        @if (r.status === 'IN_PROGRESS' || r.status === 'REWORK') {
+          <button mat-icon-button aria-label="{{ 'recuperations.complete' | translate }}" (click)="completeRecuperation(r.id)"><mat-icon>task_alt</mat-icon></button>
+        }
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
