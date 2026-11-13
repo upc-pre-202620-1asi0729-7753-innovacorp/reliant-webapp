@@ -1,19 +1,20 @@
 import {computed, inject, Injectable, Signal, signal} from '@angular/core';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {retry} from 'rxjs';
+import {forkJoin, Observable, of, retry} from 'rxjs';
 import {HvofSystem} from '../domain/model/hvof-system.entity';
 import {Controller} from '../domain/model/controller.entity';
 import {EquipmentApi} from '../infrastructure/equipment-api';
-import {HvofPart} from '../domain/model/hvof-part.entity';
 import {HvofSubsystem} from '../domain/model/hvof-subsystem.entity';
 import {Recipe} from '../domain/model/recipe.entity';
 import {IamStore} from '../../iam/application/iam.store';
 
-@Injectable({
-  providedIn: 'root'
-})
+/**
+ * Equipment of the signed-in organization. Systems are loaded first; subsystems, controllers and
+ * recipes hang from each system in the platform, so they are fetched per system afterwards.
+ */
+@Injectable({providedIn: 'root'})
 export class EquipmentStore {
   readonly #api = inject(EquipmentApi);
+  readonly #iam = inject(IamStore);
 
   readonly #hvofSystemsSignal = signal<HvofSystem[]>([]);
   readonly hvofSystems = this.#hvofSystemsSignal.asReadonly();
@@ -22,23 +23,76 @@ export class EquipmentStore {
   readonly #controllersSignal = signal<Controller[]>([]);
   readonly controllers = this.#controllersSignal.asReadonly();
 
-  readonly #loadingSignal = signal<boolean>(false);
-  readonly loading = this.#loadingSignal.asReadonly();
-  readonly #errorSignal = signal<string | null>(null);
-  readonly error = this.#errorSignal.asReadonly();
-
   readonly #subsystemsSignal = signal<HvofSubsystem[]>([]);
   readonly subsystems = this.#subsystemsSignal.asReadonly();
-  readonly #partsSignal = signal<HvofPart[]>([]);
-  readonly parts = this.#partsSignal.asReadonly();
 
   readonly #recipesSignal = signal<Recipe[]>([]);
   readonly recipes = this.#recipesSignal.asReadonly();
 
-  readonly #iam = inject(IamStore);
+  readonly #loadingSignal = signal<boolean>(false);
+  readonly loading = this.#loadingSignal.asReadonly();
+  readonly #errorSignal = signal<string | null>(null);
+  readonly error = this.#errorSignal.asReadonly();
+  readonly #loadedSignal = signal<boolean>(false);
+  readonly loaded = this.#loadedSignal.asReadonly();
 
   constructor() {
     this.reload();
+  }
+
+  reload(): void {
+    const organizationId = this.#iam.organizationId();
+    this.#loadedSignal.set(false);
+    if (!organizationId) {
+      this.#hvofSystemsSignal.set([]);
+      this.#controllersSignal.set([]);
+      this.#subsystemsSignal.set([]);
+      this.#recipesSignal.set([]);
+      return;
+    }
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    this.#api.getHvofSystemsByOrganizationId(organizationId).subscribe({
+      next: systems => {
+        this.#hvofSystemsSignal.set(systems);
+        this.#loadChildren(systems);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to load HVOF systems'));
+        this.#loadingSignal.set(false);
+      }
+    });
+  }
+
+  /** Subsystems, controllers and recipes of every system, in parallel. */
+  #loadChildren(systems: HvofSystem[]): void {
+    if (systems.length === 0) {
+      this.#controllersSignal.set([]);
+      this.#subsystemsSignal.set([]);
+      this.#recipesSignal.set([]);
+      this.#loadingSignal.set(false);
+      this.#loadedSignal.set(true);
+      return;
+    }
+    const ids = systems.map(s => s.id);
+    forkJoin({
+      subsystems: forkJoin(ids.map(id => this.#api.getSubsystemsBySystemId(id))),
+      controllers: forkJoin(ids.map(id => this.#api.getControllersBySystemId(id))),
+      recipes: forkJoin(ids.map(id => this.#api.getRecipesBySystemId(id)))
+    }).subscribe({
+      next: ({subsystems, controllers, recipes}) => {
+        this.#subsystemsSignal.set(subsystems.flat());
+        this.#controllersSignal.set(controllers.flat());
+        this.#recipesSignal.set(recipes.flat());
+        this.#loadingSignal.set(false);
+        this.#loadedSignal.set(true);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to load equipment'));
+        this.#loadingSignal.set(false);
+        this.#loadedSignal.set(true);
+      }
+    });
   }
 
   getHvofSystemById(id: number): Signal<HvofSystem | undefined> {
@@ -53,67 +107,6 @@ export class EquipmentStore {
     return computed(() => id ? this.controllers().find(c => c.id === id) : undefined);
   }
 
-  addHvofSystem(system: HvofSystem): void {
-    this.#run(this.#api.createHvofSystem(system), created =>
-      this.#hvofSystemsSignal.update(list => [...list, created]), 'Failed to create HVOF system');
-  }
-
-  updateHvofSystem(system: HvofSystem): void {
-    this.#run(this.#api.updateHvofSystem(system), updated =>
-      this.#hvofSystemsSignal.update(list => list.map(s => s.id === updated.id ? updated : s)), 'Failed to update HVOF system');
-  }
-
-  addController(controller: Controller): void {
-    this.#run(this.#api.createController(controller), created =>
-      this.#controllersSignal.update(list => [...list, created]), 'Failed to create controller');
-  }
-
-  updateController(controller: Controller): void {
-    this.#run(this.#api.updateController(controller), updated =>
-      this.#controllersSignal.update(list => list.map(c => c.id === updated.id ? updated : c)), 'Failed to update controller');
-  }
-
-  #run<T>(request: import('rxjs').Observable<T>, onNext: (value: T) => void, fallback: string): void {
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    request.pipe(retry(2)).subscribe({
-      next: value => {
-        onNext(value);
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, fallback));
-        this.#loadingSignal.set(false);
-      }
-    });
-  }
-
-  #loadHvofSystems(): void {
-    const organizationId = this.#iam.organizationId();
-    if (!organizationId) {
-      this.#hvofSystemsSignal.set([]);
-      return;
-    }
-    this.#loadingSignal.set(true);
-    this.#api.getHvofSystemsByOrganizationId(organizationId).subscribe({
-      next: systems => {
-        this.#hvofSystemsSignal.set(systems);
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to load HVOF systems'));
-        this.#loadingSignal.set(false);
-      }
-    });
-  }
-
-  #loadControllers(): void {
-    this.#api.getControllers().subscribe({
-      next: controllers => this.#controllersSignal.set(controllers),
-      error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load controllers'))
-    });
-  }
-
   subsystemsOf(hvofSystemId: number): Signal<HvofSubsystem[]> {
     return computed(() => this.subsystems().filter(s => s.hvofSystemId === hvofSystemId));
   }
@@ -122,53 +115,13 @@ export class EquipmentStore {
     return computed(() => id ? this.subsystems().find(s => s.id === id) : undefined);
   }
 
-  partsOf(subsystemId: number): Signal<HvofPart[]> {
-    return computed(() => this.parts().filter(p => p.hvofSubsystemId === subsystemId));
-  }
-
   parametersOf(hvofSystemId: number): Signal<string[]> {
     return computed(() => [...new Set(this.subsystemsOf(hvofSystemId)().flatMap(s => s.parameters.map(p => p.parameter)))]);
   }
 
-  addSubsystem(subsystem: HvofSubsystem): void {
-    this.#run(this.#api.createSubsystem(subsystem), created =>
-      this.#subsystemsSignal.update(list => [...list, created]), 'Failed to create subsystem');
-  }
-
-  updateSubsystem(subsystem: HvofSubsystem): void {
-    this.#run(this.#api.updateSubsystem(subsystem), updated =>
-      this.#subsystemsSignal.update(list => list.map(s => s.id === updated.id ? updated : s)), 'Failed to update subsystem');
-  }
-
-  addPart(part: HvofPart): void {
-    this.#run(this.#api.createPart(part), created =>
-      this.#partsSignal.update(list => [...list, created]), 'Failed to create part');
-  }
-
-  deletePart(id: number): void {
-    this.#run(this.#api.deletePart(id), () =>
-      this.#partsSignal.update(list => list.filter(p => p.id !== id)), 'Failed to delete part');
-  }
-
-  #loadSubsystems(): void {
-    this.#api.getSubsystems().subscribe({
-      next: subsystems => this.#subsystemsSignal.set(subsystems),
-      error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load subsystems'))
-    });
-  }
-
-  #loadParts(): void {
-    this.#api.getParts().subscribe({
-      next: parts => this.#partsSignal.set(parts),
-      error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load parts'))
-    });
-  }
-
-  #formatError(error: unknown, fallback: string): string {
-    if (error instanceof Error) {
-      return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;
-    }
-    return fallback;
+  /** Subsystem that owns a parameter, used to tag readings with their source. */
+  subsystemOfParameter(hvofSystemId: number, parameter: string): HvofSubsystem | undefined {
+    return this.subsystemsOf(hvofSystemId)().find(s => s.parameters.some(p => p.parameter === parameter));
   }
 
   recipesOf(hvofSystemId: number): Signal<Recipe[]> {
@@ -184,7 +137,27 @@ export class EquipmentStore {
   }
 
   recipeByNumber(hvofSystemId: number, recipeNumber: number): Signal<Recipe | undefined> {
-    return computed(() => this.recipesOf(hvofSystemId)().find(r => r.recipeNumber === recipeNumber));
+    return computed(() => {
+      const candidates = this.recipesOf(hvofSystemId)().filter(r => r.recipeNumber === recipeNumber);
+      return candidates.find(r => r.status === 'ACTIVE') ?? candidates[0];
+    });
+  }
+
+  addHvofSystem(system: HvofSystem, onCreated?: (created: HvofSystem) => void): void {
+    this.#run(this.#api.createHvofSystem(system), created => {
+      this.#hvofSystemsSignal.update(list => [...list, created]);
+      onCreated?.(created);
+    }, 'Failed to register HVOF system');
+  }
+
+  addController(controller: Controller): void {
+    this.#run(this.#api.createController(controller), created =>
+      this.#controllersSignal.update(list => [...list, created]), 'Failed to register controller');
+  }
+
+  addSubsystem(subsystem: HvofSubsystem): void {
+    this.#run(this.#api.createSubsystem(subsystem), created =>
+      this.#subsystemsSignal.update(list => [...list, created]), 'Failed to register subsystem');
   }
 
   addRecipe(recipe: Recipe): void {
@@ -192,30 +165,36 @@ export class EquipmentStore {
       this.#recipesSignal.update(list => [...list, created]), 'Failed to create recipe');
   }
 
-  updateRecipe(recipe: Recipe): void {
-    this.#run(this.#api.updateRecipe(recipe), updated =>
-      this.#recipesSignal.update(list => list.map(r => r.id === updated.id ? updated : r)), 'Failed to update recipe');
-  }
-
   publishRecipe(id: number): void {
     const recipe = this.getRecipeById(id)();
     if (!recipe) return;
-    recipe.status = 'ACTIVE';
-    this.updateRecipe(recipe);
+    this.#run(this.#api.publishRecipe(id), published => {
+      this.#recipesSignal.update(list => list.map(r => {
+        if (r.id === published.id) return published;
+        if (r.hvofSystemId === published.hvofSystemId && r.recipeNumber === published.recipeNumber && r.status === 'ACTIVE') {
+          r.status = 'RETIRED';
+        }
+        return r;
+      }));
+    }, 'Failed to publish recipe');
   }
 
-  #loadRecipes(): void {
-    this.#api.getRecipes().subscribe({
-      next: recipes => this.#recipesSignal.set(recipes),
-      error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to load recipes'))
+  #run<T>(request: Observable<T>, onNext: (value: T) => void, fallback: string): void {
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    request.pipe(retry({count: 1, delay: 300})).subscribe({
+      next: value => {
+        onNext(value);
+        this.#loadingSignal.set(false);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, fallback));
+        this.#loadingSignal.set(false);
+      }
     });
   }
 
-  reload(): void {
-    this.#loadHvofSystems();
-    this.#loadControllers();
-    this.#loadSubsystems();
-    this.#loadParts();
-    this.#loadRecipes();
+  #formatError(error: unknown, fallback: string): string {
+    return error instanceof Error ? error.message : fallback;
   }
 }

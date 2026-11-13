@@ -67,11 +67,7 @@ export class HvofSystemForm extends BaseForm {
       fuelType: v.fuelType,
       tagMappings: existing?.tagMappings ?? []
     });
-    if (this.isEdit) {
-      this.store.updateHvofSystem(system);
-    } else {
-      this.store.addHvofSystem(system);
-    }
+    this.store.addHvofSystem(system);
     this.#router.navigate(['equipment/hvof-systems']).then();
   }
 
