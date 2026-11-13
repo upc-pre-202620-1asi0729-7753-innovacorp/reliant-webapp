@@ -1,0 +1,40 @@
+<div class="container-with-spacing">
+  <h1 class="title">{{ (isEdit ? 'fault-rule.edit-title' : 'fault-rule.new-title') | translate }}</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>{{ 'fault-rule.parameter' | translate }}</mat-label>
+      <mat-select formControlName="parameter" required>
+        @for (p of parameters(); track p) {
+          <mat-option [value]="p">{{ ('parameter.' + p) | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'fault-rule.band' | translate }}</mat-label>
+      <mat-select formControlName="band" required>
+        @for (b of bands; track b) {
+          <mat-option [value]="b">{{ ('fault-cases.band-option.' + b) | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'fault-rule.probable-cause' | translate }}</mat-label>
+      <textarea matInput formControlName="probableCause" rows="2" maxlength="300" required></textarea>
+      @if (isInvalidControl(form, 'probableCause')) { <mat-error>{{ 'fault-rule.error.required' | translate }}</mat-error> }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'fault-rule.recommended-action' | translate }}</mat-label>
+      <textarea matInput formControlName="recommendedAction" rows="2" maxlength="300" required></textarea>
+      @if (isInvalidControl(form, 'recommendedAction')) { <mat-error>{{ 'fault-rule.error.required' | translate }}</mat-error> }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'fault-rule.cooldown' | translate }}</mat-label>
+      <input matInput type="number" formControlName="cooldownSeconds" min="0" max="3600" required>
+      <mat-hint>{{ 'fault-rule.cooldown-hint' | translate }}</mat-hint>
+    </mat-form-field>
+    <div class="actions">
+      <button mat-button type="button" (click)="cancel()">{{ 'fault-rule.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">{{ (isEdit ? 'fault-rule.update' : 'fault-rule.create') | translate }}</button>
+    </div>
+  </form>
+</div>

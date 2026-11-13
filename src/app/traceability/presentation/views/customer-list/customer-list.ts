@@ -44,7 +44,4 @@ export class CustomerList {
     this.router.navigate(['traceability/customers', id, 'edit']).then();
   }
 
-  deleteCustomer(id: number) {
-    this.store.deleteCustomer(id);
-  }
 }

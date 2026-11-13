@@ -78,11 +78,7 @@ export class HvofSubsystemForm extends BaseForm {
       alias: v.alias,
       parameters: this.parameters().map(parameter => ({parameter}))
     });
-    if (this.isEdit) {
-      this.store.updateSubsystem(subsystem);
-    } else {
-      this.store.addSubsystem(subsystem);
-    }
+    this.store.addSubsystem(subsystem);
     this.back();
   }
 

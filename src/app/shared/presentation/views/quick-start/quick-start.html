@@ -1,0 +1,63 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>{{ 'quick-start.title' | translate }}</h1>
+      <p class="subtitle">{{ 'quick-start.subtitle' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card span-2">
+      <h2>{{ 'quick-start.checklist' | translate }} · {{ completed() }}/{{ checklist().length }}</h2>
+      <ul class="checklist">
+        @for (item of checklist(); track item.key) {
+          <li [class.done]="item.done">
+            <mat-icon>{{ item.done ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+            <div class="text">
+              <strong>{{ ('quick-start.check.' + item.key + '.title') | translate }}</strong>
+              <span>{{ ('quick-start.check.' + item.key + '.hint') | translate }}</span>
+            </div>
+            <button mat-button (click)="go(item.link)">{{ 'quick-start.go' | translate }} <mat-icon>chevron_right</mat-icon></button>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="card demo">
+      <h2>{{ 'quick-start.demo-title' | translate }}</h2>
+      <p>{{ 'quick-start.demo-text' | translate }}</p>
+      <ul class="plant">
+        <li><mat-icon>precision_manufacturing</mat-icon> {{ plant.hvofSystem.code }} · {{ plant.hvofSystem.systemModel }}</li>
+        <li><mat-icon>account_tree</mat-icon> {{ plant.subsystems.length }} {{ 'quick-start.plant.subsystems' | translate }} · {{ plant.recipe.parameters.length }} {{ 'quick-start.plant.parameters' | translate }}</li>
+        <li><mat-icon>science</mat-icon> {{ 'quick-start.plant.recipe' | translate }} #{{ plant.recipe.recipeNumber }} · {{ plant.recipe.powderSpecification }}</li>
+        <li><mat-icon>apartment</mat-icon> {{ plant.customer.legalName }}</li>
+        <li><mat-icon>settings_input_component</mat-icon> {{ plant.component.machineManufacturer }} {{ plant.component.machineModel }} · {{ plant.component.serialNumber }}</li>
+        <li><mat-icon>conveyor_belt</mat-icon> {{ plant.recuperation.workOrderNumber }} · {{ plant.recuperation.operation }}</li>
+      </ul>
+
+      @if (canProvision()) {
+        <button mat-raised-button color="primary" class="run" [disabled]="service.running()" (click)="run()">
+          @if (service.running()) { <mat-spinner diameter="18"></mat-spinner> } @else { <mat-icon>rocket_launch</mat-icon> }
+          {{ 'quick-start.run' | translate }}
+        </button>
+      } @else {
+        <p class="muted">{{ 'quick-start.no-permission' | translate }}</p>
+      }
+
+      <ol class="steps">
+        @for (step of steps; track step) {
+          <li class="step {{ service.steps()[step] }}">
+            <mat-icon [class.spin]="service.steps()[step] === 'running'">{{ stepIcon(service.steps()[step]) }}</mat-icon>
+            <span>{{ ('quick-start.step.' + step) | translate }}</span>
+            @if (service.steps()[step] === 'reused') { <small>{{ 'quick-start.reused' | translate }}</small> }
+          </li>
+        }
+      </ol>
+
+      @if (service.error()) { <p class="error">{{ service.error() }}</p> }
+      @if (service.sessionId()) {
+        <button mat-stroked-button class="run" (click)="openSession()"><mat-icon>monitoring</mat-icon> {{ 'quick-start.open-session' | translate }} #{{ service.sessionId() }}</button>
+      }
+    </div>
+  </div>
+</div>

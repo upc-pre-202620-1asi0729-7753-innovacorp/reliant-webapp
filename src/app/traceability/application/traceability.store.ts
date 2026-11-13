@@ -1,14 +1,12 @@
 import {computed, inject, Injectable, Signal, signal} from '@angular/core';
-import {retry} from 'rxjs';
+import {forkJoin, Observable, retry} from 'rxjs';
 import {Customer} from '../domain/model/customer.entity';
 import {RecoveredComponent} from '../domain/model/component.entity';
 import {Recuperation} from '../domain/model/recuperation.entity';
 import {TraceabilityApi} from '../infrastructure/traceability-api';
 import {IamStore} from '../../iam/application/iam.store';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class TraceabilityStore {
   readonly #api = inject(TraceabilityApi);
   readonly #iam = inject(IamStore);
@@ -24,20 +22,63 @@ export class TraceabilityStore {
   readonly #recuperationsSignal = signal<Recuperation[]>([]);
   readonly recuperations = this.#recuperationsSignal.asReadonly();
   readonly recuperationCount = computed(() => this.recuperations().length);
+  readonly openRecuperations = computed(() =>
+    this.recuperations().filter(r => r.status === 'RECEIVED' || r.status === 'IN_PROGRESS' || r.status === 'REWORK'));
 
   readonly #loadingSignal = signal<boolean>(false);
   readonly loading = this.#loadingSignal.asReadonly();
   readonly #errorSignal = signal<string | null>(null);
   readonly error = this.#errorSignal.asReadonly();
+  readonly #loadedSignal = signal<boolean>(false);
+  readonly loaded = this.#loadedSignal.asReadonly();
 
   constructor() {
     this.reload();
   }
 
   reload(): void {
-    this.#loadCustomers();
-    this.#loadComponents();
-    this.#loadRecuperations();
+    this.#loadedSignal.set(false);
+    if (!this.#iam.organizationId() || !this.#iam.isSupplier()) {
+      this.#customersSignal.set([]);
+      this.#componentsSignal.set([]);
+      this.#recuperationsSignal.set([]);
+      return;
+    }
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    forkJoin({customers: this.#api.getCustomers(), recuperations: this.#api.getRecuperations()}).subscribe({
+      next: ({customers, recuperations}) => {
+        this.#customersSignal.set(customers);
+        this.#recuperationsSignal.set(recuperations);
+        this.#loadComponents(customers);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to load traceability data'));
+        this.#loadingSignal.set(false);
+        this.#loadedSignal.set(true);
+      }
+    });
+  }
+
+  #loadComponents(customers: Customer[]): void {
+    if (customers.length === 0) {
+      this.#componentsSignal.set([]);
+      this.#loadingSignal.set(false);
+      this.#loadedSignal.set(true);
+      return;
+    }
+    forkJoin(customers.map(c => this.#api.getComponentsByCustomerId(c.id))).subscribe({
+      next: lists => {
+        this.#componentsSignal.set(lists.flat());
+        this.#loadingSignal.set(false);
+        this.#loadedSignal.set(true);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, 'Failed to load components'));
+        this.#loadingSignal.set(false);
+        this.#loadedSignal.set(true);
+      }
+    });
   }
 
   getCustomerById(id: number): Signal<Customer | undefined> {
@@ -48,49 +89,16 @@ export class TraceabilityStore {
     return this.customers().find(c => c.id === customerId)?.legalName ?? `#${customerId}`;
   }
 
-  addCustomer(customer: Customer): void {
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.createCustomer(customer).pipe(retry(2)).subscribe({
-      next: created => {
-        this.#customersSignal.update(customers => [...customers, created]);
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to create customer'));
-        this.#loadingSignal.set(false);
-      }
-    });
+  addCustomer(customer: Customer, onCreated?: (created: Customer) => void): void {
+    this.#run(this.#api.createCustomer(customer), created => {
+      this.#customersSignal.update(list => [...list, created]);
+      onCreated?.(created);
+    }, 'Failed to register customer');
   }
 
   updateCustomer(updated: Customer): void {
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.updateCustomer(updated).pipe(retry(2)).subscribe({
-      next: customer => {
-        this.#customersSignal.update(customers => customers.map(c => c.id === customer.id ? customer : c));
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to update customer'));
-        this.#loadingSignal.set(false);
-      }
-    });
-  }
-
-  deleteCustomer(id: number): void {
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.deleteCustomer(id).pipe(retry(2)).subscribe({
-      next: () => {
-        this.#customersSignal.update(customers => customers.filter(c => c.id !== id));
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to delete customer'));
-        this.#loadingSignal.set(false);
-      }
-    });
+    this.#run(this.#api.updateCustomer(updated), customer =>
+      this.#customersSignal.update(list => list.map(c => c.id === customer.id ? customer : c)), 'Failed to update customer');
   }
 
   getComponentById(id: number): Signal<RecoveredComponent | undefined> {
@@ -101,133 +109,54 @@ export class TraceabilityStore {
     return this.components().find(c => c.id === componentId)?.serialNumber ?? `#${componentId}`;
   }
 
-  addComponent(component: RecoveredComponent): void {
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.createComponent(component).pipe(retry(2)).subscribe({
-      next: created => {
-        this.#componentsSignal.update(components => [...components, created]);
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to create component'));
-        this.#loadingSignal.set(false);
-      }
-    });
+  componentsOf(customerId: number): Signal<RecoveredComponent[]> {
+    return computed(() => this.components().filter(c => c.customerId === customerId));
   }
 
-  updateComponent(updated: RecoveredComponent): void {
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.updateComponent(updated).pipe(retry(2)).subscribe({
-      next: component => {
-        this.#componentsSignal.update(components => components.map(c => c.id === component.id ? component : c));
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to update component'));
-        this.#loadingSignal.set(false);
-      }
-    });
+  addComponent(component: RecoveredComponent, onCreated?: (created: RecoveredComponent) => void): void {
+    this.#run(this.#api.createComponent(component), created => {
+      this.#componentsSignal.update(list => [...list, created]);
+      onCreated?.(created);
+    }, 'Failed to register component');
   }
 
   getRecuperationById(id: number): Signal<Recuperation | undefined> {
     return computed(() => id ? this.recuperations().find(r => r.id === id) : undefined);
   }
 
-  addRecuperation(recuperation: Recuperation): void {
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.createRecuperation(recuperation).pipe(retry(2)).subscribe({
-      next: created => {
-        this.#recuperationsSignal.update(recuperations => [...recuperations, created]);
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to create recuperation'));
-        this.#loadingSignal.set(false);
-      }
-    });
+  addRecuperation(recuperation: Recuperation, onCreated?: (created: Recuperation) => void): void {
+    this.#run(this.#api.createRecuperation(recuperation), created => {
+      this.#recuperationsSignal.update(list => [...list, created]);
+      onCreated?.(created);
+    }, 'Failed to open recuperation');
   }
 
-  updateRecuperation(updated: Recuperation): void {
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.updateRecuperation(updated).pipe(retry(2)).subscribe({
-      next: recuperation => {
-        this.#recuperationsSignal.update(recuperations => recuperations.map(r => r.id === recuperation.id ? recuperation : r));
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to update recuperation'));
-        this.#loadingSignal.set(false);
-      }
-    });
+  completeRecuperation(id: number): void {
+    this.#run(this.#api.completeRecuperation(id), completed =>
+      this.#recuperationsSignal.update(list => list.map(r => r.id === completed.id ? completed : r)), 'Failed to complete recuperation');
   }
 
-  #loadCustomers(): void {
-    const organizationId = this.#iam.organizationId();
-    if (!organizationId) {
-      this.#customersSignal.set([]);
-      return;
-    }
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.getCustomersByOrganizationId(organizationId).subscribe({
-      next: customers => {
-        this.#customersSignal.set(customers);
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to load customers'));
-        this.#loadingSignal.set(false);
-      }
-    });
+  /** Re-reads the recuperations so linked sessions and statuses changed by the platform show up. */
+  refreshRecuperations(): void {
+    this.#api.getRecuperations().subscribe({next: list => this.#recuperationsSignal.set(list)});
   }
 
-  #loadComponents(): void {
-    if (!this.#iam.organizationId()) {
-      this.#componentsSignal.set([]);
-      return;
-    }
+  #run<T>(request: Observable<T>, onNext: (value: T) => void, fallback: string): void {
     this.#loadingSignal.set(true);
     this.#errorSignal.set(null);
-    this.#api.getComponents().subscribe({
-      next: components => {
-        this.#componentsSignal.set(components);
+    request.pipe(retry({count: 1, delay: 300})).subscribe({
+      next: value => {
+        onNext(value);
         this.#loadingSignal.set(false);
       },
       error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to load components'));
-        this.#loadingSignal.set(false);
-      }
-    });
-  }
-
-  #loadRecuperations(): void {
-    const organizationId = this.#iam.organizationId();
-    if (!organizationId) {
-      this.#recuperationsSignal.set([]);
-      return;
-    }
-    this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    this.#api.getRecuperationsByOrganizationId(organizationId).subscribe({
-      next: recuperations => {
-        this.#recuperationsSignal.set(recuperations);
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, 'Failed to load recuperations'));
+        this.#errorSignal.set(this.#formatError(err, fallback));
         this.#loadingSignal.set(false);
       }
     });
   }
 
   #formatError(error: unknown, fallback: string): string {
-    if (error instanceof Error) {
-      return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;
-    }
-    return fallback;
+    return error instanceof Error ? error.message : fallback;
   }
 }

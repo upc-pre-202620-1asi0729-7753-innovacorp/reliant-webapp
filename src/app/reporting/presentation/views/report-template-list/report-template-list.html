@@ -1,0 +1,40 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>{{ 'reports.templates-title' | translate }}</h1>
+      <p class="subtitle">{{ 'reports.templates-subtitle' | translate }}</p>
+    </div>
+    <span class="grow"></span>
+    <button mat-stroked-button (click)="generated()"><mat-icon>history</mat-icon> {{ 'reports.generated-title' | translate }}</button>
+    @if (canEdit()) {
+      <button mat-raised-button color="primary" (click)="newTemplate()"><mat-icon>add</mat-icon> {{ 'reports.new-template' | translate }}</button>
+    }
+  </div>
+  @if (store.loading() && store.templates().length === 0) { <mat-spinner diameter="40"></mat-spinner> }
+  @if (store.error()) { <mat-error>{{ store.error() }}</mat-error> }
+  <div class="templates">
+    @for (t of sorted(); track t.id) {
+      <div class="card template" [class.archived]="!t.isActive">
+        <app-template-preview [template]="t"/>
+        <div class="info">
+          <div class="head">
+            <h2>{{ t.name }}</h2>
+            @if (t.defaultForKind) { <span class="pill active">{{ 'reports.default' | translate }}</span> }
+            @if (!t.isActive) { <span class="pill interrupted">{{ 'reports.status-option.archived' | translate }}</span> }
+          </div>
+          <p class="kind">{{ ('reports.kind.' + t.reportKind) | translate }} · {{ t.pageSize | uppercase }} {{ ('reports.orientation-option.' + t.orientation) | translate }}</p>
+          <p class="desc">{{ t.description }}</p>
+          <p class="meta">{{ t.sections.length }} {{ 'reports.sections' | translate | lowercase }} · {{ t.widgetCount }} {{ 'reports.widgets' | translate | lowercase }}</p>
+          @if (canEdit()) {
+            <div class="actions">
+              @if (t.isActive) { <button mat-stroked-button (click)="edit(t.id)"><mat-icon>edit</mat-icon> {{ 'reports.edit' | translate }}</button> }
+              <button mat-button (click)="toggleStatus(t.id, t.isActive)">
+                <mat-icon>{{ t.isActive ? 'archive' : 'unarchive' }}</mat-icon> {{ (t.isActive ? 'reports.archive' : 'reports.reactivate') | translate }}
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

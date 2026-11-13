@@ -1,0 +1,22 @@
+.builder { display: grid; grid-template-columns: 300px 1fr 340px; gap: 16px; align-items: start; }
+.column { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.column h2 { margin: 0; font-size: 16px; }
+.card { display: flex; flex-direction: column; gap: 8px; }
+.full { width: 100%; }
+.row { display: flex; gap: 8px; }
+.row mat-form-field { flex: 1; }
+.colors { display: flex; gap: 12px; }
+.color { flex: 1; display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--reliant-text-muted); }
+.swatch { display: flex; align-items: center; gap: 8px; }
+.swatch input { width: 36px; height: 36px; padding: 0; border: 1px solid var(--reliant-border); border-radius: 8px; background: none; cursor: pointer; }
+.sections-head { display: flex; justify-content: space-between; align-items: center; }
+.section { border-left: 4px solid var(--reliant-info); }
+.section-row { display: flex; align-items: center; gap: 6px; }
+.grow-field { flex: 1; }
+.order-badge { width: 26px; height: 26px; border-radius: 50%; background: var(--reliant-orange); color: #fff; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.widget-row { display: grid; grid-template-columns: 1.1fr 1.4fr 1.6fr 1fr 1fr .9fr auto; gap: 6px; align-items: center; border-top: 1px dashed var(--reliant-border); padding-top: 10px; }
+.w-actions { display: flex; }
+.warn { color: var(--reliant-orange-dark); margin: 0; }
+mat-form-field { font-size: 13px; }
+@media (max-width: 1300px) { .builder { grid-template-columns: 280px 1fr; } .preview { grid-column: 1 / -1; } }
+@media (max-width: 900px) { .builder { grid-template-columns: 1fr; } .widget-row { grid-template-columns: 1fr 1fr; } }

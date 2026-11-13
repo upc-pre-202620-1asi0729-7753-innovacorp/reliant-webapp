@@ -19,7 +19,7 @@ import {TraceabilityStore} from '../../../application/traceability.store';
 export class ComponentList {
   readonly store = inject(TraceabilityStore);
   protected router = inject(Router);
-  displayedColumns: string[] = ['serialNumber', 'partNumber', 'componentType', 'machine', 'customer', 'pcrTargetHours', 'status', 'actions'];
+  displayedColumns: string[] = ['serialNumber', 'partNumber', 'componentType', 'machine', 'customer', 'pcrTargetHours', 'status'];
   readonly sort = viewChild(MatSort);
   readonly paginator = viewChild(MatPaginator);
 
@@ -40,7 +40,4 @@ export class ComponentList {
     this.router.navigate(['traceability/components/new']).then();
   }
 
-  editComponent(id: number) {
-    this.router.navigate(['traceability/components', id, 'edit']).then();
-  }
 }

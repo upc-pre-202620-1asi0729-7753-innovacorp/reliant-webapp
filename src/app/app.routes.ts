@@ -3,20 +3,26 @@ import {Home} from './shared/presentation/views/home/home';
 import {iamGuard, supplierGuard} from './iam/infrastructure/iam.guard';
 
 const baseTitle = 'Reliant';
+const quickStart = () => import('./shared/presentation/views/quick-start/quick-start').then(m => m.QuickStart);
 const about = () => import('./shared/presentation/views/about/about').then(m => m.About);
 const pageNotFound = () => import('./shared/presentation/views/page-not-found/page-not-found').then(m => m.PageNotFound);
 const traceabilityRoutes = () => import('./traceability/presentation/traceability.routes').then(m => m.traceabilityRoutes);
 const equipmentRoutes = () => import('./equipment/presentation/equipment.routes').then(m => m.equipmentRoutes);
 const processMonitoringRoutes = () => import('./process-monitoring/presentation/process-monitoring.routes').then(m => m.processMonitoringRoutes);
+const faultDiagnosisRoutes = () => import('./fault-diagnosis/presentation/fault-diagnosis.routes').then(m => m.faultDiagnosisRoutes);
+const reportingRoutes = () => import('./reporting/presentation/reporting.routes').then(m => m.reportingRoutes);
 const iamRoutes = () => import('./iam/presentation/iam.routes').then(m => m.iamRoutes);
 const billingRoutes = () => import('./billing/presentation/billing.routes').then(m => m.billingRoutes);
 
 export const routes: Routes = [
   { path: 'home',               component:     Home,                    title: `${baseTitle} - Home`,  canActivate: [iamGuard] },
+  { path: 'quick-start',        loadComponent: quickStart,              title: `${baseTitle} - Quick Start`, canActivate: [supplierGuard] },
   { path: 'about',              loadComponent: about,                   title: `${baseTitle} - About` },
   { path: 'traceability',       loadChildren:  traceabilityRoutes,      canActivate: [supplierGuard] },
   { path: 'equipment',          loadChildren:  equipmentRoutes,         canActivate: [supplierGuard] },
   { path: 'process-monitoring', loadChildren:  processMonitoringRoutes, canActivate: [supplierGuard] },
+  { path: 'fault-diagnosis',    loadChildren:  faultDiagnosisRoutes,    canActivate: [supplierGuard] },
+  { path: 'reporting',          loadChildren:  reportingRoutes,         canActivate: [supplierGuard] },
   { path: 'iam',                loadChildren:  iamRoutes },
   { path: 'billing',            loadChildren:  billingRoutes,           canActivate: [iamGuard] },
   { path: '',                   redirectTo:    '/home', pathMatch: 'full' },

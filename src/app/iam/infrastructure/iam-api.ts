@@ -35,11 +35,7 @@ export class IamApi extends BaseApi {
     return this.#usersEndpoint.getAllBy({organizationId});
   }
 
-  updateUserRoles(userId: number, roleIds: { roleId: number }[]): Observable<User> {
-    return this.#usersEndpoint.patch(userId, {roleIds});
-  }
-
-  inviteUser(user: User, password: string): Observable<User> {
-    return this.#usersEndpoint.create(Object.assign(user, {})).pipe();
+  updateUserRoles(userId: number, roleIds: number[]): Observable<User> {
+    return this.#usersEndpoint.assignRoles(userId, roleIds);
   }
 }

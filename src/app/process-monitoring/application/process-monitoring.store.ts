@@ -1,17 +1,14 @@
 import {computed, inject, Injectable, Signal, signal} from '@angular/core';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {Observable, retry} from 'rxjs';
+import {catchError, EMPTY, exhaustMap, Observable, retry, Subscription, timer} from 'rxjs';
 import {SpraySession, SpraySessionStatus} from '../domain/model/spray-session.entity';
 import {ProcessMonitoringApi} from '../infrastructure/process-monitoring-api';
-import {interval, Subscription, switchMap} from 'rxjs';
-import {ProcessReading} from '../domain/model/process-reading.entity';
-import {Band} from '../domain/model/process-reading.entity';
+import {Band, ProcessReading} from '../domain/model/process-reading.entity';
+import {IamStore} from '../../iam/application/iam.store';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class ProcessMonitoringStore {
   readonly #api = inject(ProcessMonitoringApi);
+  readonly #iam = inject(IamStore);
 
   readonly #sessionsSignal = signal<SpraySession[]>([]);
   readonly sessions = this.#sessionsSignal.asReadonly();
@@ -28,68 +25,45 @@ export class ProcessMonitoringStore {
   readonly lastUpdate = this.#lastUpdateSignal.asReadonly();
   #polling: Subscription | null = null;
 
+  readonly #deviationsSignal = signal<Map<number, number>>(new Map());
+  readonly deviations = this.#deviationsSignal.asReadonly();
+
   readonly latestByParameter = computed(() => {
-    const map = new Map<string, ProcessReading>();
-    for (const r of this.readings()) {
-      map.set(r.parameter, r);
+    const latest = new Map<string, ProcessReading>();
+    for (const reading of this.readings()) {
+      const previous = latest.get(reading.parameter);
+      if (!previous || reading.epochMillis > previous.epochMillis || (reading.epochMillis === previous.epochMillis && reading.id > previous.id)) {
+        latest.set(reading.parameter, reading);
+      }
     }
-    return map;
+    return latest;
   });
 
   readonly parameters = computed(() => [...this.latestByParameter().keys()]);
 
   readonly bandCounts = computed(() => {
     const counts: Record<Band, number> = {nominal: 0, out_of_nominal: 0, warning: 0, shutdown: 0};
-    for (const r of this.readings()) {
-      counts[r.band]++;
-    }
+    for (const r of this.readings()) counts[r.band]++;
+    return counts;
+  });
+
+  readonly sessionsByStatus = computed(() => {
+    const counts: Record<SpraySessionStatus, number> = {active: 0, completed: 0, aborted: 0, interrupted: 0};
+    for (const session of this.sessions()) counts[session.status]++;
     return counts;
   });
 
   constructor() {
-    this.#loadSessions();
+    this.reload();
   }
 
-  readonly #deviationsSignal = signal<Map<number, number>>(new Map());
-  readonly deviations = this.#deviationsSignal.asReadonly();
-
-  loadDeviations(sessionId: number): void {
-    if (this.deviations().has(sessionId)) return;
-    this.#api.getDeviationCount(sessionId).subscribe({
-      next: count => this.#deviationsSignal.update(m => new Map(m).set(sessionId, count)),
-      error: () => this.#deviationsSignal.update(m => new Map(m).set(sessionId, -1))
-    });
-  }
-
-  getSessionById(id: number): Signal<SpraySession | undefined> {
-    return computed(() => id ? this.sessions().find(s => s.id === id) : undefined);
-  }
-
-  startSession(session: SpraySession, onStarted?: (created: SpraySession) => void): void {
-    this.#run(this.#api.createSession(session), created => {
-      this.#sessionsSignal.update(list => [...list, created]);
-      onStarted?.(created);
-    }, 'Failed to start session');
-  }
-
-  #run<T>(request: Observable<T>, onNext: (value: T) => void, fallback: string): void {
+  reload(): void {
+    if (!this.#iam.organizationId() || !this.#iam.isSupplier()) {
+      this.#sessionsSignal.set([]);
+      return;
+    }
     this.#loadingSignal.set(true);
-    this.#errorSignal.set(null);
-    request.pipe(retry(2)).subscribe({
-      next: value => {
-        onNext(value);
-        this.#loadingSignal.set(false);
-      },
-      error: err => {
-        this.#errorSignal.set(this.#formatError(err, fallback));
-        this.#loadingSignal.set(false);
-      }
-    });
-  }
-
-  #loadSessions(): void {
-    this.#loadingSignal.set(true);
-    this.#api.getSessions().pipe(takeUntilDestroyed()).subscribe({
+    this.#api.getSessions().subscribe({
       next: sessions => {
         this.#sessionsSignal.set(sessions);
         this.#loadingSignal.set(false);
@@ -101,11 +75,41 @@ export class ProcessMonitoringStore {
     });
   }
 
-  #formatError(error: unknown, fallback: string): string {
-    if (error instanceof Error) {
-      return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;
-    }
-    return fallback;
+  getSessionById(id: number): Signal<SpraySession | undefined> {
+    return computed(() => (id ? this.sessions().find(s => s.id === id) : undefined));
+  }
+
+  sessionsOf(recuperationId: number): Signal<SpraySession[]> {
+    return computed(() => this.sessions().filter(s => s.recuperationId === recuperationId));
+  }
+
+  loadDeviations(sessionId: number): void {
+    if (this.deviations().has(sessionId)) return;
+    this.#api.getDeviations(sessionId).subscribe({
+      next: counts => this.#deviationsSignal.update(m => new Map(m).set(sessionId, counts.warning + counts.shutdown)),
+      error: () => this.#deviationsSignal.update(m => new Map(m).set(sessionId, -1))
+    });
+  }
+
+  startSession(session: SpraySession, onStarted?: (created: SpraySession) => void): void {
+    this.#run(this.#api.startSession(session), created => {
+      this.#sessionsSignal.update(list => [...list, created]);
+      onStarted?.(created);
+    }, 'Failed to start session');
+  }
+
+  completeSession(id: number): void {
+    this.#run(this.#api.completeSession(id), updated => {
+      this.#sessionsSignal.update(list => list.map(s => (s.id === updated.id ? updated : s)));
+      this.stopPolling();
+    }, 'Failed to complete session');
+  }
+
+  abortSession(id: number, reason: string): void {
+    this.#run(this.#api.abortSession(id, reason), updated => {
+      this.#sessionsSignal.update(list => list.map(s => (s.id === updated.id ? updated : s)));
+      this.stopPolling();
+    }, 'Failed to abort session');
   }
 
   loadReadings(sessionId: number): void {
@@ -120,15 +124,19 @@ export class ProcessMonitoringStore {
 
   startPolling(sessionId: number, everyMs = 5000): void {
     this.stopPolling();
-    this.loadReadings(sessionId);
-    this.#polling = interval(everyMs).pipe(
-      switchMap(() => this.#api.getReadingsBySessionId(sessionId))
+    this.#polling = timer(0, everyMs).pipe(
+      exhaustMap(() => this.#api.getReadingsBySessionId(sessionId).pipe(
+        catchError((error: unknown) => {
+          this.#errorSignal.set(this.#formatError(error, 'Failed to refresh readings'));
+          return EMPTY;
+        })
+      ))
     ).subscribe({
       next: readings => {
         this.#readingsSignal.set(readings);
         this.#lastUpdateSignal.set(new Date());
-      },
-      error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to refresh readings'))
+        this.#errorSignal.set(null);
+      }
     });
   }
 
@@ -143,25 +151,43 @@ export class ProcessMonitoringStore {
     this.#lastUpdateSignal.set(null);
   }
 
-  addReading(reading: ProcessReading): void {
-    this.#api.createReading(reading).subscribe({
-      next: created => this.#readingsSignal.update(list => [...list, created]),
-      error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to send reading'))
+  /** Sends one or many readings; the platform returns them classified by band. */
+  addReadings(sessionId: number, readings: ProcessReading[], onDone?: (created: ProcessReading[]) => void): void {
+    if (readings.length === 0) return;
+    this.#api.ingestReadings(sessionId, readings).subscribe({
+      next: created => {
+        this.#readingsSignal.update(list => [...list, ...created]);
+        this.#deviationsSignal.update(m => {
+          const next = new Map(m);
+          next.delete(sessionId);
+          return next;
+        });
+        onDone?.(created);
+      },
+      error: err => this.#errorSignal.set(this.#formatError(err, 'Failed to send readings'))
     });
   }
 
-  completeSession(id: number): void {
-    this.#finish(id, {status: 'completed', endedAt: new Date().toISOString()});
+  addReading(reading: ProcessReading): void {
+    this.addReadings(reading.spraySessionId, [reading]);
   }
 
-  abortSession(id: number, reason: string): void {
-    this.#finish(id, {status: 'aborted', endedAt: new Date().toISOString(), abortReason: reason});
+  #run<T>(request: Observable<T>, onNext: (value: T) => void, fallback: string): void {
+    this.#loadingSignal.set(true);
+    this.#errorSignal.set(null);
+    request.pipe(retry({count: 1, delay: 300})).subscribe({
+      next: value => {
+        onNext(value);
+        this.#loadingSignal.set(false);
+      },
+      error: err => {
+        this.#errorSignal.set(this.#formatError(err, fallback));
+        this.#loadingSignal.set(false);
+      }
+    });
   }
 
-  #finish(id: number, changes: {status: SpraySessionStatus; endedAt: string; abortReason?: string}): void {
-    this.#run(this.#api.patchSession(id, changes), updated => {
-      this.#sessionsSignal.update(list => list.map(s => s.id === updated.id ? updated : s));
-      this.stopPolling();
-    }, 'Failed to finish session');
+  #formatError(error: unknown, fallback: string): string {
+    return error instanceof Error ? error.message : fallback;
   }
 }

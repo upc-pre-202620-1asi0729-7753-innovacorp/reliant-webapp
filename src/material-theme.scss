@@ -1,44 +1,71 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
+
 @use '@angular/material' as mat;
+@use './theme/theme-colors' as reliant;
 
 @include mat.core();
 
-:root {
-  @include mat.toolbar-overrides((container-background-color: slategray, container-text-color: white));
-}
-
 html {
   height: 100%;
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$cyan-palette,
-        tertiary: mat.$orange-palette,
-      ),
-      typography: Roboto,
-      density: 0,
-    )
-  );
+  @include mat.theme((
+    color: (
+      primary: reliant.$primary-palette,
+      tertiary: reliant.$tertiary-palette,
+    ),
+    typography: (
+      plain-family: Poppins,
+      brand-family: Poppins,
+    ),
+    density: 0,
+  ));
+}
+
+:root {
+  --reliant-navy: #0E1A2B;
+  --reliant-navy-soft: #162638;
+  --reliant-orange: #D4781C;
+  --reliant-orange-dark: #B5541A;
+  --reliant-surface: #F3F4F7;
+  --reliant-card: #FFFFFF;
+  --reliant-border: #E3E7EE;
+  --reliant-text: #0E1A2B;
+  --reliant-text-muted: #5B6878;
+  --reliant-ok: #1F8A4C;
+  --reliant-ok-bg: #E8F5EC;
+  --reliant-warn: #D4781C;
+  --reliant-warn-bg: #FFF3E2;
+  --reliant-fault: #C0392B;
+  --reliant-fault-bg: #FDECEC;
+  --reliant-info: #1D4F91;
+  --reliant-info-bg: #E6EEF9;
+
+  @include mat.toolbar-overrides((
+    container-background-color: var(--reliant-navy),
+    container-text-color: #FFFFFF
+  ));
+  @include mat.button-overrides((
+    filled-container-color: var(--reliant-navy),
+    filled-label-text-color: #FFFFFF,
+    filled-container-shape: 999px,
+    outlined-container-shape: 999px,
+    text-container-shape: 999px
+  ));
+  @include mat.card-overrides((
+    elevated-container-color: var(--reliant-card),
+    elevated-container-shape: 16px,
+    outlined-container-shape: 16px,
+    outlined-outline-color: var(--reliant-border)
+  ));
+  @include mat.table-overrides((
+    background-color: var(--reliant-card),
+    header-headline-color: var(--reliant-text-muted),
+    header-headline-weight: 600
+  ));
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
   color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
+  background-color: var(--reliant-surface);
+  color: var(--reliant-text);
   font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
-  margin: 0;
-  height: 100%;
+  font-family: Poppins, system-ui, sans-serif;
 }

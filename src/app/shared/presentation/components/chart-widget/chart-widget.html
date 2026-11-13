@@ -1,0 +1,33 @@
+
+<div class="widget-header">
+  <h2>{{ title() }}</h2>
+
+  <mat-button-toggle-group
+    [value]="chartType()"
+    (change)="chartTypeChange.emit($event.value)"
+    aria-label="Chart type"
+    hideSingleSelectionIndicator>
+
+    <mat-button-toggle value="bar" aria-label="Bar">
+      <mat-icon>bar_chart</mat-icon>
+    </mat-button-toggle>
+
+    <mat-button-toggle value="line" aria-label="Line">
+      <mat-icon>show_chart</mat-icon>
+    </mat-button-toggle>
+
+    <mat-button-toggle value="doughnut" aria-label="Doughnut">
+      <mat-icon>donut_large</mat-icon>
+    </mat-button-toggle>
+
+  </mat-button-toggle-group>
+</div>
+
+<div class="chart-box">
+  <canvas
+    baseChart
+    [type]="chartType()"
+    [data]="data()"
+    [options]="options()">
+  </canvas>
+</div>

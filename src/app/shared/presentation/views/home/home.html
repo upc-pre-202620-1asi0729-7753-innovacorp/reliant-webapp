@@ -1,4 +1,113 @@
-<div class="container-with-spacing">
-  <h1>{{ 'home.title' | translate }} </h1>
-  <p>{{ 'home.content' | translate }} </p>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>{{ 'dashboard.title' | translate }}</h1>
+      <p class="subtitle">{{ 'dashboard.subtitle' | translate: {name: iam.fullName()} }}</p>
+    </div>
+    <span class="grow"></span>
+    @if (iam.isSupplier()) {
+      <button mat-stroked-button routerLink="/quick-start"><mat-icon>rocket_launch</mat-icon> {{ 'dashboard.quick-start' | translate }}</button>
+      <button mat-raised-button color="primary" routerLink="/process-monitoring/spray-sessions/new"><mat-icon>play_arrow</mat-icon> {{ 'dashboard.start-session' | translate }}</button>
+    }
+  </div>
+
+  @if (!iam.isSupplier()) {
+    <div class="card">
+      <h2>{{ 'dashboard.owner-title' | translate }}</h2>
+      <p>{{ 'dashboard.owner-text' | translate }}</p>
+    </div>
+  } @else {
+    @if (plantIsEmpty()) {
+      <div class="card empty-plant">
+        <mat-icon class="big">factory</mat-icon>
+        <div class="text">
+          <h2>{{ 'dashboard.empty-title' | translate }}</h2>
+          <p>{{ 'dashboard.empty-text' | translate }}</p>
+        </div>
+        <button mat-raised-button color="primary" routerLink="/quick-start"><mat-icon>rocket_launch</mat-icon> {{ 'dashboard.quick-start' | translate }}</button>
+      </div>
+    }
+
+    <div class="grid-4">
+      <a class="card kpi dark link" [routerLink]="activeSession() ? ['/process-monitoring/spray-sessions', activeSession()!.id] : ['/process-monitoring/spray-sessions']">
+        <span class="label">{{ 'dashboard.kpi.active-session' | translate }}</span>
+        @if (activeSession(); as s) {
+          <span class="value">#{{ s.id }}</span>
+          <span class="hint">{{ systemCode(s.hvofSystemId) }} · {{ workOrder(s.recuperationId) }} · {{ 'dashboard.kpi.since' | translate }} {{ s.startedAt | date:'HH:mm' }}</span>
+        } @else {
+          <span class="value">—</span>
+          <span class="hint">{{ 'dashboard.kpi.no-active' | translate }}</span>
+        }
+      </a>
+      <a class="card kpi link" routerLink="/fault-diagnosis/fault-cases">
+        <span class="label">{{ 'dashboard.kpi.open-cases' | translate }}</span>
+        <span class="value" [class.alert]="faults.openCount() > 0">{{ faults.openCount() }}</span>
+        <span class="hint">{{ faults.shutdownOpenCount() }} {{ 'dashboard.kpi.shutdown' | translate }}</span>
+      </a>
+      <a class="card kpi link" routerLink="/process-monitoring/spray-sessions">
+        <span class="label">{{ 'dashboard.kpi.sessions' | translate }}</span>
+        <span class="value">{{ monitoring.sessions().length }}</span>
+        <span class="hint">{{ monitoring.sessionsByStatus().completed }} {{ 'dashboard.kpi.completed' | translate }}</span>
+      </a>
+      <a class="card kpi link" routerLink="/traceability/recuperations">
+        <span class="label">{{ 'dashboard.kpi.in-progress' | translate }}</span>
+        <span class="value">{{ inProgressRecuperations() }}</span>
+        <span class="hint">{{ traceability.components().length }} {{ 'dashboard.kpi.components' | translate }} · {{ traceability.customers().length }} {{ 'dashboard.kpi.customers' | translate }}</span>
+      </a>
+    </div>
+
+    <div class="grid-3">
+      <div class="card span-2">
+        <h2>{{ 'dashboard.recent' | translate }}</h2>
+        @if (recentSessions().length === 0) {
+          <p class="muted">{{ 'dashboard.no-sessions' | translate }}</p>
+        } @else {
+          <div class="table-scroll">
+            <table class="plain">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{{ 'spray-sessions.started-at' | translate }}</th>
+                  <th>{{ 'spray-sessions.hvof-system' | translate }}</th>
+                  <th>{{ 'spray-sessions.recuperation' | translate }}</th>
+                  <th>{{ 'spray-sessions.status' | translate }}</th>
+                  <th>{{ 'dashboard.open-cases' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (s of recentSessions(); track s.id) {
+                  <tr [routerLink]="['/process-monitoring/spray-sessions', s.id]">
+                    <td>{{ s.id }}</td>
+                    <td>{{ s.startedAt | date:'yyyy-MM-dd HH:mm' }}</td>
+                    <td>{{ systemCode(s.hvofSystemId) }}</td>
+                    <td>{{ workOrder(s.recuperationId) }}</td>
+                    <td><span class="pill {{ s.status }}">{{ ('spray-sessions.status-option.' + s.status) | translate }}</span></td>
+                    <td>{{ openCasesOf(s.id) }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+      <div class="card">
+        <app-chart-widget
+          [title]="'dashboard.widget.sessions-by-status' | translate"
+          [labels]="statusLabels()"
+          [values]="statusValues()"
+          [chartType]="dashboard.chartTypeOf('sessionsByStatus')"
+          (chartTypeChange)="setChartType('sessionsByStatus', $event)"/>
+      </div>
+    </div>
+
+    <div class="card">
+      <app-chart-widget
+        [title]="'dashboard.widget.fault-cases' | translate"
+        [labels]="faultLabels()"
+        [values]="faultValues()"
+        [seriesLabel]="'dashboard.widget.fault-cases' | translate"
+        [chartType]="dashboard.chartTypeOf('deviationsByParameter')"
+        (chartTypeChange)="setChartType('deviationsByParameter', $event)"/>
+    </div>
+  }
 </div>

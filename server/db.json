@@ -130,14 +130,17 @@
           "unitCategory": "temperature",
           "unitSystem": "METRIC"
         }
+      ],
+      "dashboardWidgets": [
+        {
+          "code": "deviationsByParameter",
+          "chartType": "bar"
+        },
+        {
+          "code": "sessionsByStatus",
+          "chartType": "doughnut"
+        }
       ]
-    },
-    {
-      "id": 2,
-      "userId": 5,
-      "defaultUnitSystem": "METRIC",
-      "language": "es",
-      "unitOverrides": []
     }
   ],
   "plans": [

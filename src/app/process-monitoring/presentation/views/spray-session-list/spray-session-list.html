@@ -79,6 +79,9 @@
       <th mat-header-cell *matHeaderCellDef>{{ 'spray-sessions.actions' | translate }}</th>
       <td mat-cell *matCellDef="let s">
         <button mat-icon-button aria-label="{{ 'spray-sessions.open' | translate }}" (click)="openSession(s.id)"><mat-icon>monitoring</mat-icon></button>
+        <button mat-button type="button" (click)="openReport(s.id)">
+          {{ 'session-report.open' | translate }}
+        </button>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

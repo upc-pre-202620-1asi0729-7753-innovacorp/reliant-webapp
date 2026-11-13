@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>{{ 'reports.generate-title' | translate }} · {{ 'reports.subject.spray_session' | translate }} #{{ data.sessionId }}</h2>
+<mat-dialog-content>
+  <p class="hint">{{ 'reports.generate-hint' | translate }}</p>
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>{{ 'reports.kind-label' | translate }}</mat-label>
+    <mat-select [ngModel]="kind()" (ngModelChange)="setKind($event)">
+      @for (k of kinds; track k) { <mat-option [value]="k">{{ ('reports.kind.' + k) | translate }}</mat-option> }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>{{ 'reports.template' | translate }}</mat-label>
+    <mat-select [ngModel]="selected()?.id ?? null" (ngModelChange)="templateId.set($event)">
+      @for (t of templates(); track t.id) {
+        <mat-option [value]="t.id">{{ t.name }}@if (t.defaultForKind) { · {{ 'reports.default' | translate }}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  @if (templates().length === 0) { <p class="warn">{{ 'reports.no-templates' | translate }}</p> }
+  @if (selected(); as t) {
+    <p class="meta">{{ t.description }}<br>{{ t.sections.length }} {{ 'reports.sections' | translate | lowercase }} · {{ t.widgetCount }} {{ 'reports.widgets' | translate | lowercase }} · {{ t.pageSize | uppercase }} {{ ('reports.orientation-option.' + t.orientation) | translate }}</p>
+  }
+  @if (error()) { <p class="error">{{ error() }}</p> }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">{{ 'reports.cancel' | translate }}</button>
+  <button mat-raised-button color="primary" [disabled]="!selected() || generating()" (click)="generate()">
+    @if (generating()) { <mat-spinner diameter="18"></mat-spinner> } @else { <mat-icon>picture_as_pdf</mat-icon> }
+    {{ 'reports.generate' | translate }}
+  </button>
+</mat-dialog-actions>

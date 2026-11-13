@@ -1,14 +1,19 @@
 {
   "option": {
-    "home": "Inicio",
+    "Dashboard": "Inicio",
     "recuperations": "Recuperaciones",
     "components": "Componentes",
     "customers": "Clientes",
     "hvof-systems": "Sistemas HVOF",
     "spray-sessions": "Sesiones de rociado",
     "about": "Acerca de",
-    "users":"Usuarios",
-    "subscription": "Suscripción"
+    "users": "Usuarios",
+    "subscription": "Suscripción",
+    "fault-cases": "Casos de falla",
+    "fault-rules": "Reglas de diagnóstico",
+    "quick-start": "Puesta en marcha",
+    "report-templates": "Plantillas de reporte",
+    "generated-reports": "Reportes generados"
   },
   "home": {
     "title": "Bienvenido a Reliant",
@@ -98,7 +103,9 @@
     "received-at": "Recibido",
     "actions": "Acciones",
     "new": "Nueva recuperación",
-    "edit": "Editar"
+    "edit": "Editar",
+    "sessions": "Sesiones de rociado",
+    "complete": "Completar orden"
   },
   "recuperation": {
     "new-title": "Nueva orden de recuperación",
@@ -168,7 +175,9 @@
       "MAINTENANCE": "En mantenimiento",
       "OUT_OF_SERVICE": "Fuera de servicio"
     },
-    "error": { "required": "Este campo es obligatorio" }
+    "error": {
+      "required": "Este campo es obligatorio"
+    }
   },
   "controllers": {
     "number": "#",
@@ -300,7 +309,11 @@
     "edit": "Editar",
     "publish": "Publicar",
     "empty": "Aún no hay recetas definidas.",
-    "status-option": { "DRAFT": "Borrador", "ACTIVE": "Activa", "RETIRED": "Retirada" }
+    "status-option": {
+      "DRAFT": "Borrador",
+      "ACTIVE": "Activa",
+      "RETIRED": "Retirada"
+    }
   },
   "recipe": {
     "new-title": "Nueva receta",
@@ -380,7 +393,13 @@
       "coolant_flow": "Flujo de refrigerante",
       "coolant_outlet_temp": "Temp. salida refrigerante",
       "spindle_speed": "Velocidad del husillo"
-    }
+    },
+    "simulate-burst": "Simular ráfaga",
+    "fault-cases": "Casos de falla",
+    "analysis": "Análisis",
+    "tab-live": "En vivo",
+    "tab-trends": "Tendencias",
+    "generate-pdf": "Generar PDF"
   },
   "page-not-found": {
     "title": "Página no encontrada",
@@ -474,6 +493,390 @@
     "expiring-soon": "Próxima a vencer",
     "none": "Tu organización aún no tiene una suscripción activa.",
     "choose": "Elegir un plan",
-    "status-option": { "ACTIVE": "Activa", "EXPIRED": "Vencida", "CANCELLED": "Cancelada" }
+    "status-option": {
+      "ACTIVE": "Activa",
+      "EXPIRED": "Vencida",
+      "CANCELLED": "Cancelada"
+    }
+  },
+  "nav": {
+    "group": {
+      "overview": "Resumen",
+      "traceability": "Trazabilidad",
+      "equipment": "Equipos",
+      "account": "Cuenta",
+      "reports": "Reportes"
+    },
+    "segment": {
+      "RECUPERATION_SUPPLIER": "Proveedor de recuperación",
+      "ASSET_OWNER": "Dueño del activo",
+      "null": ""
+    }
+  },
+  "trend": {
+    "title": "Tendencia en vivo vs. bandas de la receta",
+    "empty": "Esperando lecturas…",
+    "legend": {
+      "nominal": "Banda nominal",
+      "warning": "Warning",
+      "fault": "Fault",
+      "setpoint": "Setpoint"
+    }
+  },
+  "parameter": {
+    "fuel_gas_flow": "Flujo de combustible",
+    "oxygen_flow": "Flujo de oxígeno",
+    "powder_feed_rate": "Alimentación de polvo",
+    "carrier_gas_flow": "Flujo de gas portador",
+    "fuel_gas_pressure": "Presión de combustible",
+    "oxygen_pressure": "Presión de oxígeno",
+    "coolant_outlet_temp": "Temp. salida refrigerante",
+    "coolant_flow": "Flujo de refrigerante",
+    "spray_distance": "Distancia de proyección",
+    "cooling_air_flow": "Flujo de aire de enfriamiento",
+    "hopper_pressure": "Presión de tolva",
+    "spindle_speed": "Velocidad de husillo"
+  },
+  "dashboard": {
+    "title": "Panel de operaciones",
+    "subtitle": "Te damos la bienvenida, {{name}}",
+    "start-session": "Iniciar sesión de proyección",
+    "recent": "Últimas sesiones de proyección",
+    "kpi": {
+      "active-session": "Sesión activa",
+      "since": "desde",
+      "no-active": "No hay ninguna sesión activa",
+      "sessions": "Sesiones de proyección",
+      "deviations": "Lecturas fuera de rango",
+      "deviations-hint": "Advertencias y fallos en todas las sesiones",
+      "in-progress": "Recuperaciones en curso",
+      "open-cases": "Casos de falla abiertos",
+      "shutdown": "en banda de parada",
+      "completed": "completadas",
+      "components": "componentes",
+      "customers": "clientes"
+    },
+    "widget": {
+      "deviations": "Desviaciones por parámetro",
+      "sessions-by-status": "Sesiones por estado",
+      "fault-cases": "Casos de falla por parámetro"
+    },
+    "quick-start": "Puesta en marcha",
+    "owner-title": "Vista del dueño de activos",
+    "owner-text": "Tu proveedor de recuperación comparte aquí la trazabilidad de tus componentes. Los componentes y reportes aparecen conforme se registran.",
+    "empty-title": "Tu planta está vacía",
+    "empty-text": "Registra tu sistema HVOF, receta, cliente y primera orden en un clic con la planta demo, o sigue la lista de verificación.",
+    "no-sessions": "Aún no hay sesiones de rociado.",
+    "open-cases": "Casos abiertos"
+  },
+  "session-report": {
+    "open": "Ver reporte",
+    "download": "Descargar CSV",
+    "title": "Análisis de sesión",
+    "back": "Volver a sesiones",
+    "loading": "Cargando reporte…",
+    "error": "No se pudo cargar el reporte de esta sesión.",
+    "empty": "Esta sesión no tiene lecturas.",
+    "timestamp": "Fecha y hora",
+    "parameter": "Parámetro",
+    "value": "Valor",
+    "unit": "Unidad",
+    "band": "Banda",
+    "live": "Vista en vivo",
+    "generate-pdf": "Generar PDF",
+    "kpi": {
+      "compliance": "Cumplimiento nominal",
+      "compliance-hint": "lecturas dentro de la banda nominal",
+      "readings": "Lecturas",
+      "parameters": "parámetros",
+      "deviations": "Lecturas fuera de banda",
+      "fault-cases": "Casos de falla",
+      "open-cases": "abrir los casos de falla de esta sesión"
+    },
+    "statistics": "Estadísticas por parámetro",
+    "readings": "Lecturas",
+    "min": "Mín",
+    "mean": "Media",
+    "max": "Máx",
+    "std-dev": "Desv. est.",
+    "nominal-band": "Banda nominal",
+    "out-of-band": "Fuera de nominal",
+    "compliance": "Cumplimiento",
+    "tab-normalized": "Desviación normalizada",
+    "normalized-hint": "Todos los parámetros en una escala: 0 es el setpoint, ±1 los límites de parada. Valores más allá de ±1 salieron de la ventana segura.",
+    "tab-trend": "Tendencia",
+    "tab-deviations": "Desviaciones",
+    "no-deviations": "Sin lecturas de advertencia o parada en esta sesión.",
+    "tab-fault-cases": "Casos de falla",
+    "no-fault-cases": "No se abrieron casos de falla para esta sesión."
+  },
+  "fault-cases": {
+    "list-title": "Casos de falla",
+    "subtitle": "Desviaciones detectadas por la plataforma, con su causa probable y acción recomendada",
+    "filter-status": "Estado",
+    "all": "Todos",
+    "session": "Sesión",
+    "kpi-open": "Casos abiertos",
+    "kpi-shutdown": "en banda de parada",
+    "kpi-total": "Casos totales",
+    "kpi-resolved": "Resueltos",
+    "kpi-rules": "Reglas de diagnóstico",
+    "manage-rules": "Gestionar reglas",
+    "empty": "Sin casos de falla. Se abren automáticamente cuando una lectura sale de la banda de advertencia o de parada.",
+    "detected-at": "Detectado",
+    "parameter": "Parámetro",
+    "band": "Banda",
+    "value": "Valor",
+    "status": "Estado",
+    "open": "Abrir",
+    "acknowledge": "Reconocer",
+    "band-option": {
+      "warning": "Advertencia",
+      "shutdown": "Parada"
+    },
+    "status-option": {
+      "open": "Abierto",
+      "acknowledged": "Reconocido",
+      "resolved": "Resuelto"
+    }
+  },
+  "fault-case": {
+    "back": "Volver a casos de falla",
+    "title": "Caso de falla",
+    "session": "Sesión",
+    "value": "Valor medido",
+    "nominal": "Nominal",
+    "setpoint": "setpoint",
+    "probable-cause": "Causa probable",
+    "recommended-action": "Acción recomendada",
+    "timeline": "Línea de tiempo",
+    "detected": "Detectado",
+    "acknowledged": "Reconocido",
+    "resolved": "Resuelto",
+    "by-user": "por usuario",
+    "notes": "Notas de resolución",
+    "open-session": "Abrir sesión",
+    "acknowledge": "Reconocer",
+    "resolve-title": "Resolver caso",
+    "resolve": "Marcar como resuelto",
+    "not-found": "Caso de falla no encontrado."
+  },
+  "fault-rules": {
+    "back": "Volver a casos de falla",
+    "list-title": "Reglas de diagnóstico",
+    "subtitle": "Causa probable y acción recomendada asignadas a cada parámetro y banda",
+    "new": "Nueva regla",
+    "parameter": "Parámetro",
+    "band": "Banda",
+    "probable-cause": "Causa probable",
+    "recommended-action": "Acción recomendada",
+    "cooldown": "Enfriamiento",
+    "edit": "Editar"
+  },
+  "fault-rule": {
+    "new-title": "Nueva regla de diagnóstico",
+    "edit-title": "Editar regla de diagnóstico",
+    "parameter": "Parámetro",
+    "band": "Banda",
+    "probable-cause": "Causa probable",
+    "recommended-action": "Acción recomendada",
+    "cooldown": "Enfriamiento (segundos)",
+    "cooldown-hint": "Tiempo mínimo entre dos casos del mismo parámetro y banda en una sesión",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "error": {
+      "required": "Este campo es obligatorio"
+    }
+  },
+  "quick-start": {
+    "title": "Puesta en marcha",
+    "subtitle": "Todo lo que una planta necesita antes de la primera sesión de rociado",
+    "checklist": "Lista de verificación de la planta",
+    "go": "Ir",
+    "demo-title": "Cargar la planta demo",
+    "demo-text": "Crea la planta demo de FESA en tu organización e inicia una sesión de rociado. Los registros que ya existen se reutilizan.",
+    "plant": {
+      "subsystems": "subsistemas",
+      "parameters": "parámetros",
+      "recipe": "Receta"
+    },
+    "run": "Cargar planta demo e iniciar sesión",
+    "no-permission": "Pide a un administrador, ingeniero de calidad o supervisor que cargue la planta demo.",
+    "reused": "ya existía",
+    "open-session": "Abrir sesión",
+    "check": {
+      "system": {
+        "title": "Sistema HVOF",
+        "hint": "El sistema de rociado con su código, modelo y combustible"
+      },
+      "subsystems": {
+        "title": "Subsistemas",
+        "hint": "Consola de gases, alimentador de polvo, enfriamiento y sus parámetros"
+      },
+      "recipe": {
+        "title": "Receta activa",
+        "hint": "Setpoints y bandas nominal, advertencia y parada"
+      },
+      "customer": {
+        "title": "Cliente",
+        "hint": "Minera dueña de los componentes"
+      },
+      "component": {
+        "title": "Componente",
+        "hint": "Vástago hidráulico u otra pieza a recuperar"
+      },
+      "recuperation": {
+        "title": "Orden de recuperación abierta",
+        "hint": "Orden de trabajo enlazada al componente y cliente"
+      }
+    },
+    "step": {
+      "hvof-system": "Sistema HVOF",
+      "subsystems": "Subsistemas",
+      "controller": "Controlador PLC",
+      "recipe": "Receta publicada",
+      "customer": "Cliente",
+      "component": "Componente",
+      "recuperation": "Orden de recuperación",
+      "session": "Sesión de rociado iniciada"
+    }
+  },
+  "analysis": {
+    "time": "Hora",
+    "parameter": "Parámetro",
+    "unit": "Unidad"
+  },
+  "reports": {
+    "templates-title": "Plantillas de reporte",
+    "templates-subtitle": "Marca, página y secciones de los PDF que genera tu organización",
+    "generated-title": "Reportes generados",
+    "generated-subtitle": "Cada PDF generado desde una plantilla, con su sujeto y autor",
+    "generated-empty": "Aún no se generaron reportes. Abre una sesión de rociado y usa Generar PDF.",
+    "new-template": "Nueva plantilla",
+    "edit-template": "Editar plantilla",
+    "default": "Por defecto",
+    "edit": "Editar",
+    "archive": "Archivar",
+    "reactivate": "Reactivar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "form-invalid": "Completa el nombre, colores válidos y al menos una sección con widgets que tengan variable y etiqueta.",
+    "general": "General",
+    "name": "Nombre",
+    "description": "Descripción",
+    "kind-label": "Tipo de reporte",
+    "default-for-kind": "Plantilla por defecto para este tipo",
+    "branding": "Marca y página",
+    "primary-color": "Color primario",
+    "secondary-color": "Color secundario",
+    "header-text": "Texto de encabezado",
+    "footer-text": "Texto de pie",
+    "page-size": "Tamaño de página",
+    "orientation": "Orientación",
+    "signature-block": "Mostrar bloque de firmas",
+    "sections": "Secciones",
+    "widgets": "Widgets",
+    "add-section": "Agregar sección",
+    "section-title": "Título de la sección",
+    "add-widget": "Agregar widget",
+    "source-label": "Fuente",
+    "variable-label": "Variable",
+    "label": "Etiqueta",
+    "view-label": "Vista",
+    "aggregation-label": "Agregación",
+    "width-label": "Ancho",
+    "preview": "Vista previa",
+    "preview-header": "Encabezado",
+    "preview-title": "Nombre de la plantilla",
+    "preview-section": "Sección",
+    "preview-widget": "Widget",
+    "template": "Plantilla",
+    "subject-label": "Sujeto",
+    "generated-at": "Generado",
+    "generated-by": "Generado por",
+    "file": "Archivo",
+    "open-subject": "Abrir sujeto",
+    "generate-title": "Generar reporte",
+    "generate-hint": "El PDF se genera en tu navegador con los datos en vivo de la sesión y se registra en la plataforma.",
+    "generate": "Generar PDF",
+    "no-templates": "No hay una plantilla activa de este tipo.",
+    "empty-table": "Sin filas",
+    "kind": {
+      "quality_certificate": "Certificado de calidad",
+      "session_report": "Reporte de sesión",
+      "fault_summary": "Resumen de fallas"
+    },
+    "status-option": {
+      "active": "Activa",
+      "archived": "Archivada"
+    },
+    "orientation-option": {
+      "portrait": "Vertical",
+      "landscape": "Horizontal"
+    },
+    "source": {
+      "process": "Parámetro de proceso",
+      "session": "Sesión",
+      "recuperation": "Orden de recuperación",
+      "fault_cases": "Casos de falla"
+    },
+    "view": {
+      "value": "Valor",
+      "min_max": "Mín – máx",
+      "trend": "Gráfico de tendencia",
+      "table": "Tabla",
+      "text": "Texto"
+    },
+    "aggregation": {
+      "avg": "Promedio",
+      "min": "Mínimo",
+      "max": "Máximo",
+      "range": "Rango",
+      "last": "Último",
+      "count": "Conteo"
+    },
+    "width": {
+      "half": "Media columna",
+      "full": "Ancho completo"
+    },
+    "subject": {
+      "spray_session": "Sesión de rociado",
+      "recuperation": "Recuperación"
+    },
+    "signature": {
+      "quality": "Ingeniero de calidad",
+      "supervisor": "Supervisor de operaciones"
+    },
+    "variable": {
+      "session": {
+        "system": "Sistema HVOF",
+        "recipe": "Receta",
+        "operator": "Operador",
+        "started_at": "Inicio",
+        "ended_at": "Fin",
+        "duration": "Duración",
+        "status": "Estado",
+        "readings": "Lecturas",
+        "compliance": "Cumplimiento de banda nominal",
+        "deviations": "Lecturas fuera de banda"
+      },
+      "recuperation": {
+        "work_order_number": "Orden de trabajo",
+        "manufacturing_order_number": "Orden de fabricación",
+        "component_serial": "Serie del componente",
+        "component_part_number": "Número de parte",
+        "machine": "Máquina",
+        "customer_name": "Cliente",
+        "mine_site": "Mina",
+        "operation": "Operación",
+        "powder_lot_number": "Lote de polvo",
+        "powder_chemical_composition": "Composición del polvo"
+      },
+      "fault_cases": {
+        "cases": "Casos de falla",
+        "open_cases": "Casos de falla abiertos"
+      }
+    }
   }
 }

@@ -85,11 +85,7 @@ export class ControllerForm extends BaseForm {
       tagCatalogId: existing?.tagCatalogId ?? null,
       supportedProtocols: v.supportedProtocols.map(protocol => ({protocol}))
     });
-    if (this.isEdit) {
-      this.store.updateController(controller);
-    } else {
-      this.store.addController(controller);
-    }
+    this.store.addController(controller);
     this.back();
   }
 

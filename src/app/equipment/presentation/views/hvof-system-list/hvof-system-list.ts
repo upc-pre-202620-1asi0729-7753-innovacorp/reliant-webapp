@@ -44,7 +44,4 @@ export class HvofSystemList {
     this.router.navigate(['equipment/hvof-systems', id]).then();
   }
 
-  editSystem(id: number) {
-    this.router.navigate(['equipment/hvof-systems', id, 'edit']).then();
-  }
 }

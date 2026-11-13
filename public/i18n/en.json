@@ -7,8 +7,13 @@
     "hvof-systems": "HVOF Systems",
     "spray-sessions": "Spray Sessions",
     "about": "About Us",
-    "users":"Users",
-    "subscription": "Subscription"
+    "users": "Users",
+    "subscription": "Subscription",
+    "fault-cases": "Fault Cases",
+    "fault-rules": "Fault Rules",
+    "quick-start": "Quick start",
+    "report-templates": "Report templates",
+    "generated-reports": "Generated reports"
   },
   "home": {
     "title": "Welcome to Reliant",
@@ -98,7 +103,9 @@
     "received-at": "Received",
     "actions": "Actions",
     "new": "New Recuperation",
-    "edit": "Edit"
+    "edit": "Edit",
+    "sessions": "Spray sessions",
+    "complete": "Complete order"
   },
   "recuperation": {
     "new-title": "New Recuperation",
@@ -168,7 +175,9 @@
       "MAINTENANCE": "Maintenance",
       "OUT_OF_SERVICE": "Out of service"
     },
-    "error": { "required": "This field is required" }
+    "error": {
+      "required": "This field is required"
+    }
   },
   "controllers": {
     "number": "#",
@@ -300,7 +309,11 @@
     "edit": "Edit",
     "publish": "Publish",
     "empty": "No recipes defined yet.",
-    "status-option": { "DRAFT": "Draft", "ACTIVE": "Active", "RETIRED": "Retired" }
+    "status-option": {
+      "DRAFT": "Draft",
+      "ACTIVE": "Active",
+      "RETIRED": "Retired"
+    }
   },
   "recipe": {
     "new-title": "New Recipe",
@@ -380,7 +393,13 @@
       "coolant_flow": "Coolant flow",
       "coolant_outlet_temp": "Coolant outlet temp",
       "spindle_speed": "Spindle speed"
-    }
+    },
+    "simulate-burst": "Simulate burst",
+    "fault-cases": "Fault cases",
+    "analysis": "Analysis",
+    "tab-live": "Live",
+    "tab-trends": "Trends",
+    "generate-pdf": "Generate PDF"
   },
   "page-not-found": {
     "title": "Page not found",
@@ -474,6 +493,390 @@
     "expiring-soon": "Expiring soon",
     "none": "Your organization has no active subscription yet.",
     "choose": "Choose a plan",
-    "status-option": { "ACTIVE": "Active", "EXPIRED": "Expired", "CANCELLED": "Cancelled" }
+    "status-option": {
+      "ACTIVE": "Active",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled"
+    }
+  },
+  "nav": {
+    "group": {
+      "overview": "Overview",
+      "traceability": "Traceability",
+      "equipment": "Equipment",
+      "account": "Account",
+      "reports": "Reports"
+    },
+    "segment": {
+      "RECUPERATION_SUPPLIER": "Recuperation Supplier",
+      "ASSET_OWNER": "Asset Owner",
+      "null": ""
+    }
+  },
+  "trend": {
+    "title": "Live trend vs. recipe bands",
+    "empty": "Waiting for readings…",
+    "legend": {
+      "nominal": "Nominal band",
+      "warning": "Warning",
+      "fault": "Fault",
+      "setpoint": "Setpoint"
+    }
+  },
+  "parameter": {
+    "fuel_gas_flow": "Fuel gas flow",
+    "oxygen_flow": "Oxygen flow",
+    "powder_feed_rate": "Powder feed rate",
+    "fuel_gas_pressure": "Fuel gas pressure",
+    "oxygen_pressure": "Oxygen pressure",
+    "coolant_outlet_temp": "Coolant outlet temp.",
+    "coolant_flow": "Coolant flow",
+    "spray_distance": "Spray distance",
+    "cooling_air_flow": "Cooling air flow",
+    "carrier_gas_flow": "Carrier gas flow",
+    "hopper_pressure": "Hopper pressure",
+    "spindle_speed": "Spindle speed"
+  },
+  "dashboard": {
+    "title": "Operations dashboard",
+    "subtitle": "Welcome back, {{name}}",
+    "start-session": "Start spray session",
+    "recent": "Latest spray sessions",
+    "kpi": {
+      "active-session": "Active session",
+      "since": "since",
+      "no-active": "No session running",
+      "sessions": "Spray sessions",
+      "deviations": "Out-of-band readings",
+      "deviations-hint": "warning + fault, all sessions",
+      "in-progress": "Recuperations in progress",
+      "open-cases": "Open fault cases",
+      "shutdown": "in shutdown band",
+      "completed": "completed",
+      "components": "components",
+      "customers": "customers"
+    },
+    "widget": {
+      "deviations": "Deviations by parameter",
+      "sessions-by-status": "Sessions by status",
+      "fault-cases": "Fault cases by parameter"
+    },
+    "quick-start": "Quick start",
+    "owner-title": "Asset owner view",
+    "owner-text": "Your recuperation supplier shares the traceability of your components here. Components and reports appear as they are registered.",
+    "empty-title": "Your plant is empty",
+    "empty-text": "Register your HVOF system, recipe, customer and first order in one click with the demo plant, or follow the checklist.",
+    "no-sessions": "No spray sessions yet.",
+    "open-cases": "Open cases"
+  },
+  "session-report": {
+    "open": "View report",
+    "download": "Download CSV",
+    "title": "Session analysis",
+    "back": "Back to sessions",
+    "loading": "Loading report…",
+    "error": "Could not load the report for this session.",
+    "empty": "This session has no readings.",
+    "timestamp": "Date and time",
+    "parameter": "Parameter",
+    "value": "Value",
+    "unit": "Unit",
+    "band": "Band",
+    "live": "Live view",
+    "generate-pdf": "Generate PDF",
+    "kpi": {
+      "compliance": "Nominal compliance",
+      "compliance-hint": "share of readings inside the nominal band",
+      "readings": "Readings",
+      "parameters": "parameters",
+      "deviations": "Out-of-band readings",
+      "fault-cases": "Fault cases",
+      "open-cases": "open the fault cases of this session"
+    },
+    "statistics": "Statistics per parameter",
+    "readings": "Readings",
+    "min": "Min",
+    "mean": "Mean",
+    "max": "Max",
+    "std-dev": "Std. dev.",
+    "nominal-band": "Nominal band",
+    "out-of-band": "Out of nominal",
+    "compliance": "Compliance",
+    "tab-normalized": "Normalized deviation",
+    "normalized-hint": "Every parameter on one scale: 0 is the setpoint, ±1 the shutdown limits. Values beyond ±1 left the safe window.",
+    "tab-trend": "Trend",
+    "tab-deviations": "Deviations",
+    "no-deviations": "No warning or shutdown readings in this session.",
+    "tab-fault-cases": "Fault cases",
+    "no-fault-cases": "No fault cases were opened for this session."
+  },
+  "fault-cases": {
+    "list-title": "Fault cases",
+    "subtitle": "Deviations detected by the platform, with their probable cause and recommended action",
+    "filter-status": "Status",
+    "all": "All",
+    "session": "Session",
+    "kpi-open": "Open cases",
+    "kpi-shutdown": "in shutdown band",
+    "kpi-total": "Total cases",
+    "kpi-resolved": "Resolved",
+    "kpi-rules": "Diagnosis rules",
+    "manage-rules": "Manage rules",
+    "empty": "No fault cases. They open automatically when a reading leaves the warning or shutdown band.",
+    "detected-at": "Detected at",
+    "parameter": "Parameter",
+    "band": "Band",
+    "value": "Value",
+    "status": "Status",
+    "open": "Open",
+    "acknowledge": "Acknowledge",
+    "band-option": {
+      "warning": "Warning",
+      "shutdown": "Shutdown"
+    },
+    "status-option": {
+      "open": "Open",
+      "acknowledged": "Acknowledged",
+      "resolved": "Resolved"
+    }
+  },
+  "fault-case": {
+    "back": "Back to fault cases",
+    "title": "Fault case",
+    "session": "Session",
+    "value": "Measured value",
+    "nominal": "Nominal",
+    "setpoint": "setpoint",
+    "probable-cause": "Probable cause",
+    "recommended-action": "Recommended action",
+    "timeline": "Timeline",
+    "detected": "Detected",
+    "acknowledged": "Acknowledged",
+    "resolved": "Resolved",
+    "by-user": "by user",
+    "notes": "Resolution notes",
+    "open-session": "Open session",
+    "acknowledge": "Acknowledge",
+    "resolve-title": "Resolve case",
+    "resolve": "Mark as resolved",
+    "not-found": "Fault case not found."
+  },
+  "fault-rules": {
+    "back": "Back to fault cases",
+    "list-title": "Diagnosis rules",
+    "subtitle": "Probable cause and recommended action assigned to each parameter and band",
+    "new": "New rule",
+    "parameter": "Parameter",
+    "band": "Band",
+    "probable-cause": "Probable cause",
+    "recommended-action": "Recommended action",
+    "cooldown": "Cooldown",
+    "edit": "Edit"
+  },
+  "fault-rule": {
+    "new-title": "New diagnosis rule",
+    "edit-title": "Edit diagnosis rule",
+    "parameter": "Parameter",
+    "band": "Band",
+    "probable-cause": "Probable cause",
+    "recommended-action": "Recommended action",
+    "cooldown": "Cooldown (seconds)",
+    "cooldown-hint": "Minimum time between two cases of the same parameter and band in a session",
+    "cancel": "Cancel",
+    "create": "Create",
+    "update": "Update",
+    "error": {
+      "required": "This field is required"
+    }
+  },
+  "quick-start": {
+    "title": "Quick start",
+    "subtitle": "Everything a plant needs before the first spray session",
+    "checklist": "Plant checklist",
+    "go": "Go",
+    "demo-title": "Load the demo plant",
+    "demo-text": "Creates the FESA demo plant in your organization and starts a spray session. Records that already exist are reused.",
+    "plant": {
+      "subsystems": "subsystems",
+      "parameters": "parameters",
+      "recipe": "Recipe"
+    },
+    "run": "Load demo plant and start session",
+    "no-permission": "Ask an administrator, quality engineer or supervisor to load the demo plant.",
+    "reused": "already existed",
+    "open-session": "Open session",
+    "check": {
+      "system": {
+        "title": "HVOF system",
+        "hint": "The spray system with its code, model and fuel"
+      },
+      "subsystems": {
+        "title": "Subsystems",
+        "hint": "Gas console, powder feeder, cooling unit and their parameters"
+      },
+      "recipe": {
+        "title": "Active recipe",
+        "hint": "Setpoints and nominal, warning and shutdown bands"
+      },
+      "customer": {
+        "title": "Customer",
+        "hint": "Mining company that owns the components"
+      },
+      "component": {
+        "title": "Component",
+        "hint": "Hydraulic rod or other part to recover"
+      },
+      "recuperation": {
+        "title": "Open recuperation order",
+        "hint": "Work order linked to the component and customer"
+      }
+    },
+    "step": {
+      "hvof-system": "HVOF system",
+      "subsystems": "Subsystems",
+      "controller": "PLC controller",
+      "recipe": "Recipe published",
+      "customer": "Customer",
+      "component": "Component",
+      "recuperation": "Recuperation order",
+      "session": "Spray session started"
+    }
+  },
+  "analysis": {
+    "time": "Time",
+    "parameter": "Parameter",
+    "unit": "Unit"
+  },
+  "reports": {
+    "templates-title": "Report templates",
+    "templates-subtitle": "Branding, page setup and sections of the PDFs your organization generates",
+    "generated-title": "Generated reports",
+    "generated-subtitle": "Every PDF rendered from a template, with its subject and author",
+    "generated-empty": "No reports generated yet. Open a spray session and use Generate PDF.",
+    "new-template": "New template",
+    "edit-template": "Edit template",
+    "default": "Default",
+    "edit": "Edit",
+    "archive": "Archive",
+    "reactivate": "Reactivate",
+    "cancel": "Cancel",
+    "save": "Save",
+    "form-invalid": "Complete the name, valid colors and at least one section with widgets that have a variable and a label.",
+    "general": "General",
+    "name": "Name",
+    "description": "Description",
+    "kind-label": "Report kind",
+    "default-for-kind": "Default template for this kind",
+    "branding": "Branding and page",
+    "primary-color": "Primary color",
+    "secondary-color": "Secondary color",
+    "header-text": "Header text",
+    "footer-text": "Footer text",
+    "page-size": "Page size",
+    "orientation": "Orientation",
+    "signature-block": "Show signature block",
+    "sections": "Sections",
+    "widgets": "Widgets",
+    "add-section": "Add section",
+    "section-title": "Section title",
+    "add-widget": "Add widget",
+    "source-label": "Source",
+    "variable-label": "Variable",
+    "label": "Label",
+    "view-label": "View",
+    "aggregation-label": "Aggregation",
+    "width-label": "Width",
+    "preview": "Preview",
+    "preview-header": "Header",
+    "preview-title": "Template name",
+    "preview-section": "Section",
+    "preview-widget": "Widget",
+    "template": "Template",
+    "subject-label": "Subject",
+    "generated-at": "Generated at",
+    "generated-by": "Generated by",
+    "file": "File",
+    "open-subject": "Open subject",
+    "generate-title": "Generate report",
+    "generate-hint": "The PDF is rendered in your browser from the live data of the session and registered in the platform.",
+    "generate": "Generate PDF",
+    "no-templates": "There is no active template of this kind.",
+    "empty-table": "No rows",
+    "kind": {
+      "quality_certificate": "Quality certificate",
+      "session_report": "Session report",
+      "fault_summary": "Fault summary"
+    },
+    "status-option": {
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "orientation-option": {
+      "portrait": "Portrait",
+      "landscape": "Landscape"
+    },
+    "source": {
+      "process": "Process parameter",
+      "session": "Session",
+      "recuperation": "Recuperation order",
+      "fault_cases": "Fault cases"
+    },
+    "view": {
+      "value": "Value",
+      "min_max": "Min – max",
+      "trend": "Trend chart",
+      "table": "Table",
+      "text": "Text"
+    },
+    "aggregation": {
+      "avg": "Average",
+      "min": "Minimum",
+      "max": "Maximum",
+      "range": "Range",
+      "last": "Last",
+      "count": "Count"
+    },
+    "width": {
+      "half": "Half width",
+      "full": "Full width"
+    },
+    "subject": {
+      "spray_session": "Spray session",
+      "recuperation": "Recuperation"
+    },
+    "signature": {
+      "quality": "Quality engineer",
+      "supervisor": "Operations supervisor"
+    },
+    "variable": {
+      "session": {
+        "system": "HVOF system",
+        "recipe": "Recipe",
+        "operator": "Operator",
+        "started_at": "Started at",
+        "ended_at": "Ended at",
+        "duration": "Duration",
+        "status": "Status",
+        "readings": "Readings",
+        "compliance": "Nominal-band compliance",
+        "deviations": "Out-of-band readings"
+      },
+      "recuperation": {
+        "work_order_number": "Work order",
+        "manufacturing_order_number": "Manufacturing order",
+        "component_serial": "Component serial",
+        "component_part_number": "Part number",
+        "machine": "Machine",
+        "customer_name": "Customer",
+        "mine_site": "Mine site",
+        "operation": "Operation",
+        "powder_lot_number": "Powder lot",
+        "powder_chemical_composition": "Powder composition"
+      },
+      "fault_cases": {
+        "cases": "Fault cases",
+        "open_cases": "Open fault cases"
+      }
+    }
   }
 }
