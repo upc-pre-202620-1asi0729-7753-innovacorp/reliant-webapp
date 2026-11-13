@@ -51,6 +51,7 @@ export class Layout {
         label: 'nav.group.overview',
         options: [
           { link: '/home', label: 'option.home', icon: 'space_dashboard', visible: signedIn },
+          { link: '/quick-start', label: 'option.quick-start', icon: 'rocket_launch', visible: supplier },
           {
             link: '/process-monitoring/spray-sessions',
             label: 'option.spray-sessions',

@@ -1,0 +1,14 @@
+.link { text-decoration: none; color: inherit; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+.link:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(14, 26, 43, .08); }
+.kpi .value.alert { color: var(--reliant-fault); }
+.empty-plant { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; border-left: 6px solid var(--reliant-orange); }
+.empty-plant .big { font-size: 48px; width: 48px; height: 48px; color: var(--reliant-orange); }
+.empty-plant .text { flex: 1; min-width: 240px; }
+.empty-plant h2 { margin: 0 0 4px; }
+.empty-plant p { margin: 0; color: var(--reliant-text-muted); }
+.muted { color: var(--reliant-text-muted); margin: 0; }
+table.plain { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.plain th { text-align: left; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--reliant-text-muted); padding: 6px 8px; border-bottom: 1px solid var(--reliant-border); }
+table.plain td { padding: 10px 8px; border-bottom: 1px solid var(--reliant-border); }
+table.plain tbody tr { cursor: pointer; }
+table.plain tbody tr:hover { background: var(--reliant-surface); }

@@ -10,7 +10,8 @@
     "users": "Usuarios",
     "subscription": "Suscripción",
     "fault-cases": "Casos de falla",
-    "fault-rules": "Reglas de diagnóstico"
+    "fault-rules": "Reglas de diagnóstico",
+    "quick-start": "Puesta en marcha"
   },
   "home": {
     "title": "Bienvenido a Reliant",
@@ -522,12 +523,15 @@
     "fuel_gas_flow": "Flujo de combustible",
     "oxygen_flow": "Flujo de oxígeno",
     "powder_feed_rate": "Alimentación de polvo",
-    "carrier_gas_flow": "Gas portador",
+    "carrier_gas_flow": "Flujo de gas portador",
     "fuel_gas_pressure": "Presión de combustible",
     "oxygen_pressure": "Presión de oxígeno",
     "coolant_outlet_temp": "Temp. salida refrigerante",
     "coolant_flow": "Flujo de refrigerante",
-    "spray_distance": "Distancia de proyección"
+    "spray_distance": "Distancia de proyección",
+    "cooling_air_flow": "Flujo de aire de enfriamiento",
+    "hopper_pressure": "Presión de tolva",
+    "spindle_speed": "Velocidad de husillo"
   },
   "dashboard": {
     "title": "Panel de operaciones",
@@ -541,12 +545,25 @@
       "sessions": "Sesiones de proyección",
       "deviations": "Lecturas fuera de rango",
       "deviations-hint": "Advertencias y fallos en todas las sesiones",
-      "in-progress": "Recuperaciones en curso"
+      "in-progress": "Recuperaciones en curso",
+      "open-cases": "Casos de falla abiertos",
+      "shutdown": "en banda de parada",
+      "completed": "completadas",
+      "components": "componentes",
+      "customers": "clientes"
     },
     "widget": {
       "deviations": "Desviaciones por parámetro",
-      "sessions-by-status": "Sesiones por estado"
-    }
+      "sessions-by-status": "Sesiones por estado",
+      "fault-cases": "Casos de falla por parámetro"
+    },
+    "quick-start": "Puesta en marcha",
+    "owner-title": "Vista del dueño de activos",
+    "owner-text": "Tu proveedor de recuperación comparte aquí la trazabilidad de tus componentes. Los componentes y reportes aparecen conforme se registran.",
+    "empty-title": "Tu planta está vacía",
+    "empty-text": "Registra tu sistema HVOF, receta, cliente y primera orden en un clic con la planta demo, o sigue la lista de verificación.",
+    "no-sessions": "Aún no hay sesiones de rociado.",
+    "open-cases": "Casos abiertos"
   },
   "session-report": {
     "open": "Ver reporte",
@@ -639,6 +656,59 @@
     "update": "Actualizar",
     "error": {
       "required": "Este campo es obligatorio"
+    }
+  },
+  "quick-start": {
+    "title": "Puesta en marcha",
+    "subtitle": "Todo lo que una planta necesita antes de la primera sesión de rociado",
+    "checklist": "Lista de verificación de la planta",
+    "go": "Ir",
+    "demo-title": "Cargar la planta demo",
+    "demo-text": "Crea la planta demo de FESA en tu organización e inicia una sesión de rociado. Los registros que ya existen se reutilizan.",
+    "plant": {
+      "subsystems": "subsistemas",
+      "parameters": "parámetros",
+      "recipe": "Receta"
+    },
+    "run": "Cargar planta demo e iniciar sesión",
+    "no-permission": "Pide a un administrador, ingeniero de calidad o supervisor que cargue la planta demo.",
+    "reused": "ya existía",
+    "open-session": "Abrir sesión",
+    "check": {
+      "system": {
+        "title": "Sistema HVOF",
+        "hint": "El sistema de rociado con su código, modelo y combustible"
+      },
+      "subsystems": {
+        "title": "Subsistemas",
+        "hint": "Consola de gases, alimentador de polvo, enfriamiento y sus parámetros"
+      },
+      "recipe": {
+        "title": "Receta activa",
+        "hint": "Setpoints y bandas nominal, advertencia y parada"
+      },
+      "customer": {
+        "title": "Cliente",
+        "hint": "Minera dueña de los componentes"
+      },
+      "component": {
+        "title": "Componente",
+        "hint": "Vástago hidráulico u otra pieza a recuperar"
+      },
+      "recuperation": {
+        "title": "Orden de recuperación abierta",
+        "hint": "Orden de trabajo enlazada al componente y cliente"
+      }
+    },
+    "step": {
+      "hvof-system": "Sistema HVOF",
+      "subsystems": "Subsistemas",
+      "controller": "Controlador PLC",
+      "recipe": "Receta publicada",
+      "customer": "Cliente",
+      "component": "Componente",
+      "recuperation": "Orden de recuperación",
+      "session": "Sesión de rociado iniciada"
     }
   }
 }
