@@ -2,6 +2,11 @@
 
 All notable changes to the Reliant Web Application are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.1] - 2026-11-13
+
+### Fixed
+- Missing "Recommended action" column label in the fault cases table of generated PDF reports (EN/ES).
+
 ## [2.0.0] - 2026-11-13
 ### Added
 - Connection to the Reliant Platform REST API (JWT sign-in and sign-up, roles, nested equipment resources, components per customer, recuperation completion, reading ingestion, session completion and abortion); problem details from the platform are shown to the user.

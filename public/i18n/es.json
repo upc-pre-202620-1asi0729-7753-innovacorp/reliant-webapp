@@ -628,6 +628,7 @@
     "band": "Banda",
     "value": "Valor",
     "status": "Estado",
+    "recommended-action": "Acción recomendada",
     "open": "Abrir",
     "acknowledge": "Reconocer",
     "band-option": {
