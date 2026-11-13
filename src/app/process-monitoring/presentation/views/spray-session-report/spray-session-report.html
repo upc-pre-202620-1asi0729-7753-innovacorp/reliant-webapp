@@ -1,60 +1,152 @@
-﻿<main class="container-with-spacing">
-  <a mat-button routerLink="/process-monitoring/spray-sessions">
-    {{ 'session-report.back' | translate }}
-  </a>
+<div class="page">
+  <a mat-button routerLink="/process-monitoring/spray-sessions" class="back"><mat-icon>arrow_back</mat-icon> {{ 'session-report.back' | translate }}</a>
 
-  @let state = report();
-
-  @if (state.status === 'ready') {
-    <button
-      mat-raised-button
-      type="button"
-      [disabled]="state.readings.length === 0"
-      (click)="exportCsv()"
-    >
-      {{ 'session-report.download' | translate }}
-    </button>
-  }
-
-  <h1 class="title">
-    {{ 'session-report.title' | translate }}
-    @if (state.status === 'ready') {
-      #{{ state.sessionId }}
-    }
-  </h1>
-
-  @if (state.status === 'loading') {
+  @if (state().status === 'loading') {
     <p role="status">{{ 'session-report.loading' | translate }}</p>
-  } @else if (state.status === 'error') {
+  } @else if (state().status === 'error') {
     <p role="alert">{{ 'session-report.error' | translate }}</p>
-  } @else if (state.status === 'ready') {
-    @if (state.readings.length === 0) {
-      <p role="status">{{ 'session-report.empty' | translate }}</p>
-    } @else {
-      <div class="table-wrapper">
-        <table [attr.aria-label]="'session-report.title' | translate">
-          <thead>
-          <tr>
-            <th scope="col">{{ 'session-report.timestamp' | translate }}</th>
-            <th scope="col">{{ 'session-report.parameter' | translate }}</th>
-            <th scope="col">{{ 'session-report.value' | translate }}</th>
-            <th scope="col">{{ 'session-report.unit' | translate }}</th>
-            <th scope="col">{{ 'session-report.band' | translate }}</th>
-          </tr>
-          </thead>
-          <tbody>
-            @for (reading of state.readings; track reading.id) {
-              <tr>
-                <td>{{ reading.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-                <td>{{ reading.parameter }}</td>
-                <td>{{ reading.value }}</td>
-                <td>{{ reading.unitSymbol }}</td>
-                <td>{{ reading.band }}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
+  } @else if (session(); as s) {
+    <div class="page-header">
+      <div>
+        <h1>{{ 'session-report.title' | translate }} #{{ s.id }}</h1>
+        <p class="subtitle">
+          {{ system()?.code ?? s.hvofSystemId }} · {{ recuperation()?.workOrderNumber ?? s.recuperationId }} · {{ 'session-detail.recipe' | translate }} #{{ s.recipeNumber }} {{ recipe()?.name ?? '' }}
+          · {{ s.startedAt | date:'yyyy-MM-dd HH:mm' }}@if (s.endedAt) { – {{ s.endedAt | date:'HH:mm' }}}
+          · <span class="pill {{ s.status }}">{{ ('spray-sessions.status-option.' + s.status) | translate }}</span>
+        </p>
       </div>
+      <span class="grow"></span>
+      <button mat-stroked-button (click)="openSession()"><mat-icon>monitoring</mat-icon> {{ 'session-report.live' | translate }}</button>
+      <button mat-stroked-button [disabled]="readings().length === 0" (click)="exportCsv()"><mat-icon>download</mat-icon> {{ 'session-report.download' | translate }}</button>
+      <button mat-raised-button color="primary" (click)="generatePdf()"><mat-icon>picture_as_pdf</mat-icon> {{ 'session-report.generate-pdf' | translate }}</button>
+    </div>
+
+    <div class="grid-4">
+      <div class="card kpi dark">
+        <span class="label">{{ 'session-report.kpi.compliance' | translate }}</span>
+        <span class="value">{{ compliance() === null ? '–' : (compliance() | number:'1.0-1') + ' %' }}</span>
+        <span class="hint">{{ 'session-report.kpi.compliance-hint' | translate }}</span>
+      </div>
+      <div class="card kpi">
+        <span class="label">{{ 'session-report.kpi.readings' | translate }}</span>
+        <span class="value">{{ readings().length }}</span>
+        <span class="hint">{{ parameters().length }} {{ 'session-report.kpi.parameters' | translate }} · {{ duration() }} min</span>
+      </div>
+      <div class="card kpi">
+        <span class="label">{{ 'session-report.kpi.deviations' | translate }}</span>
+        <span class="value" [class.alert]="deviations().length > 0">{{ deviations().length }}</span>
+        <span class="hint">{{ bandCounts().warning }} {{ 'session-detail.band.warning' | translate | lowercase }} · {{ bandCounts().shutdown }} {{ 'session-detail.band.shutdown' | translate | lowercase }}</span>
+      </div>
+      <a class="card kpi link" (click)="faultCasesOf()">
+        <span class="label">{{ 'session-report.kpi.fault-cases' | translate }}</span>
+        <span class="value">{{ faultCases().length }}</span>
+        <span class="hint">{{ 'session-report.kpi.open-cases' | translate }}</span>
+      </a>
+    </div>
+
+    @if (readings().length === 0) {
+      <div class="card"><p class="muted">{{ 'session-report.empty' | translate }}</p></div>
+    } @else {
+      <div class="card">
+        <h2>{{ 'session-report.statistics' | translate }}</h2>
+        <div class="table-scroll">
+          <table class="plain">
+            <thead>
+              <tr>
+                <th>{{ 'session-report.parameter' | translate }}</th>
+                <th>{{ 'session-report.readings' | translate }}</th>
+                <th>{{ 'session-report.min' | translate }}</th>
+                <th>{{ 'session-report.mean' | translate }}</th>
+                <th>{{ 'session-report.max' | translate }}</th>
+                <th>{{ 'session-report.std-dev' | translate }}</th>
+                <th>{{ 'session-report.nominal-band' | translate }}</th>
+                <th>{{ 'session-report.out-of-band' | translate }}</th>
+                <th>{{ 'session-report.compliance' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of statistics(); track row.parameter) {
+                <tr>
+                  <td><strong>{{ ('parameter.' + row.parameter) | translate }}</strong><br><small>{{ row.unit }}</small></td>
+                  <td>{{ row.stats.count }}</td>
+                  <td>{{ row.stats.min | number:'1.0-1' }}</td>
+                  <td>{{ row.stats.mean | number:'1.0-1' }}</td>
+                  <td>{{ row.stats.max | number:'1.0-1' }}</td>
+                  <td>{{ row.stats.stdDev | number:'1.0-2' }}</td>
+                  <td>@if (row.recipe; as p) { {{ p.nominalMin }} – {{ p.nominalMax }} <small>(sp {{ p.setpoint }})</small> } @else { – }</td>
+                  <td><span class="pill {{ row.outOfBand === 0 ? 'nominal' : row.worst > 1 ? 'shutdown' : 'warning' }}">{{ row.outOfBand }}</span></td>
+                  <td>{{ row.compliance | number:'1.0-1' }} %</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <mat-tab-group>
+        <mat-tab [label]="'session-report.tab-normalized' | translate">
+          <div class="tab-content card">
+            <p class="muted">{{ 'session-report.normalized-hint' | translate }}</p>
+            <div class="chart-box"><canvas baseChart type="line" [data]="normalizedData()" [options]="normalizedOptions"></canvas></div>
+          </div>
+        </mat-tab>
+        <mat-tab [label]="'session-report.tab-trend' | translate">
+          <div class="tab-content card">
+            <div class="chips">
+              @for (p of parameters(); track p) {
+                <button mat-stroked-button [class.selected]="p === trendParameter()" (click)="selectedParameter.set(p)">{{ ('parameter.' + p) | translate }}</button>
+              }
+            </div>
+            @if (trendParameter(); as parameter) {
+              <app-parameter-trend-chart [readings]="readings()" [parameter]="parameter" [recipeParameter]="trendRecipeParameter()" [maxPoints]="500"/>
+            }
+          </div>
+        </mat-tab>
+        <mat-tab [label]="('session-report.tab-deviations' | translate) + ' (' + deviations().length + ')'">
+          <div class="tab-content card table-scroll">
+            @if (deviations().length === 0) { <p class="muted">{{ 'session-report.no-deviations' | translate }}</p> }
+            @else {
+              <table class="plain">
+                <thead><tr><th>{{ 'session-report.timestamp' | translate }}</th><th>{{ 'session-report.parameter' | translate }}</th><th>{{ 'session-report.value' | translate }}</th><th>{{ 'session-report.band' | translate }}</th><th>{{ 'session-report.nominal-band' | translate }}</th></tr></thead>
+                <tbody>
+                  @for (r of deviations(); track r.id) {
+                    <tr>
+                      <td>{{ r.timestamp | date:'HH:mm:ss' }}</td>
+                      <td>{{ ('parameter.' + r.parameter) | translate }}</td>
+                      <td>{{ r.value | number:'1.0-1' }} {{ r.unitSymbol }}</td>
+                      <td><span class="pill {{ r.band }}">{{ ('session-detail.band.' + r.band) | translate }}</span></td>
+                      <td>@if (recipe()?.parameterFor(r.parameter); as p) { {{ p.nominalMin }} – {{ p.nominalMax }} } @else { – }</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            }
+          </div>
+        </mat-tab>
+        <mat-tab [label]="('session-report.tab-fault-cases' | translate) + ' (' + faultCases().length + ')'">
+          <div class="tab-content card table-scroll">
+            @if (faultCases().length === 0) { <p class="muted">{{ 'session-report.no-fault-cases' | translate }}</p> }
+            @else {
+              <table class="plain">
+                <thead><tr><th>{{ 'fault-cases.detected-at' | translate }}</th><th>{{ 'fault-cases.parameter' | translate }}</th><th>{{ 'fault-cases.band' | translate }}</th><th>{{ 'fault-cases.value' | translate }}</th><th>{{ 'fault-case.probable-cause' | translate }}</th><th>{{ 'fault-case.recommended-action' | translate }}</th><th>{{ 'fault-cases.status' | translate }}</th></tr></thead>
+                <tbody>
+                  @for (c of faultCases(); track c.id) {
+                    <tr [routerLink]="['/fault-diagnosis/fault-cases', c.id]">
+                      <td>{{ c.detectedAt | date:'HH:mm:ss' }}</td>
+                      <td>{{ ('parameter.' + c.parameter) | translate }}</td>
+                      <td><span class="pill {{ c.band }}">{{ ('fault-cases.band-option.' + c.band) | translate }}</span></td>
+                      <td>{{ c.value | number:'1.0-1' }}</td>
+                      <td>{{ c.probableCause }}</td>
+                      <td>{{ c.recommendedAction }}</td>
+                      <td>{{ ('fault-cases.status-option.' + c.status) | translate }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            }
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     }
   }
-</main>
+</div>
