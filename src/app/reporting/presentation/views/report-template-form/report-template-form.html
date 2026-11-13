@@ -1,0 +1,141 @@
+<div class="page">
+  <div class="page-header">
+    <h1>{{ (editingId() ? 'reports.edit-template' : 'reports.new-template') | translate }}</h1>
+    <span class="grow"></span>
+    <button mat-button (click)="cancel()">{{ 'reports.cancel' | translate }}</button>
+    <button mat-raised-button color="primary" [disabled]="saving()" (click)="save()"><mat-icon>check</mat-icon> {{ 'reports.save' | translate }}</button>
+  </div>
+  @if (store.error()) { <mat-error>{{ store.error() }}</mat-error> }
+  @if (submitted() && !valid()) { <p class="warn">{{ 'reports.form-invalid' | translate }}</p> }
+
+  @let d = draft();
+  <div class="builder">
+    <div class="column">
+      <div class="card">
+        <h2>{{ 'reports.general' | translate }}</h2>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>{{ 'reports.name' | translate }}</mat-label>
+          <input matInput maxlength="120" [ngModel]="d.name" (ngModelChange)="update('name', $event)" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>{{ 'reports.description' | translate }}</mat-label>
+          <textarea matInput rows="2" maxlength="300" [ngModel]="d.description" (ngModelChange)="update('description', $event)"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>{{ 'reports.kind-label' | translate }}</mat-label>
+          <mat-select [ngModel]="d.reportKind" (ngModelChange)="update('reportKind', $event)" [disabled]="!!editingId()">
+            @for (k of kinds; track k) { <mat-option [value]="k">{{ ('reports.kind.' + k) | translate }}</mat-option> }
+          </mat-select>
+        </mat-form-field>
+        <mat-checkbox [ngModel]="d.defaultForKind" (ngModelChange)="update('defaultForKind', $event)">{{ 'reports.default-for-kind' | translate }}</mat-checkbox>
+      </div>
+      <div class="card">
+        <h2>{{ 'reports.branding' | translate }}</h2>
+        <div class="colors">
+          <label class="color">
+            <span>{{ 'reports.primary-color' | translate }}</span>
+            <span class="swatch"><input type="color" [ngModel]="d.primaryColor" (ngModelChange)="update('primaryColor', $event)"> <code>{{ d.primaryColor }}</code></span>
+          </label>
+          <label class="color">
+            <span>{{ 'reports.secondary-color' | translate }}</span>
+            <span class="swatch"><input type="color" [ngModel]="d.secondaryColor" (ngModelChange)="update('secondaryColor', $event)"> <code>{{ d.secondaryColor }}</code></span>
+          </label>
+        </div>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>{{ 'reports.header-text' | translate }}</mat-label>
+          <input matInput maxlength="160" [ngModel]="d.headerText" (ngModelChange)="update('headerText', $event)">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>{{ 'reports.footer-text' | translate }}</mat-label>
+          <input matInput maxlength="160" [ngModel]="d.footerText" (ngModelChange)="update('footerText', $event)">
+        </mat-form-field>
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'reports.page-size' | translate }}</mat-label>
+            <mat-select [ngModel]="d.pageSize" (ngModelChange)="update('pageSize', $event)">
+              @for (p of pageSizes; track p) { <mat-option [value]="p">{{ p | uppercase }}</mat-option> }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'reports.orientation' | translate }}</mat-label>
+            <mat-select [ngModel]="d.orientation" (ngModelChange)="update('orientation', $event)">
+              @for (o of orientations; track o) { <mat-option [value]="o">{{ ('reports.orientation-option.' + o) | translate }}</mat-option> }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <mat-checkbox [ngModel]="d.showSignatureBlock" (ngModelChange)="update('showSignatureBlock', $event)">{{ 'reports.signature-block' | translate }}</mat-checkbox>
+      </div>
+    </div>
+
+    <div class="column sections">
+      <div class="sections-head">
+        <h2>{{ 'reports.sections' | translate }}</h2>
+        <button mat-stroked-button (click)="addSection()"><mat-icon>add</mat-icon> {{ 'reports.add-section' | translate }}</button>
+      </div>
+      @for (section of d.sections; track $index; let i = $index) {
+        <div class="card section">
+          <div class="section-row">
+            <span class="order-badge">{{ i + 1 }}</span>
+            <mat-form-field appearance="outline" class="grow-field">
+              <mat-label>{{ 'reports.section-title' | translate }}</mat-label>
+              <input matInput maxlength="80" [ngModel]="section.title" (ngModelChange)="setSectionTitle(i, $event)" required>
+            </mat-form-field>
+            <button mat-icon-button [disabled]="i === 0" (click)="moveSection(i, -1)"><mat-icon>arrow_upward</mat-icon></button>
+            <button mat-icon-button [disabled]="i === d.sections.length - 1" (click)="moveSection(i, 1)"><mat-icon>arrow_downward</mat-icon></button>
+            <button mat-icon-button color="warn" [disabled]="d.sections.length === 1" (click)="removeSection(i)"><mat-icon>delete</mat-icon></button>
+          </div>
+          @for (w of section.widgets; track $index; let j = $index) {
+            <div class="widget-row">
+              <mat-form-field appearance="outline" class="w-source">
+                <mat-label>{{ 'reports.source-label' | translate }}</mat-label>
+                <mat-select [ngModel]="w.variableSource" (ngModelChange)="setWidget(i, j, 'variableSource', $event)">
+                  @for (s of sources; track s) { <mat-option [value]="s">{{ ('reports.source.' + s) | translate }}</mat-option> }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-variable">
+                <mat-label>{{ 'reports.variable-label' | translate }}</mat-label>
+                <input matInput [ngModel]="w.variableCode" (ngModelChange)="setWidget(i, j, 'variableCode', $event)" [matAutocomplete]="auto" required>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setWidget(i, j, 'variableCode', $event.option.value)">
+                  @for (v of variablesOf(w.variableSource); track v) { <mat-option [value]="v">{{ variableLabel(w.variableSource, v) }}</mat-option> }
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-label">
+                <mat-label>{{ 'reports.label' | translate }}</mat-label>
+                <input matInput maxlength="80" [ngModel]="w.variableLabel" (ngModelChange)="setWidget(i, j, 'variableLabel', $event)" required>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-small">
+                <mat-label>{{ 'reports.view-label' | translate }}</mat-label>
+                <mat-select [ngModel]="w.viewType" (ngModelChange)="setWidget(i, j, 'viewType', $event)">
+                  @for (v of viewsOf(w.variableSource); track v) { <mat-option [value]="v">{{ ('reports.view.' + v) | translate }}</mat-option> }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-small">
+                <mat-label>{{ 'reports.aggregation-label' | translate }}</mat-label>
+                <mat-select [ngModel]="w.aggregation" (ngModelChange)="setWidget(i, j, 'aggregation', $event)" [disabled]="w.variableSource !== 'process'">
+                  @for (a of aggregations; track a) { <mat-option [value]="a">{{ ('reports.aggregation.' + a) | translate }}</mat-option> }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-small">
+                <mat-label>{{ 'reports.width-label' | translate }}</mat-label>
+                <mat-select [ngModel]="w.width" (ngModelChange)="setWidget(i, j, 'width', $event)">
+                  @for (x of widths; track x) { <mat-option [value]="x">{{ ('reports.width.' + x) | translate }}</mat-option> }
+                </mat-select>
+              </mat-form-field>
+              <div class="w-actions">
+                <button mat-icon-button [disabled]="j === 0" (click)="moveWidget(i, j, -1)"><mat-icon>arrow_upward</mat-icon></button>
+                <button mat-icon-button [disabled]="j === section.widgets.length - 1" (click)="moveWidget(i, j, 1)"><mat-icon>arrow_downward</mat-icon></button>
+                <button mat-icon-button color="warn" [disabled]="section.widgets.length === 1" (click)="removeWidget(i, j)"><mat-icon>close</mat-icon></button>
+              </div>
+            </div>
+          }
+          <button mat-button (click)="addWidget(i)"><mat-icon>add</mat-icon> {{ 'reports.add-widget' | translate }}</button>
+        </div>
+      }
+    </div>
+
+    <div class="column preview">
+      <h2>{{ 'reports.preview' | translate }}</h2>
+      <app-template-preview [template]="d"/>
+    </div>
+  </div>
+</div>

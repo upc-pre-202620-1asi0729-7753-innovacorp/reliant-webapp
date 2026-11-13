@@ -10,6 +10,7 @@ const traceabilityRoutes = () => import('./traceability/presentation/traceabilit
 const equipmentRoutes = () => import('./equipment/presentation/equipment.routes').then(m => m.equipmentRoutes);
 const processMonitoringRoutes = () => import('./process-monitoring/presentation/process-monitoring.routes').then(m => m.processMonitoringRoutes);
 const faultDiagnosisRoutes = () => import('./fault-diagnosis/presentation/fault-diagnosis.routes').then(m => m.faultDiagnosisRoutes);
+const reportingRoutes = () => import('./reporting/presentation/reporting.routes').then(m => m.reportingRoutes);
 const iamRoutes = () => import('./iam/presentation/iam.routes').then(m => m.iamRoutes);
 const billingRoutes = () => import('./billing/presentation/billing.routes').then(m => m.billingRoutes);
 
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'equipment',          loadChildren:  equipmentRoutes,         canActivate: [supplierGuard] },
   { path: 'process-monitoring', loadChildren:  processMonitoringRoutes, canActivate: [supplierGuard] },
   { path: 'fault-diagnosis',    loadChildren:  faultDiagnosisRoutes,    canActivate: [supplierGuard] },
+  { path: 'reporting',          loadChildren:  reportingRoutes,         canActivate: [supplierGuard] },
   { path: 'iam',                loadChildren:  iamRoutes },
   { path: 'billing',            loadChildren:  billingRoutes,           canActivate: [iamGuard] },
   { path: '',                   redirectTo:    '/home', pathMatch: 'full' },

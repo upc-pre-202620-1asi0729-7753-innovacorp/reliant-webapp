@@ -101,6 +101,13 @@ export class Layout {
         ],
       },
       {
+        label: 'nav.group.reports',
+        options: [
+          { link: '/reporting/templates', label: 'option.report-templates', icon: 'dashboard_customize', visible: supplier },
+          { link: '/reporting/generated', label: 'option.generated-reports', icon: 'picture_as_pdf', visible: supplier },
+        ],
+      },
+      {
         label: 'nav.group.account',
         options: [
           { link: '/iam/users', label: 'option.users', icon: 'group', visible: admin },
