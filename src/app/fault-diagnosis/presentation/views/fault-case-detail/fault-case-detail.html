@@ -1,0 +1,65 @@
+<div class="page">
+  <button mat-button class="back" (click)="back()"><mat-icon>arrow_back</mat-icon> {{ 'fault-case.back' | translate }}</button>
+  @if (faultCase(); as c) {
+    <div class="page-header">
+      <div>
+        <h1>{{ 'fault-case.title' | translate }} #{{ c.id }} · {{ ('parameter.' + c.parameter) | translate }}</h1>
+        <p class="subtitle">{{ c.detectedAt | date:'yyyy-MM-dd HH:mm:ss' }} · {{ 'fault-case.session' | translate }} #{{ c.spraySessionId }} · {{ system()?.code ?? c.hvofSystemId }}</p>
+      </div>
+      <span class="grow"></span>
+      <span class="pill {{ c.band }}">{{ ('fault-cases.band-option.' + c.band) | translate }}</span>
+      <span class="pill status-{{ c.status }}">{{ ('fault-cases.status-option.' + c.status) | translate }}</span>
+    </div>
+
+    @if (store.error()) { <mat-error>{{ store.error() }}</mat-error> }
+
+    <div class="grid-3">
+      <div class="card kpi dark">
+        <span class="label">{{ 'fault-case.value' | translate }}</span>
+        <span class="value">{{ c.value | number:'1.0-2' }} <small>{{ recipeParameter()?.unitSymbol ?? '' }}</small></span>
+        @if (recipeParameter(); as p) {
+          <span class="hint">{{ 'fault-case.nominal' | translate }} {{ p.nominalMin }}–{{ p.nominalMax }} · {{ 'fault-case.setpoint' | translate }} {{ p.setpoint }}</span>
+        }
+      </div>
+      <div class="card">
+        <h2>{{ 'fault-case.probable-cause' | translate }}</h2>
+        <p>{{ c.probableCause }}</p>
+      </div>
+      <div class="card">
+        <h2>{{ 'fault-case.recommended-action' | translate }}</h2>
+        <p>{{ c.recommendedAction }}</p>
+      </div>
+    </div>
+
+    <div class="card timeline">
+      <h2>{{ 'fault-case.timeline' | translate }}</h2>
+      <ul>
+        <li><strong>{{ 'fault-case.detected' | translate }}</strong> {{ c.detectedAt | date:'yyyy-MM-dd HH:mm:ss' }}</li>
+        @if (c.acknowledgedAt) { <li><strong>{{ 'fault-case.acknowledged' | translate }}</strong> {{ c.acknowledgedAt | date:'yyyy-MM-dd HH:mm' }} · {{ 'fault-case.by-user' | translate }} #{{ c.acknowledgedBy }}</li> }
+        @if (c.resolvedAt) { <li><strong>{{ 'fault-case.resolved' | translate }}</strong> {{ c.resolvedAt | date:'yyyy-MM-dd HH:mm' }} · {{ 'fault-case.by-user' | translate }} #{{ c.resolvedBy }}</li> }
+        @if (c.resolutionNotes) { <li><strong>{{ 'fault-case.notes' | translate }}</strong> {{ c.resolutionNotes }}</li> }
+      </ul>
+    </div>
+
+    <div class="actions">
+      <button mat-stroked-button (click)="openSession()"><mat-icon>monitoring</mat-icon> {{ 'fault-case.open-session' | translate }}</button>
+      <span class="grow"></span>
+      @if (c.status === 'open') {
+        <button mat-raised-button color="primary" [disabled]="store.loading()" (click)="acknowledge()"><mat-icon>done</mat-icon> {{ 'fault-case.acknowledge' | translate }}</button>
+      }
+    </div>
+
+    @if (c.status !== 'resolved') {
+      <div class="card resolve">
+        <h2>{{ 'fault-case.resolve-title' | translate }}</h2>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'fault-case.notes' | translate }}</mat-label>
+          <textarea matInput rows="3" maxlength="500" [ngModel]="resolutionNotes()" (ngModelChange)="resolutionNotes.set($event)"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" [disabled]="store.loading()" (click)="resolve()"><mat-icon>task_alt</mat-icon> {{ 'fault-case.resolve' | translate }}</button>
+      </div>
+    }
+  } @else {
+    <p>{{ 'fault-case.not-found' | translate }}</p>
+  }
+</div>

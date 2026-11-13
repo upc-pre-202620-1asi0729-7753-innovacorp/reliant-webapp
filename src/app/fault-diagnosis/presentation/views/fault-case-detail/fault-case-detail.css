@@ -1,0 +1,11 @@
+.back { align-self: flex-start; }
+.card p { margin: 0; line-height: 1.5; }
+.kpi .value small { font-size: 14px; font-weight: 500; opacity: .8; }
+.timeline ul { margin: 0; padding-left: 18px; line-height: 1.8; }
+.actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.actions .grow { flex: 1; }
+.full-width { width: 100%; }
+.resolve button { align-self: flex-start; }
+.pill.status-open { background: var(--reliant-fault-bg); color: var(--reliant-fault); }
+.pill.status-acknowledged { background: var(--reliant-warn-bg); color: var(--reliant-orange-dark); }
+.pill.status-resolved { background: var(--reliant-ok-bg); color: var(--reliant-ok); }

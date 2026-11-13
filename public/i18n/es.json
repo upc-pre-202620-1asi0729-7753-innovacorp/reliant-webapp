@@ -8,7 +8,9 @@
     "spray-sessions": "Sesiones de rociado",
     "about": "Acerca de",
     "users": "Usuarios",
-    "subscription": "Suscripción"
+    "subscription": "Suscripción",
+    "fault-cases": "Casos de falla",
+    "fault-rules": "Reglas de diagnóstico"
   },
   "home": {
     "title": "Bienvenido a Reliant",
@@ -559,5 +561,84 @@
     "value": "Valor",
     "unit": "Unidad",
     "band": "Banda"
+  },
+  "fault-cases": {
+    "list-title": "Casos de falla",
+    "subtitle": "Desviaciones detectadas por la plataforma, con su causa probable y acción recomendada",
+    "filter-status": "Estado",
+    "all": "Todos",
+    "session": "Sesión",
+    "kpi-open": "Casos abiertos",
+    "kpi-shutdown": "en banda de parada",
+    "kpi-total": "Casos totales",
+    "kpi-resolved": "Resueltos",
+    "kpi-rules": "Reglas de diagnóstico",
+    "manage-rules": "Gestionar reglas",
+    "empty": "Sin casos de falla. Se abren automáticamente cuando una lectura sale de la banda de advertencia o de parada.",
+    "detected-at": "Detectado",
+    "parameter": "Parámetro",
+    "band": "Banda",
+    "value": "Valor",
+    "status": "Estado",
+    "open": "Abrir",
+    "acknowledge": "Reconocer",
+    "band-option": {
+      "warning": "Advertencia",
+      "shutdown": "Parada"
+    },
+    "status-option": {
+      "open": "Abierto",
+      "acknowledged": "Reconocido",
+      "resolved": "Resuelto"
+    }
+  },
+  "fault-case": {
+    "back": "Volver a casos de falla",
+    "title": "Caso de falla",
+    "session": "Sesión",
+    "value": "Valor medido",
+    "nominal": "Nominal",
+    "setpoint": "setpoint",
+    "probable-cause": "Causa probable",
+    "recommended-action": "Acción recomendada",
+    "timeline": "Línea de tiempo",
+    "detected": "Detectado",
+    "acknowledged": "Reconocido",
+    "resolved": "Resuelto",
+    "by-user": "por usuario",
+    "notes": "Notas de resolución",
+    "open-session": "Abrir sesión",
+    "acknowledge": "Reconocer",
+    "resolve-title": "Resolver caso",
+    "resolve": "Marcar como resuelto",
+    "not-found": "Caso de falla no encontrado."
+  },
+  "fault-rules": {
+    "back": "Volver a casos de falla",
+    "list-title": "Reglas de diagnóstico",
+    "subtitle": "Causa probable y acción recomendada asignadas a cada parámetro y banda",
+    "new": "Nueva regla",
+    "parameter": "Parámetro",
+    "band": "Banda",
+    "probable-cause": "Causa probable",
+    "recommended-action": "Acción recomendada",
+    "cooldown": "Enfriamiento",
+    "edit": "Editar"
+  },
+  "fault-rule": {
+    "new-title": "Nueva regla de diagnóstico",
+    "edit-title": "Editar regla de diagnóstico",
+    "parameter": "Parámetro",
+    "band": "Banda",
+    "probable-cause": "Causa probable",
+    "recommended-action": "Acción recomendada",
+    "cooldown": "Enfriamiento (segundos)",
+    "cooldown-hint": "Tiempo mínimo entre dos casos del mismo parámetro y banda en una sesión",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "error": {
+      "required": "Este campo es obligatorio"
+    }
   }
 }

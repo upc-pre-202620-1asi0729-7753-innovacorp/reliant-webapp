@@ -8,7 +8,9 @@
     "spray-sessions": "Spray Sessions",
     "about": "About Us",
     "users": "Users",
-    "subscription": "Subscription"
+    "subscription": "Subscription",
+    "fault-cases": "Fault Cases",
+    "fault-rules": "Fault Rules"
   },
   "home": {
     "title": "Welcome to Reliant",
@@ -558,5 +560,84 @@
     "value": "Value",
     "unit": "Unit",
     "band": "Band"
+  },
+  "fault-cases": {
+    "list-title": "Fault cases",
+    "subtitle": "Deviations detected by the platform, with their probable cause and recommended action",
+    "filter-status": "Status",
+    "all": "All",
+    "session": "Session",
+    "kpi-open": "Open cases",
+    "kpi-shutdown": "in shutdown band",
+    "kpi-total": "Total cases",
+    "kpi-resolved": "Resolved",
+    "kpi-rules": "Diagnosis rules",
+    "manage-rules": "Manage rules",
+    "empty": "No fault cases. They open automatically when a reading leaves the warning or shutdown band.",
+    "detected-at": "Detected at",
+    "parameter": "Parameter",
+    "band": "Band",
+    "value": "Value",
+    "status": "Status",
+    "open": "Open",
+    "acknowledge": "Acknowledge",
+    "band-option": {
+      "warning": "Warning",
+      "shutdown": "Shutdown"
+    },
+    "status-option": {
+      "open": "Open",
+      "acknowledged": "Acknowledged",
+      "resolved": "Resolved"
+    }
+  },
+  "fault-case": {
+    "back": "Back to fault cases",
+    "title": "Fault case",
+    "session": "Session",
+    "value": "Measured value",
+    "nominal": "Nominal",
+    "setpoint": "setpoint",
+    "probable-cause": "Probable cause",
+    "recommended-action": "Recommended action",
+    "timeline": "Timeline",
+    "detected": "Detected",
+    "acknowledged": "Acknowledged",
+    "resolved": "Resolved",
+    "by-user": "by user",
+    "notes": "Resolution notes",
+    "open-session": "Open session",
+    "acknowledge": "Acknowledge",
+    "resolve-title": "Resolve case",
+    "resolve": "Mark as resolved",
+    "not-found": "Fault case not found."
+  },
+  "fault-rules": {
+    "back": "Back to fault cases",
+    "list-title": "Diagnosis rules",
+    "subtitle": "Probable cause and recommended action assigned to each parameter and band",
+    "new": "New rule",
+    "parameter": "Parameter",
+    "band": "Band",
+    "probable-cause": "Probable cause",
+    "recommended-action": "Recommended action",
+    "cooldown": "Cooldown",
+    "edit": "Edit"
+  },
+  "fault-rule": {
+    "new-title": "New diagnosis rule",
+    "edit-title": "Edit diagnosis rule",
+    "parameter": "Parameter",
+    "band": "Band",
+    "probable-cause": "Probable cause",
+    "recommended-action": "Recommended action",
+    "cooldown": "Cooldown (seconds)",
+    "cooldown-hint": "Minimum time between two cases of the same parameter and band in a session",
+    "cancel": "Cancel",
+    "create": "Create",
+    "update": "Update",
+    "error": {
+      "required": "This field is required"
+    }
   }
 }

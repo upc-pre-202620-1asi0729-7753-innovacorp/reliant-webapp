@@ -57,6 +57,12 @@ export class Layout {
             icon: 'monitoring',
             visible: supplier,
           },
+          {
+            link: '/fault-diagnosis/fault-cases',
+            label: 'option.fault-cases',
+            icon: 'report',
+            visible: supplier,
+          },
         ],
       },
       {
@@ -97,6 +103,7 @@ export class Layout {
         label: 'nav.group.account',
         options: [
           { link: '/iam/users', label: 'option.users', icon: 'group', visible: admin },
+          { link: '/fault-diagnosis/fault-rules', label: 'option.fault-rules', icon: 'rule', visible: supplier && admin },
           { link: '/about', label: 'option.about', icon: 'info', visible: true },
         ],
       },

@@ -1,0 +1,8 @@
+table { width: 100%; }
+.filter { width: 200px; }
+.row { cursor: pointer; }
+.empty { opacity: .7; margin: 0 0 12px; }
+.pill.status-open { background: var(--reliant-fault-bg); color: var(--reliant-fault); }
+.pill.status-acknowledged { background: var(--reliant-warn-bg); color: var(--reliant-orange-dark); }
+.pill.status-resolved { background: var(--reliant-ok-bg); color: var(--reliant-ok); }
+.kpi a.hint { text-decoration: none; }
