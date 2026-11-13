@@ -1,0 +1,48 @@
+<div class="page">
+  <button mat-button class="back" (click)="back()"><mat-icon>arrow_back</mat-icon> {{ 'fault-rules.back' | translate }}</button>
+  <div class="page-header">
+    <div>
+      <h1>{{ 'fault-rules.list-title' | translate }}</h1>
+      <p class="subtitle">{{ 'fault-rules.subtitle' | translate }}</p>
+    </div>
+    <span class="grow"></span>
+    @if (iam.isAdmin()) {
+      <button mat-raised-button color="primary" (click)="newRule()"><mat-icon>add</mat-icon> {{ 'fault-rules.new' | translate }}</button>
+    }
+  </div>
+  @if (store.error()) { <mat-error>{{ store.error() }}</mat-error> }
+  <div class="card table-scroll">
+    <table mat-table [dataSource]="store.faultRules()">
+      <ng-container matColumnDef="parameter">
+        <th mat-header-cell *matHeaderCellDef>{{ 'fault-rules.parameter' | translate }}</th>
+        <td mat-cell *matCellDef="let r">{{ ('parameter.' + r.parameter) | translate }}</td>
+      </ng-container>
+      <ng-container matColumnDef="band">
+        <th mat-header-cell *matHeaderCellDef>{{ 'fault-rules.band' | translate }}</th>
+        <td mat-cell *matCellDef="let r"><span class="pill {{ r.band }}">{{ ('fault-cases.band-option.' + r.band) | translate }}</span></td>
+      </ng-container>
+      <ng-container matColumnDef="probableCause">
+        <th mat-header-cell *matHeaderCellDef>{{ 'fault-rules.probable-cause' | translate }}</th>
+        <td mat-cell *matCellDef="let r">{{ r.probableCause }}</td>
+      </ng-container>
+      <ng-container matColumnDef="recommendedAction">
+        <th mat-header-cell *matHeaderCellDef>{{ 'fault-rules.recommended-action' | translate }}</th>
+        <td mat-cell *matCellDef="let r">{{ r.recommendedAction }}</td>
+      </ng-container>
+      <ng-container matColumnDef="cooldownSeconds">
+        <th mat-header-cell *matHeaderCellDef>{{ 'fault-rules.cooldown' | translate }}</th>
+        <td mat-cell *matCellDef="let r">{{ r.cooldownSeconds }} s</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let r">
+          @if (iam.isAdmin()) {
+            <button mat-icon-button aria-label="{{ 'fault-rules.edit' | translate }}" (click)="editRule(r.id)"><mat-icon>edit</mat-icon></button>
+          }
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

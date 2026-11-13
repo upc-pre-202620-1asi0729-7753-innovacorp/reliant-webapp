@@ -1,0 +1,89 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>{{ 'fault-cases.list-title' | translate }}</h1>
+      <p class="subtitle">{{ 'fault-cases.subtitle' | translate }}</p>
+    </div>
+    <span class="grow"></span>
+    <mat-form-field appearance="outline" class="filter">
+      <mat-label>{{ 'fault-cases.filter-status' | translate }}</mat-label>
+      <mat-select [ngModel]="statusFilter()" (ngModelChange)="statusFilter.set($event)">
+        <mat-option value="all">{{ 'fault-cases.all' | translate }}</mat-option>
+        @for (s of statuses; track s) {
+          <mat-option [value]="s">{{ ('fault-cases.status-option.' + s) | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    @if (sessionFilter(); as sessionId) {
+      <button mat-stroked-button (click)="clearSession()"><mat-icon>filter_alt_off</mat-icon> {{ 'fault-cases.session' | translate }} #{{ sessionId }}</button>
+    }
+  </div>
+
+  <div class="grid-4">
+    <div class="card kpi dark">
+      <span class="label">{{ 'fault-cases.kpi-open' | translate }}</span>
+      <span class="value">{{ store.openCount() }}</span>
+      <span class="hint">{{ store.shutdownOpenCount() }} {{ 'fault-cases.kpi-shutdown' | translate }}</span>
+    </div>
+    <div class="card kpi">
+      <span class="label">{{ 'fault-cases.kpi-total' | translate }}</span>
+      <span class="value">{{ store.faultCases().length }}</span>
+    </div>
+    <div class="card kpi">
+      <span class="label">{{ 'fault-cases.kpi-resolved' | translate }}</span>
+      <span class="value">{{ store.faultCases().length - store.openCount() }}</span>
+    </div>
+    <div class="card kpi">
+      <span class="label">{{ 'fault-cases.kpi-rules' | translate }}</span>
+      <span class="value">{{ store.faultRules().length }}</span>
+      <a class="hint" routerLink="/fault-diagnosis/fault-rules">{{ 'fault-cases.manage-rules' | translate }}</a>
+    </div>
+  </div>
+
+  @if (store.loading()) { <mat-spinner diameter="40"></mat-spinner> }
+  @if (store.error()) { <mat-error>{{ store.error() }}</mat-error> }
+
+  <div class="card table-scroll">
+    @if (filtered().length === 0 && !store.loading()) {
+      <p class="empty">{{ 'fault-cases.empty' | translate }}</p>
+    }
+    <table mat-table [dataSource]="dataSource()" matSort matSortActive="detectedAt" matSortDirection="desc" matSortDisableClear>
+      <ng-container matColumnDef="detectedAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'fault-cases.detected-at' | translate }}</th>
+        <td mat-cell *matCellDef="let c">{{ c.detectedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="session">
+        <th mat-header-cell *matHeaderCellDef>{{ 'fault-cases.session' | translate }}</th>
+        <td mat-cell *matCellDef="let c">#{{ c.spraySessionId }} · {{ systemCode(c.hvofSystemId) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="parameter">
+        <th mat-header-cell *matHeaderCellDef>{{ 'fault-cases.parameter' | translate }}</th>
+        <td mat-cell *matCellDef="let c">{{ ('parameter.' + c.parameter) | translate }}</td>
+      </ng-container>
+      <ng-container matColumnDef="band">
+        <th mat-header-cell *matHeaderCellDef>{{ 'fault-cases.band' | translate }}</th>
+        <td mat-cell *matCellDef="let c"><span class="pill {{ c.band }}">{{ ('fault-cases.band-option.' + c.band) | translate }}</span></td>
+      </ng-container>
+      <ng-container matColumnDef="value">
+        <th mat-header-cell *matHeaderCellDef>{{ 'fault-cases.value' | translate }}</th>
+        <td mat-cell *matCellDef="let c">{{ c.value | number:'1.0-2' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>{{ 'fault-cases.status' | translate }}</th>
+        <td mat-cell *matCellDef="let c"><span class="pill status-{{ c.status }}">{{ ('fault-cases.status-option.' + c.status) | translate }}</span></td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let c">
+          <button mat-icon-button aria-label="{{ 'fault-cases.open' | translate }}" (click)="open(c.id)"><mat-icon>visibility</mat-icon></button>
+          @if (c.status === 'open') {
+            <button mat-icon-button aria-label="{{ 'fault-cases.acknowledge' | translate }}" (click)="acknowledge(c.id)"><mat-icon>done</mat-icon></button>
+          }
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row" (click)="open(row.id)"></tr>
+    </table>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
