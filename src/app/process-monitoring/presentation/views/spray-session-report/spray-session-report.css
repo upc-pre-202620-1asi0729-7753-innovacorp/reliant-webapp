@@ -1,0 +1,14 @@
+.back { align-self: flex-start; }
+.subtitle .pill { vertical-align: middle; }
+.kpi .value.alert { color: var(--reliant-fault); }
+.link { cursor: pointer; text-decoration: none; color: inherit; }
+.muted { color: var(--reliant-text-muted); margin: 0 0 8px; }
+.tab-content { margin-top: 12px; }
+.chart-box { height: 320px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.chips .selected { background: var(--reliant-navy); color: #fff; }
+table.plain { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.plain th { text-align: left; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--reliant-text-muted); padding: 6px 8px; border-bottom: 1px solid var(--reliant-border); }
+table.plain td { padding: 8px; border-bottom: 1px solid var(--reliant-border); vertical-align: top; }
+table.plain small { color: var(--reliant-text-muted); }
+table.plain tr[ng-reflect-router-link], table.plain tr[tabindex] { cursor: pointer; }
