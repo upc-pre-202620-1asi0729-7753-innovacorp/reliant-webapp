@@ -2,12 +2,13 @@ import {BaseResource, BaseResponse} from '../../shared/infrastructure/base-respo
 
 export interface UsersResponse extends BaseResponse { users: UserResource[]; }
 
+/** The platform exposes the roles of a user as `roles: [{id, name}]`. */
 export interface UserResource extends BaseResource {
   id: number;
   fullName: string;
   email: string;
   organizationId: number;
-  status: string;
-  roleIds: { roleId: number }[];
-  password?: string;
+  status?: string;
+  roles?: { id: number; name: string }[];
+  roleIds?: { roleId: number }[];
 }

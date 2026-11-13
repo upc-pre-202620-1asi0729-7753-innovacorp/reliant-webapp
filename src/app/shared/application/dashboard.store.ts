@@ -1,68 +1,40 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { IamStore } from '../../iam/application/iam.store';
-import { UserPreferencesApi } from '../infrastructure/user-preferences-api';
-import { UserPreferences } from '../domain/model/user-preferences.entity';
-import {
-  ChartType,
-  DashboardWidget,
-  DashboardWidgetCode,
-  DEFAULT_DASHBOARD_WIDGETS,
-} from '../domain/model/dashboard-widget';
+import {computed, Injectable, signal} from '@angular/core';
+import {ChartType, DashboardWidget, DashboardWidgetCode, DEFAULT_DASHBOARD_WIDGETS} from '../domain/model/dashboard-widget';
 
-@Injectable({ providedIn: 'root' })
+const WIDGETS_KEY = 'reliant.dashboard-widgets';
+
+function restore(): DashboardWidget[] {
+  try {
+    const raw = localStorage.getItem(WIDGETS_KEY);
+    return raw ? (JSON.parse(raw) as DashboardWidget[]) : DEFAULT_DASHBOARD_WIDGETS;
+  } catch {
+    return DEFAULT_DASHBOARD_WIDGETS;
+  }
+}
+
+/** Chart preferences of the dashboard, kept in the browser of the user. */
+@Injectable({providedIn: 'root'})
 export class DashboardStore {
-  readonly #api = inject(UserPreferencesApi);
-  readonly #iam = inject(IamStore);
-
-  readonly #preferencesSignal = signal<UserPreferences | null>(null);
-
-  readonly widgets = computed<DashboardWidget[]>(
-    () => this.#preferencesSignal()?.dashboardWidgets ?? DEFAULT_DASHBOARD_WIDGETS,
-  );
-
+  readonly #widgetsSignal = signal<DashboardWidget[]>(restore());
+  readonly widgets = this.#widgetsSignal.asReadonly();
   readonly #errorSignal = signal<string | null>(null);
   readonly error = this.#errorSignal.asReadonly();
 
-  load(): void {
-    const userId = this.#iam.userId();
-
-    if (!userId) return;
-
-    this.#api.getByUserId(userId).subscribe({
-      next: (preferences) => this.#preferencesSignal.set(preferences ?? null),
-      error: (err) =>
-        this.#errorSignal.set(err instanceof Error ? err.message : 'Failed to load preferences'),
-    });
-  }
+  readonly chartTypes = computed(() => new Map(this.widgets().map(w => [w.code, w.chartType])));
 
   chartTypeOf(code: DashboardWidgetCode): ChartType {
-    return this.widgets().find((widget) => widget.code === code)?.chartType ?? 'bar';
+    return this.chartTypes().get(code) ?? 'bar';
   }
 
   setChartType(code: DashboardWidgetCode, chartType: ChartType): void {
-    const next = this.widgets().some((widget) => widget.code === code)
-      ? this.widgets().map((widget) => (widget.code === code ? { ...widget, chartType } : widget))
-      : [...this.widgets(), { code, chartType }];
-
-    const preferences = this.#preferencesSignal();
-
-    if (!preferences) return;
-
-    preferences.dashboardWidgets = next;
-
-    this.#preferencesSignal.set(
-      new UserPreferences({
-        id: preferences.id,
-        userId: preferences.userId,
-        defaultUnitSystem: preferences.defaultUnitSystem,
-        language: preferences.language,
-        dashboardWidgets: next,
-      }),
-    );
-
-    this.#api.updateDashboardWidgets(preferences.id, next).subscribe({
-      error: (err) =>
-        this.#errorSignal.set(err instanceof Error ? err.message : 'Failed to save preferences'),
-    });
+    const next = this.widgets().some(w => w.code === code)
+      ? this.widgets().map(w => (w.code === code ? {...w, chartType} : w))
+      : [...this.widgets(), {code, chartType}];
+    this.#widgetsSignal.set(next);
+    try {
+      localStorage.setItem(WIDGETS_KEY, JSON.stringify(next));
+    } catch {
+      this.#errorSignal.set('Failed to save preferences');
+    }
   }
 }

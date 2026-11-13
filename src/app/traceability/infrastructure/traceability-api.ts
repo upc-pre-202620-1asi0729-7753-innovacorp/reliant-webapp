@@ -8,17 +8,15 @@ import {RecoveredComponent} from '../domain/model/component.entity';
 import {Recuperation} from '../domain/model/recuperation.entity';
 import {RecuperationsApiEndpoint} from './recuperations-api-endpoint';
 
+/** The platform scopes customers and recuperations by the organization of the token; components hang from a customer. */
 @Injectable({providedIn: 'root'})
 export class TraceabilityApi extends BaseApi {
   readonly #customersEndpoint = new CustomersApiEndpoint(this.http);
   readonly #componentsEndpoint = new ComponentsApiEndpoint(this.http);
+  readonly #recuperationsEndpoint = new RecuperationsApiEndpoint(this.http);
 
   getCustomers(): Observable<Customer[]> {
     return this.#customersEndpoint.getAll();
-  }
-
-  getCustomer(id: number): Observable<Customer> {
-    return this.#customersEndpoint.getById(id);
   }
 
   createCustomer(customer: Customer): Observable<Customer> {
@@ -29,49 +27,23 @@ export class TraceabilityApi extends BaseApi {
     return this.#customersEndpoint.update(customer, customer.id);
   }
 
-  deleteCustomer(id: number): Observable<void> {
-    return this.#customersEndpoint.delete(id);
-  }
-
-  getComponents(): Observable<RecoveredComponent[]> {
-    return this.#componentsEndpoint.getAll();
-  }
-
-  getComponent(id: number): Observable<RecoveredComponent> {
-    return this.#componentsEndpoint.getById(id);
+  getComponentsByCustomerId(customerId: number): Observable<RecoveredComponent[]> {
+    return this.#componentsEndpoint.getAllBy({customerId});
   }
 
   createComponent(component: RecoveredComponent): Observable<RecoveredComponent> {
     return this.#componentsEndpoint.create(component);
   }
 
-  updateComponent(component: RecoveredComponent): Observable<RecoveredComponent> {
-    return this.#componentsEndpoint.update(component, component.id);
-  }
-
-  readonly #recuperationsEndpoint = new RecuperationsApiEndpoint(this.http);
-
   getRecuperations(): Observable<Recuperation[]> {
     return this.#recuperationsEndpoint.getAll();
-  }
-
-  getRecuperation(id: number): Observable<Recuperation> {
-    return this.#recuperationsEndpoint.getById(id);
   }
 
   createRecuperation(recuperation: Recuperation): Observable<Recuperation> {
     return this.#recuperationsEndpoint.create(recuperation);
   }
 
-  updateRecuperation(recuperation: Recuperation): Observable<Recuperation> {
-    return this.#recuperationsEndpoint.update(recuperation, recuperation.id);
-  }
-
-  getCustomersByOrganizationId(organizationId: number): Observable<Customer[]> {
-    return this.#customersEndpoint.getAllBy({supplierOrganizationId: organizationId});
-  }
-
-  getRecuperationsByOrganizationId(organizationId: number): Observable<Recuperation[]> {
-    return this.#recuperationsEndpoint.getAllBy({supplierOrganizationId: organizationId});
+  completeRecuperation(recuperationId: number): Observable<Recuperation> {
+    return this.#recuperationsEndpoint.complete(recuperationId);
   }
 }

@@ -98,7 +98,9 @@
     "received-at": "Recibido",
     "actions": "Acciones",
     "new": "Nueva recuperación",
-    "edit": "Editar"
+    "edit": "Editar",
+    "sessions": "Sesiones de rociado",
+    "complete": "Completar orden"
   },
   "recuperation": {
     "new-title": "Nueva orden de recuperación",
@@ -168,7 +170,9 @@
       "MAINTENANCE": "En mantenimiento",
       "OUT_OF_SERVICE": "Fuera de servicio"
     },
-    "error": { "required": "Este campo es obligatorio" }
+    "error": {
+      "required": "Este campo es obligatorio"
+    }
   },
   "controllers": {
     "number": "#",
@@ -300,7 +304,11 @@
     "edit": "Editar",
     "publish": "Publicar",
     "empty": "Aún no hay recetas definidas.",
-    "status-option": { "DRAFT": "Borrador", "ACTIVE": "Activa", "RETIRED": "Retirada" }
+    "status-option": {
+      "DRAFT": "Borrador",
+      "ACTIVE": "Activa",
+      "RETIRED": "Retirada"
+    }
   },
   "recipe": {
     "new-title": "Nueva receta",
@@ -380,7 +388,12 @@
       "coolant_flow": "Flujo de refrigerante",
       "coolant_outlet_temp": "Temp. salida refrigerante",
       "spindle_speed": "Velocidad del husillo"
-    }
+    },
+    "simulate-burst": "Simular ráfaga",
+    "fault-cases": "Casos de falla",
+    "analysis": "Análisis",
+    "tab-live": "En vivo",
+    "tab-trends": "Tendencias"
   },
   "page-not-found": {
     "title": "Página no encontrada",
@@ -474,7 +487,11 @@
     "expiring-soon": "Próxima a vencer",
     "none": "Tu organización aún no tiene una suscripción activa.",
     "choose": "Elegir un plan",
-    "status-option": { "ACTIVE": "Activa", "EXPIRED": "Vencida", "CANCELLED": "Cancelada" }
+    "status-option": {
+      "ACTIVE": "Activa",
+      "EXPIRED": "Vencida",
+      "CANCELLED": "Cancelada"
+    }
   },
   "nav": {
     "group": {

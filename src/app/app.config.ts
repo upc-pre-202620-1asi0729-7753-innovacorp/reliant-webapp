@@ -4,13 +4,10 @@ import {routes} from './app.routes';
 import {provideTranslateService, TranslateService} from '@ngx-translate/core';
 import {provideTranslateHttpLoader} from '@ngx-translate/http-loader';
 import {provideHttpClient, withXhr} from '@angular/common/http';
-import {environment} from '../environments/environment';
 import {SIGN_UP_PORT} from './iam/infrastructure/sign-up.port';
 import {SignUpApiEndpoint} from './iam/infrastructure/sign-up-api-endpoint';
-import {FakeSignUpApiEndpoint} from './iam/infrastructure/fake-sign-up-api-endpoint';
 import {SIGN_IN_PORT} from './iam/infrastructure/sign-in.port';
 import {SignInApiEndpoint} from './iam/infrastructure/sign-in-api-endpoint';
-import {FakeSignInApiEndpoint} from './iam/infrastructure/fake-sign-in-api-endpoint';
 import { withInterceptors} from '@angular/common/http';
 import {iamInterceptor} from './iam/infrastructure/iam.interceptor';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
@@ -33,11 +30,11 @@ export const appConfig: ApplicationConfig = {
     provideCharts(withDefaultRegisterables()),
     {
       provide: SIGN_IN_PORT,
-      useClass: environment.useFakeIam ? FakeSignInApiEndpoint : SignInApiEndpoint,
+      useClass: SignInApiEndpoint,
     },
     {
       provide: SIGN_UP_PORT,
-      useClass: environment.useFakeIam ? FakeSignUpApiEndpoint : SignUpApiEndpoint,
+      useClass: SignUpApiEndpoint,
     },
   ],
 };

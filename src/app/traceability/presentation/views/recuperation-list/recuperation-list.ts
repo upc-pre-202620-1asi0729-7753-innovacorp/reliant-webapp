@@ -1,5 +1,5 @@
 import {Component, computed, inject, viewChild} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
@@ -13,7 +13,7 @@ import {TraceabilityStore} from '../../../application/traceability.store';
 
 @Component({
   selector: 'app-recuperation-list',
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatError, MatProgressSpinner, MatPaginator, MatSort, MatSortHeader, TranslatePipe, DatePipe],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatError, MatProgressSpinner, MatPaginator, MatSort, MatSortHeader, TranslatePipe, DatePipe, RouterLink],
   templateUrl: './recuperation-list.html',
   styleUrl: './recuperation-list.css'
 })
@@ -41,7 +41,7 @@ export class RecuperationList {
     this.router.navigate(['traceability/recuperations/new']).then();
   }
 
-  editRecuperation(id: number) {
-    this.router.navigate(['traceability/recuperations', id, 'edit']).then();
+  completeRecuperation(id: number) {
+    this.store.completeRecuperation(id);
   }
 }

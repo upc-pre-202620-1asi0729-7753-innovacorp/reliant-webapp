@@ -15,8 +15,6 @@ export const traceabilityRoutes: Routes = [
   { path: 'customers/:id/edit',     loadComponent: customerForm,     title: `${baseTitle} - Edit Customer` },
   { path: 'components',             loadComponent: componentList,    title: `${baseTitle} - Components` },
   { path: 'components/new',         loadComponent: componentForm,    title: `${baseTitle} - New Component` },
-  { path: 'components/:id/edit',    loadComponent: componentForm,    title: `${baseTitle} - Edit Component` },
   { path: 'recuperations',          loadComponent: recuperationList, title: `${baseTitle} - Recuperations` },
   { path: 'recuperations/new',      loadComponent: recuperationForm, title: `${baseTitle} - New Recuperation` },
-  { path: 'recuperations/:id/edit', loadComponent: recuperationForm, title: `${baseTitle} - Edit Recuperation` }
 ];

@@ -128,11 +128,7 @@ export class RecipeForm extends BaseForm {
       applicabilities: v.applicabilities,
       parameters: v.parameters
     });
-    if (this.isEdit) {
-      this.store.updateRecipe(recipe);
-    } else {
-      this.store.addRecipe(recipe);
-    }
+    this.store.addRecipe(recipe);
     this.back();
   }
 

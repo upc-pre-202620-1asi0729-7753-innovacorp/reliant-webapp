@@ -73,11 +73,7 @@ export class ComponentForm extends BaseForm {
       pcrTargetHours: this.form.value.pcrTargetHours!,
       status: existing?.status ?? 'RECEIVED'
     });
-    if (this.isEdit) {
-      this.store.updateComponent(component);
-    } else {
-      this.store.addComponent(component);
-    }
+    this.store.addComponent(component);
     this.#router.navigate(['traceability/components']).then();
   }
 

@@ -6,6 +6,7 @@ import {SignInCommand} from '../domain/model/sign-in.command';
 import {OrganizationType} from '../domain/model/organization.entity';
 import {TraceabilityStore} from '../../traceability/application/traceability.store';
 import {EquipmentStore} from '../../equipment/application/equipment.store';
+import {ProcessMonitoringStore} from '../../process-monitoring/application/process-monitoring.store';
 import {User} from '../domain/model/user.entity';
 import {Role} from '../domain/model/role.entity';
 
@@ -86,7 +87,7 @@ export class IamStore {
   }
 
   updateUserRoles(userId: number, roleIds: number[]) {
-    this.#iamApi.updateUserRoles(userId, roleIds.map(roleId => ({roleId}))).subscribe({
+    this.#iamApi.updateUserRoles(userId, roleIds).subscribe({
       next: updated => this.#usersSignal.update(list => list.map(u => u.id === updated.id ? updated : u)),
       error: (err: Error) => this.#errorSignal.set(err.message)
     });
@@ -149,8 +150,6 @@ export class IamStore {
   #reloadStores() {
     this.#injector.get(TraceabilityStore).reload();
     this.#injector.get(EquipmentStore).reload();
+    this.#injector.get(ProcessMonitoringStore).reload();
   }
-
-
-
 }
