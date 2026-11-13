@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  platformProviderApiBaseUrl: 'https://reliant-platform.azurewebsites.net/api/v1',
+  platformProviderApiBaseUrl: 'https://reliant-platform-fubjgrh4hvakahgk.westus3-01.azurewebsites.net/api/v1',
   platformProviderSignInEndpointPath: '/tokens',
   platformProviderSignUpEndpointPath: '/users',
   platformProviderUsersEndpointPath: '/users',
