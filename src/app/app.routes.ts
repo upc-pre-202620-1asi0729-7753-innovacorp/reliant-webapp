@@ -3,6 +3,7 @@ import {Home} from './shared/presentation/views/home/home';
 import {iamGuard, supplierGuard} from './iam/infrastructure/iam.guard';
 
 const baseTitle = 'Reliant';
+const quickStart = () => import('./shared/presentation/views/quick-start/quick-start').then(m => m.QuickStart);
 const about = () => import('./shared/presentation/views/about/about').then(m => m.About);
 const pageNotFound = () => import('./shared/presentation/views/page-not-found/page-not-found').then(m => m.PageNotFound);
 const traceabilityRoutes = () => import('./traceability/presentation/traceability.routes').then(m => m.traceabilityRoutes);
@@ -14,6 +15,7 @@ const billingRoutes = () => import('./billing/presentation/billing.routes').then
 
 export const routes: Routes = [
   { path: 'home',               component:     Home,                    title: `${baseTitle} - Home`,  canActivate: [iamGuard] },
+  { path: 'quick-start',        loadComponent: quickStart,              title: `${baseTitle} - Quick Start`, canActivate: [supplierGuard] },
   { path: 'about',              loadComponent: about,                   title: `${baseTitle} - About` },
   { path: 'traceability',       loadChildren:  traceabilityRoutes,      canActivate: [supplierGuard] },
   { path: 'equipment',          loadChildren:  equipmentRoutes,         canActivate: [supplierGuard] },

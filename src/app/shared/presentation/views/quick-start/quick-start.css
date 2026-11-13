@@ -1,0 +1,21 @@
+.checklist, .plant, .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.checklist li { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--reliant-border); border-radius: 12px; }
+.checklist li mat-icon { color: var(--reliant-text-muted); }
+.checklist li.done mat-icon { color: var(--reliant-ok); }
+.checklist .text { display: flex; flex-direction: column; flex: 1; }
+.checklist .text span { font-size: 13px; color: var(--reliant-text-muted); }
+.demo { display: flex; flex-direction: column; gap: 12px; }
+.demo p { margin: 0; line-height: 1.5; }
+.plant li { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.plant mat-icon { font-size: 18px; width: 18px; height: 18px; color: var(--reliant-orange); }
+.run { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; }
+.steps { margin-top: 4px; }
+.step { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--reliant-text-muted); }
+.step.done, .step.reused { color: var(--reliant-ok); }
+.step.running { color: var(--reliant-info); }
+.step.failed { color: var(--reliant-fault); }
+.step small { opacity: .7; }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.error { color: var(--reliant-fault); margin: 0; }
+.muted { color: var(--reliant-text-muted); font-size: 13px; margin: 0; }
