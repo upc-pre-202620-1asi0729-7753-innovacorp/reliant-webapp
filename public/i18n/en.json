@@ -98,7 +98,9 @@
     "received-at": "Received",
     "actions": "Actions",
     "new": "New Recuperation",
-    "edit": "Edit"
+    "edit": "Edit",
+    "sessions": "Spray sessions",
+    "complete": "Complete order"
   },
   "recuperation": {
     "new-title": "New Recuperation",
@@ -386,7 +388,12 @@
       "coolant_flow": "Coolant flow",
       "coolant_outlet_temp": "Coolant outlet temp",
       "spindle_speed": "Spindle speed"
-    }
+    },
+    "simulate-burst": "Simulate burst",
+    "fault-cases": "Fault cases",
+    "analysis": "Analysis",
+    "tab-live": "Live",
+    "tab-trends": "Trends"
   },
   "page-not-found": {
     "title": "Page not found",

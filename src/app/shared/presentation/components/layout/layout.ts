@@ -97,12 +97,6 @@ export class Layout {
         label: 'nav.group.account',
         options: [
           { link: '/iam/users', label: 'option.users', icon: 'group', visible: admin },
-          {
-            link: '/billing/subscription',
-            label: 'option.subscription',
-            icon: 'credit_card',
-            visible: admin,
-          },
           { link: '/about', label: 'option.about', icon: 'info', visible: true },
         ],
       },
