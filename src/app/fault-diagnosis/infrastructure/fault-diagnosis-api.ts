@@ -43,3 +43,4 @@ export class FaultDiagnosisApi extends BaseApi {
     return this.#rulesEndpoint.restoreDefaults();
   }
 }
+
