@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {BaseApi} from '../../shared/infrastructure/base-api';
-import {FaultCase} from '../domain/model/fault-case.entity';
-import {FaultRule} from '../domain/model/fault-rule.entity';
-import {FaultCasesApiEndpoint} from './fault-cases-api-endpoint';
-import {FaultRulesApiEndpoint} from './fault-rules-api-endpoint';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { BaseApi } from '../../shared/infrastructure/base-api';
+import { FaultCase } from '../domain/model/fault-case.entity';
+import { FaultRule } from '../domain/model/fault-rule.entity';
+import { FaultCasesApiEndpoint } from './fault-cases-api-endpoint';
+import { FaultRulesApiEndpoint } from './fault-rules-api-endpoint';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class FaultDiagnosisApi extends BaseApi {
   readonly #casesEndpoint = new FaultCasesApiEndpoint(this.http);
   readonly #rulesEndpoint = new FaultRulesApiEndpoint(this.http);
@@ -16,7 +16,7 @@ export class FaultDiagnosisApi extends BaseApi {
   }
 
   getFaultCasesBySessionId(spraySessionId: number): Observable<FaultCase[]> {
-    return this.#casesEndpoint.getAllBy({spraySessionId});
+    return this.#casesEndpoint.getAllBy({ spraySessionId });
   }
 
   acknowledgeFaultCase(id: number): Observable<FaultCase> {
@@ -38,4 +38,9 @@ export class FaultDiagnosisApi extends BaseApi {
   updateFaultRule(rule: FaultRule): Observable<FaultRule> {
     return this.#rulesEndpoint.update(rule, rule.id);
   }
+
+  restoreDefaultFaultRules(): Observable<FaultRule[]> {
+    return this.#rulesEndpoint.restoreDefaults();
+  }
 }
+

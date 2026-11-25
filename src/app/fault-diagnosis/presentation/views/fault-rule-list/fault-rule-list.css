@@ -1,2 +1,12 @@
-table { width: 100%; }
-.back { align-self: flex-start; }
+table {
+  width: 100%;
+}
+
+.back {
+  align-self: flex-start;
+}
+
+.empty {
+  opacity: .7;
+  margin: 0 0 12px;
+}
