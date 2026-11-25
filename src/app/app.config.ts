@@ -1,22 +1,27 @@
-import {ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners} from '@angular/core';
-import {provideRouter} from '@angular/router';
-import {routes} from './app.routes';
-import {provideTranslateService, TranslateService} from '@ngx-translate/core';
-import {provideTranslateHttpLoader} from '@ngx-translate/http-loader';
-import {provideHttpClient, withXhr} from '@angular/common/http';
-import {SIGN_UP_PORT} from './iam/infrastructure/sign-up.port';
-import {SignUpApiEndpoint} from './iam/infrastructure/sign-up-api-endpoint';
-import {SIGN_IN_PORT} from './iam/infrastructure/sign-in.port';
-import {SignInApiEndpoint} from './iam/infrastructure/sign-in-api-endpoint';
-import { withInterceptors} from '@angular/common/http';
-import {iamInterceptor} from './iam/infrastructure/iam.interceptor';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideHttpClient, withXhr } from '@angular/common/http';
+import { SIGN_UP_PORT } from './iam/infrastructure/sign-up.port';
+import { SignUpApiEndpoint } from './iam/infrastructure/sign-up-api-endpoint';
+import { SIGN_IN_PORT } from './iam/infrastructure/sign-in.port';
+import { SignInApiEndpoint } from './iam/infrastructure/sign-in-api-endpoint';
+import { withInterceptors } from '@angular/common/http';
+import { iamInterceptor } from './iam/infrastructure/iam.interceptor';
+import { acceptLanguageInterceptor } from './shared/infrastructure/accept-language.interceptor';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withXhr(), withInterceptors([iamInterceptor])),
+    provideHttpClient(withXhr(), withInterceptors([iamInterceptor, acceptLanguageInterceptor])),
     provideTranslateService({
       loader: provideTranslateHttpLoader({ prefix: './i18n/', suffix: '.json' }),
       fallbackLang: 'en',
