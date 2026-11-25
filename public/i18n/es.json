@@ -671,8 +671,10 @@
     "band": "Banda",
     "probable-cause": "Causa probable",
     "recommended-action": "Acción recomendada",
-    "cooldown": "Enfriamiento",
-    "edit": "Editar"
+    "cooldown": "Tiempo de espera",
+    "edit": "Editar",
+    "restore-defaults": "Restaurar reglas FESA",
+    "empty": "La organización aún no tiene reglas de diagnóstico. Restaura las reglas FESA o crea las tuyas: sin reglas no se abre ningún caso de falla."
   },
   "fault-rule": {
     "new-title": "Nueva regla de diagnóstico",
