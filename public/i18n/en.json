@@ -672,7 +672,9 @@
     "probable-cause": "Probable cause",
     "recommended-action": "Recommended action",
     "cooldown": "Cooldown",
-    "edit": "Edit"
+    "edit": "Edit",
+    "restore-defaults": "Restore FESA defaults",
+    "empty": "This organization has no diagnosis rules yet. Restore the FESA defaults or create your own: without rules no fault case is opened."
   },
   "fault-rule": {
     "new-title": "New diagnosis rule",
